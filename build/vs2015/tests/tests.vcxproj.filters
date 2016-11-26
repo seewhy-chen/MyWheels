@@ -1,6 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\..\tests\main.cpp" />
+    <Filter Include="testcases">
+      <UniqueIdentifier>{09686712-e34f-4a51-b508-eb204e50891a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\tests\main.cpp">
+      <Filter>testcases</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\tests\testcases\TestBasicTypes.cpp">
+      <Filter>testcases</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

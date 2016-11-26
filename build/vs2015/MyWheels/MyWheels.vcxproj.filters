@@ -9,5 +9,27 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="src\common">
+      <UniqueIdentifier>{ef17fb16-1f2c-4245-8840-bd6e1e776a24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\multithread">
+      <UniqueIdentifier>{db549dae-b0f6-49c5-920e-7b13934ce9c4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\BasicDefines.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Mutex.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\StaticAssert.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Mutex.cpp">
+      <Filter>src\multithread</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
