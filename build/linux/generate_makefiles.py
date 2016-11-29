@@ -35,9 +35,9 @@ def load_project_cfg(project):
 def generate_makefile(prj_cfg, code_bit):
     prj_name = prj_cfg['PRJ_NAME']
     prj_root = prj_cfg['PRJ_ROOT_DIR']
-    defines = [d for d in prj_cfg['DEFINES'].split(';') if d]
-    inc_paths = [p for p in prj_cfg['INC_PATHS'].split(';') if p]
-    depend_libs = [lib for lib in prj_cfg['DEPEND_LIBS'].split(';') if lib]
+    defines = [d for d in prj_cfg['DEFINES'].split(':') if d]
+    inc_paths = [p for p in prj_cfg['INC_PATHS'].split(':') if p]
+    depend_libs = [lib for lib in prj_cfg['DEPEND_LIBS'].split(':') if lib]
 
     type_filter = tuple(prj_cfg['SRC_FILE_TYPES'].split(','))
     if not prj_name:

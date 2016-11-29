@@ -1,3 +1,6 @@
+#ifndef __MWL_MUTEX_H__
+#define __MWL_MUTEX_H__
+
 #include "BasicDefines.h"
 
 namespace mwl {
@@ -10,6 +13,9 @@ namespace mwl {
         int32_t Unlock();
 
     private:
-        struct Implement *m_pImpl;
+        struct Implement;
+        Implement *m_pImpl;
     };
 }
+
+#endif // __MWL_MUTEX_H__

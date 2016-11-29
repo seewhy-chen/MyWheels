@@ -2,6 +2,9 @@
 #define __MWL_BASIC_DEFINES_H__ 
 
 #ifdef _MSC_VER
+
+    #define __WINDOWS__
+
     #if defined(MWL_MAKE_SHARED_LIB)
         #define MWL_API  __declspec(dllexport)
     #else
@@ -21,7 +24,10 @@
         #include <stdint.h>
     #endif
 
-#else
+#elif defined __GNUC__
+
+    #define __LINUX__
+
     #if defined(MWL_MAKE_SHARED_LIB)
         #define MWL_API   __attribute__((visibility("default")))
     #else
@@ -29,6 +35,9 @@
     #endif  // MWL_MAKE_SHARED_LIB
 
 	#include <stdint.h>
+
+#else
+#error unknown compiler!
 
 #endif  // _MSC_VER
 

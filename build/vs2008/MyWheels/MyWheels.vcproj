@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)..\..\source\MyWheels\inc&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)..\..\source\MyWheels\inc&quot;;&quot;$(SolutionDir)..\..\source\MyWheels\src\&quot;"
 				PreprocessorDefinitions="MWL_MAKE_SHARED_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -321,10 +321,6 @@
 		<Filter
 			Name="src"
 			>
-			<File
-				RelativePath="..\..\..\source\MyWheels\src\multithread\Mutex.cpp"
-				>
-			</File>
 			<Filter
 				Name="common"
 				>
@@ -332,6 +328,22 @@
 			<Filter
 				Name="multithread"
 				>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\multithread\Mutex.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\multithread\MutexImplement.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\multithread\MutexImplement_Linux.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\multithread\MutexImplement_Win.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 	</Files>

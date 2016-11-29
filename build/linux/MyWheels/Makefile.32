@@ -7,7 +7,8 @@ DEFINES = \
 	-DMWL_MAKE_SHARED_LIB
 
 INCLUDE_PATH = \
-	-I$(PRJ_ROOT_DIR)/MyWheels/inc
+	-I$(PRJ_ROOT_DIR)/MyWheels/inc\
+	-I$(PRJ_ROOT_DIR)/MyWheels/src
 
 COMMON_CX_FLAGS = -g -pipe -fpic -fPIC -fpie -ffunction-sections -funwind-tables
 COMMON_CX_FLAGS += -fstack-protector -fno-short-enums -Wall -m32 -fdiagnostics-color=auto
@@ -32,7 +33,9 @@ MKDIR = mkdir -p
 first: all
 
 OBJECTS = \
-	$(OBJ_DIR)/Mutex.o
+	$(OBJ_DIR)/Mutex.o\
+	$(OBJ_DIR)/MutexImplement_Linux.o\
+	$(OBJ_DIR)/MutexImplement_Win.o
 
 $(OBJ_DIR) :
 	$(MKDIR) $(OBJ_DIR)
@@ -52,3 +55,7 @@ rebuild : clean all
 
 $(OBJ_DIR)/Mutex.o : ../../../source/MyWheels/src/multithread/Mutex.cpp
 	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Mutex.o ../../../source/MyWheels/src/multithread/Mutex.cpp
+$(OBJ_DIR)/MutexImplement_Linux.o : ../../../source/MyWheels/src/multithread/MutexImplement_Linux.cpp
+	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/MutexImplement_Linux.o ../../../source/MyWheels/src/multithread/MutexImplement_Linux.cpp
+$(OBJ_DIR)/MutexImplement_Win.o : ../../../source/MyWheels/src/multithread/MutexImplement_Win.cpp
+	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/MutexImplement_Win.o ../../../source/MyWheels/src/multithread/MutexImplement_Win.cpp

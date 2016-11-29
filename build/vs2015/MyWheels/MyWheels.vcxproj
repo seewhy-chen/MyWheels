@@ -22,9 +22,13 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\BasicDefines.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Mutex.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\StaticAssert.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\InternalCommon.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\MutexImplement.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Mutex.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Linux.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Win.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{40C75FB6-8F69-44B8-9AED-2177A7E65FFA}</ProjectGuid>
@@ -89,7 +93,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\source\MyWheels\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\source\MyWheels\inc;$(SolutionDir)..\..\source\MyWheels\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>MWL_MAKE_SHARED_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -98,7 +102,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\source\MyWheels\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\source\MyWheels\inc;$(SolutionDir)..\..\source\MyWheels\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>MWL_MAKE_SHARED_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>

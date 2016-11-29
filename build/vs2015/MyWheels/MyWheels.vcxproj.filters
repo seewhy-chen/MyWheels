@@ -26,9 +26,21 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\StaticAssert.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\MutexImplement.h">
+      <Filter>src\multithread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\InternalCommon.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Mutex.cpp">
+      <Filter>src\multithread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Linux.cpp">
+      <Filter>src\multithread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Win.cpp">
       <Filter>src\multithread</Filter>
     </ClCompile>
   </ItemGroup>

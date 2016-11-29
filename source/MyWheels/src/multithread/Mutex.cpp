@@ -1,24 +1,24 @@
 #include "Mutex.h"
+#include "MutexImplement.h"
 
 namespace mwl {
-    Mutex::Mutex() {
-
+    Mutex::Mutex() : m_pImpl(new Implement)  {
     }
 
     Mutex::~Mutex() {
-
+        delete m_pImpl;
     }
 
     int32_t Mutex::Lock() {
-        return -1;
+        return m_pImpl->_Lock();
     }
 
     int32_t Mutex::TryLock() {
-        return -1;
+        return m_pImpl->_TryLock();
     }
 
     int32_t Mutex::Unlock() {
-        return -1;
+        return m_pImpl->_Unlock();
     }
 
 }
