@@ -43,7 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)..\..\source\MyWheels\inc&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)..\..\source\MyWheels\inc&quot;;&quot;$(SolutionDir)..\..\source\tests\&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -113,7 +113,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)..\..\source\MyWheels\inc&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)..\..\source\MyWheels\inc&quot;;&quot;$(SolutionDir)..\..\source\tests\&quot;"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -310,7 +310,15 @@
 				RelativePath="..\..\..\source\tests\testcases\TestBasicTypes.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\source\tests\testcases\TestMutex.cpp"
+				>
+			</File>
 		</Filter>
+		<File
+			RelativePath="..\..\..\source\tests\InternalCommon.h"
+			>
+		</File>
 		<File
 			RelativePath="..\..\..\source\tests\main.cpp"
 			>

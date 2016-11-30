@@ -3,6 +3,9 @@
 
 #include "BasicDefines.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #ifdef __WINDOWS__
 #include <Windows.h>
 #elif defined __LINUX__

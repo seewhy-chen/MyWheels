@@ -6,11 +6,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\source\tests\main.cpp">
-      <Filter>testcases</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\tests\testcases\TestBasicTypes.cpp">
       <Filter>testcases</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\tests\main.cpp" />
+    <ClCompile Include="..\..\..\source\tests\testcases\TestMutex.cpp">
+      <Filter>testcases</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\tests\InternalCommon.h" />
   </ItemGroup>
 </Project>

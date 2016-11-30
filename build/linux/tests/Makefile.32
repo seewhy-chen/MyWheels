@@ -4,7 +4,8 @@ OBJ_DIR = ./Debug-32
 OUTPUT_DIR = $(PRJ_ROOT_DIR)/../output/linux/32
 
 INCLUDE_PATH = \
-	-I$(PRJ_ROOT_DIR)/MyWheels/inc
+	-I$(PRJ_ROOT_DIR)/MyWheels/inc\
+	-I$(PRJ_ROOT_DIR)/tests
 
 COMMON_CX_FLAGS = -g -pipe -fpic -fPIC -fpie -ffunction-sections -funwind-tables
 COMMON_CX_FLAGS += -fstack-protector -fno-short-enums -Wall -m32 -fdiagnostics-color=auto
@@ -33,7 +34,8 @@ first: all
 
 OBJECTS = \
 	$(OBJ_DIR)/main.o\
-	$(OBJ_DIR)/TestBasicTypes.o
+	$(OBJ_DIR)/TestBasicTypes.o\
+	$(OBJ_DIR)/TestMutex.o
 
 $(OBJ_DIR) :
 	$(MKDIR) $(OBJ_DIR)
@@ -55,3 +57,5 @@ $(OBJ_DIR)/main.o : ../../../source/tests/main.cpp
 	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/main.o ../../../source/tests/main.cpp
 $(OBJ_DIR)/TestBasicTypes.o : ../../../source/tests/testcases/TestBasicTypes.cpp
 	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestBasicTypes.o ../../../source/tests/testcases/TestBasicTypes.cpp
+$(OBJ_DIR)/TestMutex.o : ../../../source/tests/testcases/TestMutex.cpp
+	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestMutex.o ../../../source/tests/testcases/TestMutex.cpp

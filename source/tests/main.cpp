@@ -1,10 +1,12 @@
 #include "Mutex.h"
 using namespace mwl;
+
 extern void TestBasicTypes();
+extern void TestMutex();
 
 
 int main(int argc, char *argv[]) {
-    Mutex m;
     TestBasicTypes();
+    TestMutex();
     return 0;
 }
