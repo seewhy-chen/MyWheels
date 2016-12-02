@@ -314,6 +314,10 @@
 				RelativePath="..\..\..\source\tests\testcases\TestMutex.cpp"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\source\tests\testcases\TestTimeCounter.cpp"
+				>
+			</File>
 		</Filter>
 		<File
 			RelativePath="..\..\..\source\tests\InternalCommon.h"

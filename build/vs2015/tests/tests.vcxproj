@@ -22,6 +22,7 @@
     <ClCompile Include="..\..\..\source\tests\main.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestBasicTypes.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestMutex.cpp" />
+    <ClCompile Include="..\..\..\source\tests\testcases\TestTimeCounter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\tests\InternalCommon.h" />

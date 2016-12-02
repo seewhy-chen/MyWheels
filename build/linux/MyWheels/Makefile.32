@@ -33,6 +33,10 @@ MKDIR = mkdir -p
 first: all
 
 OBJECTS = \
+	$(OBJ_DIR)/TimeCounter.o\
+	$(OBJ_DIR)/TimeCounterImplement_Linux.o\
+	$(OBJ_DIR)/TimeCounterImplement_Win.o\
+	$(OBJ_DIR)/TimeUtils.o\
 	$(OBJ_DIR)/Mutex.o\
 	$(OBJ_DIR)/MutexImplement_Linux.o\
 	$(OBJ_DIR)/MutexImplement_Win.o
@@ -53,6 +57,14 @@ clean :
 
 rebuild : clean all
 
+$(OBJ_DIR)/TimeCounter.o : ../../../source/MyWheels/src/datetime/TimeCounter.cpp
+	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounter.o ../../../source/MyWheels/src/datetime/TimeCounter.cpp
+$(OBJ_DIR)/TimeCounterImplement_Linux.o : ../../../source/MyWheels/src/datetime/TimeCounterImplement_Linux.cpp
+	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounterImplement_Linux.o ../../../source/MyWheels/src/datetime/TimeCounterImplement_Linux.cpp
+$(OBJ_DIR)/TimeCounterImplement_Win.o : ../../../source/MyWheels/src/datetime/TimeCounterImplement_Win.cpp
+	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounterImplement_Win.o ../../../source/MyWheels/src/datetime/TimeCounterImplement_Win.cpp
+$(OBJ_DIR)/TimeUtils.o : ../../../source/MyWheels/src/datetime/TimeUtils.cpp
+	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeUtils.o ../../../source/MyWheels/src/datetime/TimeUtils.cpp
 $(OBJ_DIR)/Mutex.o : ../../../source/MyWheels/src/multithread/Mutex.cpp
 	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Mutex.o ../../../source/MyWheels/src/multithread/Mutex.cpp
 $(OBJ_DIR)/MutexImplement_Linux.o : ../../../source/MyWheels/src/multithread/MutexImplement_Linux.cpp

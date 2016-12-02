@@ -4,7 +4,7 @@
 #include "BasicDefines.h"
 
 namespace mwl {
-    class MWL_API Mutex {
+    class MWL_API Mutex : private NonCopyable {
     public:
         Mutex();
         ~Mutex();

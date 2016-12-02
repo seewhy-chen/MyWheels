@@ -317,6 +317,14 @@
 				RelativePath="..\..\..\source\MyWheels\inc\StaticAssert.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\source\MyWheels\inc\TimeCounter.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\source\MyWheels\inc\TimeDefines.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="src"
@@ -346,6 +354,30 @@
 				</File>
 				<File
 					RelativePath="..\..\..\source\MyWheels\src\multithread\MutexImplement_Win.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="datetime"
+				>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Linux.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Win.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\datetime\TimeUtils.cpp"
 					>
 				</File>
 			</Filter>

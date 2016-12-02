@@ -8,8 +8,6 @@
 
 #ifdef __WINDOWS__
 #include <Windows.h>
-#elif defined __LINUX__
-#include <pthread.h>
 #endif
 
 #endif // __MWL_INTERNALCOMMON_H__

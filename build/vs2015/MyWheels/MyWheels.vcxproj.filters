@@ -15,6 +15,9 @@
     <Filter Include="src\multithread">
       <UniqueIdentifier>{db549dae-b0f6-49c5-920e-7b13934ce9c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\datetime">
+      <UniqueIdentifier>{e7c99edf-ceb2-4774-8716-8b952b0977c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\MyWheels\inc\BasicDefines.h">
@@ -32,6 +35,15 @@
     <ClInclude Include="..\..\..\source\MyWheels\src\InternalCommon.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\TimeCounter.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\TimeDefines.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement.h">
+      <Filter>src\datetime</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Mutex.cpp">
@@ -42,6 +54,18 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Win.cpp">
       <Filter>src\multithread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp">
+      <Filter>src\datetime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Linux.cpp">
+      <Filter>src\datetime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Win.cpp">
+      <Filter>src\datetime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeUtils.cpp">
+      <Filter>src\datetime</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

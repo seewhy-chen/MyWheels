@@ -1,5 +1,5 @@
 #ifndef __MWL_STATIC_ASSERT_H__
-#define __MWL_STATIC_ASSERT_H__ 
+#define __MWL_STATIC_ASSERT_H__
 
 namespace mwl {
 #if _MSC_VER >= 1900
@@ -13,7 +13,7 @@ namespace mwl {
     // calm gcc down about the unused-variable warning...
 #define MWL_STATIC_ASSERT(exp, msg) \
     static const STATIC_ASSERT_FAIL<static_cast<bool>((exp))> msg __attribute__((unused))
-#else 
+#else
 #define MWL_STATIC_ASSERT(exp, msg) \
     static const STATIC_ASSERT_FAIL<static_cast<bool>((exp))> msg
 #endif

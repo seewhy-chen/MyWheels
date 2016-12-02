@@ -2,6 +2,8 @@
 
 #ifdef __LINUX__
 
+#include <pthread.h>
+
 namespace mwl {
     Mutex::Implement::Implement() {
         pthread_mutex_init(&_m, NULL);

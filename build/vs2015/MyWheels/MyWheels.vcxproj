@@ -22,10 +22,17 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\BasicDefines.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Mutex.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\StaticAssert.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\TimeCounter.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\TimeDefines.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\InternalCommon.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\MutexImplement.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Linux.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Win.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeUtils.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Mutex.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Linux.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Win.cpp" />

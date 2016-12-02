@@ -35,7 +35,8 @@ first: all
 OBJECTS = \
 	$(OBJ_DIR)/main.o\
 	$(OBJ_DIR)/TestBasicTypes.o\
-	$(OBJ_DIR)/TestMutex.o
+	$(OBJ_DIR)/TestMutex.o\
+	$(OBJ_DIR)/TestTimeCounter.o
 
 $(OBJ_DIR) :
 	$(MKDIR) $(OBJ_DIR)
@@ -59,3 +60,5 @@ $(OBJ_DIR)/TestBasicTypes.o : ../../../source/tests/testcases/TestBasicTypes.cpp
 	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestBasicTypes.o ../../../source/tests/testcases/TestBasicTypes.cpp
 $(OBJ_DIR)/TestMutex.o : ../../../source/tests/testcases/TestMutex.cpp
 	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestMutex.o ../../../source/tests/testcases/TestMutex.cpp
+$(OBJ_DIR)/TestTimeCounter.o : ../../../source/tests/testcases/TestTimeCounter.cpp
+	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestTimeCounter.o ../../../source/tests/testcases/TestTimeCounter.cpp
