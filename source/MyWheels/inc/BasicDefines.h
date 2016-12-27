@@ -68,9 +68,15 @@ namespace mwl {
     };
 
 
-#define MWL_LOG(fmt, ...) \
+#define MWL_INFO(fmt, ...) \
     do { \
-        fprintf(stdout, fmt"\n", ##__VA_ARGS__); \
+        fprintf(stdout, "[Info] " fmt"\n", ##__VA_ARGS__); \
+    } while (0)
+
+
+#define MWL_WARN(fmt, ...) \
+    do { \
+        fprintf(stdout, "[Warn] " fmt"\n", ##__VA_ARGS__); \
     } while (0)
 
 #define MWL_ERR(fmt, ...) \
