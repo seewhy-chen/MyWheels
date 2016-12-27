@@ -8,7 +8,11 @@ namespace mwl {
 
     int32_t TimeCounter::Implement::_Start(const char *tag) {
         std::string perfTag(tag ? tag : "");
-        clock_gettime(CLOCK_MONOTONIC, &_counters[perfTag]);
+        if (clock_gettime(CLOCK_MONOTONIC, &_counters[perfTag]) < 0) {
+            int32_t err = errno;
+            MWL_WARN("gettime for time counter '%s' failed: %s(%d)", perfTag.c_str(), strerror(err), err);
+            return -err;
+        }
         return 0;
     }
 
@@ -17,16 +21,21 @@ namespace mwl {
             MWL_ERR("no started time counter");
             return 0;
         }
+
         timespec currTime;
-        clock_gettime(CLOCK_MONOTONIC, &currTime);
+        if (clock_gettime(CLOCK_MONOTONIC, &currTime) < 0) {
+            int32_t err = errno;
+            MWL_WARN("gettime failed: %s(%d)", strerror(err), err);
+            return 0;
+        }
+
         std::string currTag(tag ? tag : "");
         timespec startTime;
         if (_counters.end() == _counters.find(currTag)) {
-            startTime = _counters[""];
-        } else {
-            startTime = _counters[currTag];
+            MWL_ERR("No time counter has tag '%s'", currTag.c_str());
+            return 0;
         }
-
+        startTime = _counters[currTag];
         uint64_t nanoSecElapsed = (currTime.tv_sec - startTime.tv_sec) * 1E9 + currTime.tv_nsec - startTime.tv_nsec;
         switch (unit) {
         case HOUR:

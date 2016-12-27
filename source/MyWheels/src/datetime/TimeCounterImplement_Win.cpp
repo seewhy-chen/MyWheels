@@ -15,27 +15,39 @@ namespace mwl {
 
     int32_t TimeCounter::Implement::_Start(const char *tag) {
         std::string perfTag(tag ? tag : "");
-        return QueryPerformanceCounter(&_counters[perfTag]) ? 0 : -1;
+        if(QueryPerformanceCounter(&_counters[perfTag])) {
+            return 0;
+        } else {
+            int32_t err = GetLastError();
+            char errMsg[512] = {0};
+            strerror_s(errMsg, sizeof(errMsg), err);
+            MWL_WARN("QueryPerformanceCounter for time counter '%s' failed: %s(%d)", 
+                perfTag.c_str(), errMsg, err);
+            return -err;
+        }
     }
 
     uint64_t TimeCounter::Implement::_TimeElapsed(const char *tag, TimeUnit unit) {
         if (_counters.empty()) {
-            MWL_ERR("no started time counter");
+            MWL_WARN("no time counter running");
             return 0;
         }
+
         LARGE_INTEGER currCount;
-        currCount.QuadPart = 0;
-        LARGE_INTEGER startCount;
-        startCount.QuadPart = 0;
-        if (QueryPerformanceCounter(&currCount)) {
-            std::string currTag(tag ? tag : "");
-            if (_counters.end() == _counters.find(currTag)) {
-                startCount = _counters[""];
-            } else {
-                startCount = _counters[currTag];
-            }
+        if (!QueryPerformanceCounter(&currCount)) {
+            int32_t err = GetLastError();
+            char errMsg[512] = {0};
+            strerror_s(errMsg, sizeof(errMsg), err);
+            MWL_WARN("QueryPerformanceCounter failed: %s(%d)", errMsg, err);
+            return 0;
         }
 
+        std::string currTag(tag ? tag : "");
+        if (_counters.end() == _counters.find(currTag)) {
+            MWL_WARN("No time counter has tag '%s'", currTag.c_str());
+            return 0;
+        }
+        LARGE_INTEGER startCount = _counters[currTag];
         LONGLONG ticks = currCount.QuadPart - startCount.QuadPart;
         switch (unit) {
         case HOUR:
