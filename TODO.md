@@ -34,3 +34,6 @@ Here's something TODO:
 * Date Utils
 * Time Zone
 * Calendar
+
+# Misc
+* Smart pointer
