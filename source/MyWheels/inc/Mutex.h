@@ -12,6 +12,14 @@ namespace mwl {
         int32_t TryLock();
         int32_t Unlock();
 
+        struct AutoLock {
+            explicit AutoLock(Mutex &mutex);
+            ~AutoLock();
+
+        private:
+            Mutex &_mutex;
+        };
+
     private:
         struct Implement;
         Implement *m_pImpl;

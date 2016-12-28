@@ -20,4 +20,11 @@ namespace mwl {
         return m_pImpl->_Unlock();
     }
 
+    Mutex::AutoLock::AutoLock(Mutex &mutex) : _mutex(mutex) {
+        _mutex.Lock();
+    }
+
+    Mutex::AutoLock::~AutoLock() {
+        _mutex.Unlock();
+    }
 }
