@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __WINDOWS__
+#ifdef __MWL_WIN__
 #include <Windows.h>
 #endif
 

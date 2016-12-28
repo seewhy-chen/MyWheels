@@ -1,6 +1,6 @@
 #include "TimeCounterImplement.h"
 
-#ifdef __LINUX__
+#ifdef __MWL_LINUX__
 namespace mwl {
     TimeCounter::Implement::Implement() {}
 
@@ -55,4 +55,4 @@ namespace mwl {
     }
 }
 
-#endif // __LINUX__
+#endif // __MWL_LINUX__

@@ -1,6 +1,6 @@
 #include "TimeCounterImplement.h"
 
-#ifdef __WINDOWS__
+#ifdef __MWL_WIN__
 
 #include <WinBase.h>
 #include <string>
@@ -67,4 +67,4 @@ namespace mwl {
 
 }
 
-#endif // __WINDOWS__
+#endif // __MWL_WIN__

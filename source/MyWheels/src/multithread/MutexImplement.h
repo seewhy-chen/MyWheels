@@ -13,7 +13,7 @@ namespace mwl {
         int32_t _Unlock();
 
     private:
-#ifdef __WINDOWS__
+#ifdef __MWL_WIN__
         CRITICAL_SECTION _m;
 #else
         pthread_mutex_t _m;

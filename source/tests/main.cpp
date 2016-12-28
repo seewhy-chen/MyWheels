@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
     TestMutex();
     TestTimeCounter();
 
-#ifdef __WINDOWS__
+#ifdef __MWL_WIN__
 	system("pause");
 #endif
     return 0;

@@ -5,7 +5,7 @@
 
 #ifdef _MSC_VER
 
-#define __WINDOWS__
+#define __MWL_WIN__
 
 #if defined(MWL_MAKE_SHARED_LIB)
     #define MWL_API  __declspec(dllexport)
@@ -28,7 +28,7 @@
 
 #elif defined __GNUC__
 
-#define __LINUX__
+#define __MWL_LINUX__
 
 #if defined(MWL_MAKE_SHARED_LIB)
     #define MWL_API   __attribute__((visibility("default")))

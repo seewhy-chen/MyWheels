@@ -1,7 +1,6 @@
-
 #include "MutexImplement.h"
 
-#ifdef __WINDOWS__
+#ifdef __MWL_WIN__
 
 namespace mwl {
     Mutex::Implement::Implement() {
@@ -31,4 +30,4 @@ namespace mwl {
     }
 }
 
-#endif // __WINDOWS__
+#endif // __MWL_WIN__

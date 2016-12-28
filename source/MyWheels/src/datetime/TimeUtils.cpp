@@ -1,7 +1,7 @@
 #include "TimeDefines.h"
 #include "TimeCounterImplement.h"
 
-#ifdef __WINDOWS__
+#ifdef __MWL_WIN__
 #else
 #include <unistd.h> // for usleep
 #endif
@@ -30,7 +30,7 @@ namespace mwl {
             break;
             
         }
-#ifdef __WINDOWS__
+#ifdef __MWL_WIN__
         Sleep(static_cast<DWORD>(microSec/1000));
 #else
         usleep(microSec);
