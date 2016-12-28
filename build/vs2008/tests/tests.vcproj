@@ -315,6 +315,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\source\tests\testcases\TestThread.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\source\tests\testcases\TestTimeCounter.cpp"
 				>
 			</File>

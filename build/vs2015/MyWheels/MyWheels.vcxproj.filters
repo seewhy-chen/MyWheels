@@ -18,6 +18,15 @@
     <Filter Include="src\datetime">
       <UniqueIdentifier>{e7c99edf-ceb2-4774-8716-8b952b0977c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\multithread\cond">
+      <UniqueIdentifier>{d277cf8a-d437-4edd-93bc-60e986d6a0eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\multithread\mutex">
+      <UniqueIdentifier>{44735452-945d-40cb-9c63-b0b4575bded3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\multithread\thread">
+      <UniqueIdentifier>{007e8e60-df2d-4dc0-82ce-ec302f9165e3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\MyWheels\inc\BasicDefines.h">
@@ -28,9 +37,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\source\MyWheels\inc\StaticAssert.h">
       <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\MutexImplement.h">
-      <Filter>src\multithread</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\source\MyWheels\src\InternalCommon.h">
       <Filter>src</Filter>
@@ -44,17 +50,23 @@
     <ClInclude Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement.h">
       <Filter>src\datetime</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Condition.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Thread.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement.h">
+      <Filter>src\multithread\cond</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\MutexImplement.h">
+      <Filter>src\multithread\mutex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement.h">
+      <Filter>src\multithread\thread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Mutex.cpp">
-      <Filter>src\multithread</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Linux.cpp">
-      <Filter>src\multithread</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Win.cpp">
-      <Filter>src\multithread</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp">
       <Filter>src\datetime</Filter>
     </ClCompile>
@@ -66,6 +78,33 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeUtils.cpp">
       <Filter>src\datetime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Condition.cpp">
+      <Filter>src\multithread\cond</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement_Linux.cpp">
+      <Filter>src\multithread\cond</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement_Win.cpp">
+      <Filter>src\multithread\cond</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Mutex.cpp">
+      <Filter>src\multithread\mutex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Linux.cpp">
+      <Filter>src\multithread\mutex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Win.cpp">
+      <Filter>src\multithread\mutex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Thread.cpp">
+      <Filter>src\multithread\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Linux.cpp">
+      <Filter>src\multithread\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Win.cpp">
+      <Filter>src\multithread\thread</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

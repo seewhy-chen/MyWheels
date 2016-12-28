@@ -310,11 +310,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\source\MyWheels\inc\Condition.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\source\MyWheels\inc\Mutex.h"
 				>
 			</File>
 			<File
 				RelativePath="..\..\..\source\MyWheels\inc\StaticAssert.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\source\MyWheels\inc\Thread.h"
 				>
 			</File>
 			<File
@@ -340,22 +348,66 @@
 			<Filter
 				Name="multithread"
 				>
-				<File
-					RelativePath="..\..\..\source\MyWheels\src\multithread\Mutex.cpp"
+				<Filter
+					Name="cond"
 					>
-				</File>
-				<File
-					RelativePath="..\..\..\source\MyWheels\src\multithread\MutexImplement.h"
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\Condition.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\ConditionImplement.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\ConditionImplement_Linux.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\ConditionImplement_Win.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="mutex"
 					>
-				</File>
-				<File
-					RelativePath="..\..\..\source\MyWheels\src\multithread\MutexImplement_Linux.cpp"
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\Mutex.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\MutexImplement.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\MutexImplement_Linux.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\MutexImplement_Win.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="thread"
 					>
-				</File>
-				<File
-					RelativePath="..\..\..\source\MyWheels\src\multithread\MutexImplement_Win.cpp"
-					>
-				</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\Thread.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\ThreadImplement.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Linux.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Win.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="datetime"

@@ -1,8 +1,9 @@
 #ifndef __MWL_MUTEX_IMPLEMENT_H__
 #define __MWL_MUTEX_IMPLEMENT_H__
 
-#include "Mutex.h"
 #include "InternalCommon.h"
+
+#include "Mutex.h"
 
 namespace mwl {
     struct Mutex::Implement {
@@ -12,7 +13,6 @@ namespace mwl {
         int32_t _TryLock();
         int32_t _Unlock();
 
-    private:
 #ifdef __MWL_WIN__
         CRITICAL_SECTION _m;
 #else

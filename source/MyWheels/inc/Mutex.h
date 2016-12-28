@@ -20,8 +20,9 @@ namespace mwl {
             Mutex &_mutex;
         };
 
-    private:
         struct Implement;
+        Implement* Impl();
+    private:
         Implement *m_pImpl;
     };
 }

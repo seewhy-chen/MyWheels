@@ -7,12 +7,12 @@ void TestTimeCounter() {
     counter.Start();
     TimeSleep(1000);
     counter.Start("counter-with-tag");
-    uint64_t t = counter.TimeElapsed(MICROSEC);
+    uint64_t t = counter.TimeElapsed(MILLISEC);
     MWL_INFO("%lld ms passed", t);
 
     TimeSleep(1000);
-    t = counter.TimeElapsed("not-exist", MICROSEC);
+    t = counter.TimeElapsed("not-exist", MILLISEC);
     MWL_INFO("%lld ms passed for counter 'not-exist'", t);
-    t = counter.TimeElapsed("counter-with-tag", MICROSEC);
+    t = counter.TimeElapsed("counter-with-tag", MILLISEC);
     MWL_INFO("%lld ms passed for counter 'counter-with-tag'", t);
 }

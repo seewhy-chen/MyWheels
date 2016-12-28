@@ -27,4 +27,9 @@ namespace mwl {
     Mutex::AutoLock::~AutoLock() {
         _mutex.Unlock();
     }
+
+    Mutex::Implement* Mutex::Impl() {
+        return m_pImpl;
+    }
+
 }

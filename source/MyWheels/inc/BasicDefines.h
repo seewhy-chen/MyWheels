@@ -2,10 +2,16 @@
 #define __MWL_BASIC_DEFINES_H__
 
 #include <stdio.h>
+#include <errno.h>
 
 #ifdef _MSC_VER
 
 #define __MWL_WIN__
+#include <winerror.h>
+
+#ifndef ETIMEDOUT
+#define ETIMEDOUT ERROR_TIMEOUT
+#endif
 
 #if defined(MWL_MAKE_SHARED_LIB)
     #define MWL_API  __declspec(dllexport)
@@ -67,6 +73,12 @@ namespace mwl {
 #endif // __CXX_11__
     };
 
+    enum ErrorCode {
+        ERR_NONE = 0L,
+        ERR_INVAL_PARAM = -EINVAL,
+        ERR_AGAIN = -EAGAIN,
+        ERR_TIMEOUT = -ETIMEDOUT,
+    };
 
 #define MWL_INFO(fmt, ...) \
     do { \
