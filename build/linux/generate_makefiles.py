@@ -85,7 +85,7 @@ def generate_makefile(prj_cfg, code_bit):
             f.write('\t-I%s\n' %inc_paths[-1])
             f.write('\n')
 
-        f.write('COMMON_CX_FLAGS = -g -pipe -fpic -fPIC -fpie -ffunction-sections -funwind-tables\n')
+        f.write('COMMON_CX_FLAGS = -c -g -pipe -fpie -fpic -ffunction-sections -funwind-tables\n')
         f.write('COMMON_CX_FLAGS += -fstack-protector -fno-short-enums -Wall -m%d -fdiagnostics-color=auto\n' %(code_bit))
         f.write('COMMON_CX_FLAGS += -O2 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300\n')
         f.write('COMMON_CX_FLAGS += -fvisibility=hidden\n')
@@ -103,7 +103,7 @@ def generate_makefile(prj_cfg, code_bit):
         if output_bin:
             f.write('LINK_FLAGS = -m%d -Xlinker -rpath-link $(OUTPUT_DIR)\n' %(code_bit))
         else:
-            f.write('LINK_FLAGS = -m%d -shared -Wl,-soname,$(OUTPUT_FILENAME)\n' %(code_bit))
+            f.write('LINK_FLAGS = -m%d -pie -shared -Wl,-soname,$(OUTPUT_FILENAME)\n' %(code_bit))
         f.write('\n')
 
         f.write('LIBS = -ldl -lm -lpthread\n')
@@ -158,7 +158,7 @@ def generate_makefile(prj_cfg, code_bit):
                 compiler = 'CC'
                 flags = 'CC_FLAGS'
 
-            f.write('$(OBJ_DIR)/%s : %s\n\t$(%s) -c $(%s) $(INCLUDE_PATH) -o $(OBJ_DIR)/%s %s\n' 
+            f.write('$(OBJ_DIR)/%s : %s\n\t$(%s) $(%s) $(INCLUDE_PATH) -o $(OBJ_DIR)/%s %s\n' 
                     %(obj_file, src, compiler, flags, obj_file, src))
 
 

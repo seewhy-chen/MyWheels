@@ -10,7 +10,7 @@ INCLUDE_PATH = \
 	-I$(PRJ_ROOT_DIR)/MyWheels/inc\
 	-I$(PRJ_ROOT_DIR)/MyWheels/src
 
-COMMON_CX_FLAGS = -g -pipe -fpic -fPIC -fpie -ffunction-sections -funwind-tables
+COMMON_CX_FLAGS = -c -g -pipe -fpie -fpic -ffunction-sections -funwind-tables
 COMMON_CX_FLAGS += -fstack-protector -fno-short-enums -Wall -m64 -fdiagnostics-color=auto
 COMMON_CX_FLAGS += -O2 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300
 COMMON_CX_FLAGS += -fvisibility=hidden
@@ -22,7 +22,7 @@ CXX = g++
 CXX_FLAGS = $(COMMON_CX_FLAGS) -fno-exceptions -fno-rtti -Wno-psabi -std=c++11 -Wno-deprecated $(DEFINES)
 
 LINK = g++
-LINK_FLAGS = -m64 -shared -Wl,-soname,$(OUTPUT_FILENAME)
+LINK_FLAGS = -m64 -pie -shared -Wl,-soname,$(OUTPUT_FILENAME)
 
 LIBS = -ldl -lm -lpthread
 TARGET = $(OUTPUT_DIR)/$(OUTPUT_FILENAME)
@@ -37,9 +37,15 @@ OBJECTS = \
 	$(OBJ_DIR)/TimeCounterImplement_Linux.o\
 	$(OBJ_DIR)/TimeCounterImplement_Win.o\
 	$(OBJ_DIR)/TimeUtils.o\
+	$(OBJ_DIR)/Condition.o\
+	$(OBJ_DIR)/ConditionImplement_Linux.o\
+	$(OBJ_DIR)/ConditionImplement_Win.o\
 	$(OBJ_DIR)/Mutex.o\
 	$(OBJ_DIR)/MutexImplement_Linux.o\
-	$(OBJ_DIR)/MutexImplement_Win.o
+	$(OBJ_DIR)/MutexImplement_Win.o\
+	$(OBJ_DIR)/Thread.o\
+	$(OBJ_DIR)/ThreadImplement_Linux.o\
+	$(OBJ_DIR)/ThreadImplement_Win.o
 
 $(OBJ_DIR) :
 	$(MKDIR) $(OBJ_DIR)
@@ -58,16 +64,28 @@ clean :
 rebuild : clean all
 
 $(OBJ_DIR)/TimeCounter.o : ../../../source/MyWheels/src/datetime/TimeCounter.cpp
-	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounter.o ../../../source/MyWheels/src/datetime/TimeCounter.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounter.o ../../../source/MyWheels/src/datetime/TimeCounter.cpp
 $(OBJ_DIR)/TimeCounterImplement_Linux.o : ../../../source/MyWheels/src/datetime/TimeCounterImplement_Linux.cpp
-	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounterImplement_Linux.o ../../../source/MyWheels/src/datetime/TimeCounterImplement_Linux.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounterImplement_Linux.o ../../../source/MyWheels/src/datetime/TimeCounterImplement_Linux.cpp
 $(OBJ_DIR)/TimeCounterImplement_Win.o : ../../../source/MyWheels/src/datetime/TimeCounterImplement_Win.cpp
-	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounterImplement_Win.o ../../../source/MyWheels/src/datetime/TimeCounterImplement_Win.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounterImplement_Win.o ../../../source/MyWheels/src/datetime/TimeCounterImplement_Win.cpp
 $(OBJ_DIR)/TimeUtils.o : ../../../source/MyWheels/src/datetime/TimeUtils.cpp
-	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeUtils.o ../../../source/MyWheels/src/datetime/TimeUtils.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeUtils.o ../../../source/MyWheels/src/datetime/TimeUtils.cpp
+$(OBJ_DIR)/Condition.o : ../../../source/MyWheels/src/multithread/Condition.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Condition.o ../../../source/MyWheels/src/multithread/Condition.cpp
+$(OBJ_DIR)/ConditionImplement_Linux.o : ../../../source/MyWheels/src/multithread/ConditionImplement_Linux.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ConditionImplement_Linux.o ../../../source/MyWheels/src/multithread/ConditionImplement_Linux.cpp
+$(OBJ_DIR)/ConditionImplement_Win.o : ../../../source/MyWheels/src/multithread/ConditionImplement_Win.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ConditionImplement_Win.o ../../../source/MyWheels/src/multithread/ConditionImplement_Win.cpp
 $(OBJ_DIR)/Mutex.o : ../../../source/MyWheels/src/multithread/Mutex.cpp
-	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Mutex.o ../../../source/MyWheels/src/multithread/Mutex.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Mutex.o ../../../source/MyWheels/src/multithread/Mutex.cpp
 $(OBJ_DIR)/MutexImplement_Linux.o : ../../../source/MyWheels/src/multithread/MutexImplement_Linux.cpp
-	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/MutexImplement_Linux.o ../../../source/MyWheels/src/multithread/MutexImplement_Linux.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/MutexImplement_Linux.o ../../../source/MyWheels/src/multithread/MutexImplement_Linux.cpp
 $(OBJ_DIR)/MutexImplement_Win.o : ../../../source/MyWheels/src/multithread/MutexImplement_Win.cpp
-	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/MutexImplement_Win.o ../../../source/MyWheels/src/multithread/MutexImplement_Win.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/MutexImplement_Win.o ../../../source/MyWheels/src/multithread/MutexImplement_Win.cpp
+$(OBJ_DIR)/Thread.o : ../../../source/MyWheels/src/multithread/Thread.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Thread.o ../../../source/MyWheels/src/multithread/Thread.cpp
+$(OBJ_DIR)/ThreadImplement_Linux.o : ../../../source/MyWheels/src/multithread/ThreadImplement_Linux.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ThreadImplement_Linux.o ../../../source/MyWheels/src/multithread/ThreadImplement_Linux.cpp
+$(OBJ_DIR)/ThreadImplement_Win.o : ../../../source/MyWheels/src/multithread/ThreadImplement_Win.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ThreadImplement_Win.o ../../../source/MyWheels/src/multithread/ThreadImplement_Win.cpp

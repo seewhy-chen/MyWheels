@@ -7,7 +7,7 @@ INCLUDE_PATH = \
 	-I$(PRJ_ROOT_DIR)/MyWheels/inc\
 	-I$(PRJ_ROOT_DIR)/tests
 
-COMMON_CX_FLAGS = -g -pipe -fpic -fPIC -fpie -ffunction-sections -funwind-tables
+COMMON_CX_FLAGS = -c -g -pipe -fpie -fpic -ffunction-sections -funwind-tables
 COMMON_CX_FLAGS += -fstack-protector -fno-short-enums -Wall -m64 -fdiagnostics-color=auto
 COMMON_CX_FLAGS += -O2 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300
 COMMON_CX_FLAGS += -fvisibility=hidden
@@ -36,6 +36,7 @@ OBJECTS = \
 	$(OBJ_DIR)/main.o\
 	$(OBJ_DIR)/TestBasicTypes.o\
 	$(OBJ_DIR)/TestMutex.o\
+	$(OBJ_DIR)/TestThread.o\
 	$(OBJ_DIR)/TestTimeCounter.o
 
 $(OBJ_DIR) :
@@ -55,10 +56,12 @@ clean :
 rebuild : clean all
 
 $(OBJ_DIR)/main.o : ../../../source/tests/main.cpp
-	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/main.o ../../../source/tests/main.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/main.o ../../../source/tests/main.cpp
 $(OBJ_DIR)/TestBasicTypes.o : ../../../source/tests/testcases/TestBasicTypes.cpp
-	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestBasicTypes.o ../../../source/tests/testcases/TestBasicTypes.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestBasicTypes.o ../../../source/tests/testcases/TestBasicTypes.cpp
 $(OBJ_DIR)/TestMutex.o : ../../../source/tests/testcases/TestMutex.cpp
-	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestMutex.o ../../../source/tests/testcases/TestMutex.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestMutex.o ../../../source/tests/testcases/TestMutex.cpp
+$(OBJ_DIR)/TestThread.o : ../../../source/tests/testcases/TestThread.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestThread.o ../../../source/tests/testcases/TestThread.cpp
 $(OBJ_DIR)/TestTimeCounter.o : ../../../source/tests/testcases/TestTimeCounter.cpp
-	$(CXX) -c $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestTimeCounter.o ../../../source/tests/testcases/TestTimeCounter.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestTimeCounter.o ../../../source/tests/testcases/TestTimeCounter.cpp
