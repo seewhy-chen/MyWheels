@@ -10,7 +10,7 @@
 #include <winerror.h>
 
 #ifndef ETIMEDOUT
-#define ETIMEDOUT ERROR_TIMEOUT
+#define ETIMEDOUT WSAETIMEDOUT
 #endif
 
 #if defined(MWL_MAKE_SHARED_LIB)
