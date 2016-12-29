@@ -52,7 +52,7 @@ namespace mwl {
             MWL_ERROR("unknown time unit %d", unit);
             // fall through
         case MILLISEC:
-            return nanoSecElapsed / 100000;
+            return nanoSecElapsed / 1E6;
         case MICROSEC:
             return nanoSecElapsed / 1000;
         }
