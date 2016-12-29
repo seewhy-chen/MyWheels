@@ -8,23 +8,23 @@
 namespace mwl {
 
     Mutex::Implement::Implement() {
-        pthread_mutex_init(&_m, NULL);
+        pthread_mutex_init(&m, NULL);
     }
 
     Mutex::Implement::~Implement() {
-        pthread_mutex_destroy(&_m);
+        pthread_mutex_destroy(&m);
     }
 
     int32_t Mutex::Implement::_Lock() {
-        return pthread_mutex_lock(&_m);
+        return -pthread_mutex_lock(&m);
     }
 
     int32_t Mutex::Implement::_TryLock() {
-        return pthread_mutex_trylock(&_m);
+        return -pthread_mutex_trylock(&m);
     }
 
     int32_t Mutex::Implement::_Unlock() {
-        return pthread_mutex_unlock(&_m);
+        return -pthread_mutex_unlock(&m);
     }
     
 }

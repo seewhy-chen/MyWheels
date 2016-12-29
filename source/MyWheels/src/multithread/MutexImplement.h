@@ -14,9 +14,9 @@ namespace mwl {
         int32_t _Unlock();
 
 #ifdef __MWL_WIN__
-        CRITICAL_SECTION _m;
+        CRITICAL_SECTION m;
 #else
-        pthread_mutex_t _m;
+        pthread_mutex_t m;
 #endif
     };
 

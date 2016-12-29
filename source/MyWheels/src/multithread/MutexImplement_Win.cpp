@@ -7,28 +7,28 @@
 namespace mwl {
 
     Mutex::Implement::Implement() {
-        InitializeCriticalSection(&_m);
+        InitializeCriticalSection(&m);
     }
 
     Mutex::Implement::~Implement() {
-        DeleteCriticalSection(&_m);
+        DeleteCriticalSection(&m);
     }
 
     int32_t Mutex::Implement::_Lock() {
-        EnterCriticalSection(&_m);
+        EnterCriticalSection(&m);
         return 0;
     }
 
     int32_t Mutex::Implement::_TryLock() {
-        if (TryEnterCriticalSection(&_m)) {
+        if (TryEnterCriticalSection(&m)) {
             return 0;
         } else {
-            return -1;
+            return ERR_BUSY;
         }
     }
 
     int32_t Mutex::Implement::_Unlock() {
-        LeaveCriticalSection(&_m);
+        LeaveCriticalSection(&m);
         return 0;
     }
 

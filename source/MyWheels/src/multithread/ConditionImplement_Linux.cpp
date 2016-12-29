@@ -26,14 +26,14 @@ namespace mwl {
     int32_t Condition::Implement::_Wait(Mutex &mutex, int32_t timeoutInMs) {
         int32_t ret = ERR_NONE;
         if (timeoutInMs < 0) {
-            ret = pthread_cond_wait(&cond, &mutex.Impl()->_m);
+            ret = pthread_cond_wait(&cond, &mutex.Impl()->m);
         } else {
             struct timeval tv;
             gettimeofday(&tv, NULL);
             struct timespec ts;
             ts.tv_sec = tv.tv_sec + (tv.tv_usec + timeoutInMs * 1000) / 1000000;
             ts.tv_nsec = ((tv.tv_usec + timeoutInMs * 1000) % 1000000) * 1000;
-            ret = pthread_cond_timedwait(&cond, &mutex.Impl()->_m, &ts);
+            ret = pthread_cond_timedwait(&cond, &mutex.Impl()->m, &ts);
         }
 
         if (ret) {
