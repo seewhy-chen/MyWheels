@@ -34,7 +34,18 @@ namespace mwl {
 #ifdef __MWL_WIN__
         Sleep(static_cast<DWORD>(microSec/1000));
 #else
-        usleep(microSec);
+        struct timespec request, remain;
+        request.tv_sec = microSec / 1000000;
+        request.tv_nsec = (microSec % 1000000) * 1000;
+        int32_t ret = nanosleep(&request, &remain);
+        while(ret < 0 && EINTR == errno) {
+            request = remain;
+            ret = nanosleep(&request, &remain);
+        }
+        if (ret < 0) {
+            int32_t err = errno;
+            MWL_WARN_ERRNO("nanosleep failed", err);
+        }
 #endif
     }
 
