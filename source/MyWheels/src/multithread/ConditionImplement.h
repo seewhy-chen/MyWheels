@@ -15,6 +15,7 @@ namespace mwl {
 #ifdef __MWL_WIN__
         CONDITION_VARIABLE cond;
 #else
+        pthread_cond_t cond;
 #endif
     };
 }

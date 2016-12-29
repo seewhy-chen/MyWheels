@@ -4,6 +4,7 @@
 #ifdef __MWL_WIN__
 
 namespace mwl {
+
     Condition::Implement::Implement() {
         InitializeConditionVariable(&cond);    
     }
