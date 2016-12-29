@@ -18,7 +18,7 @@ namespace mwl {
 
     uint64_t TimeCounter::Implement::_TimeElapsed(const char *tag, TimeUnit unit) {
         if (_counters.empty()) {
-            MWL_ERR("no started time counter");
+            MWL_ERROR("no started time counter");
             return 0;
         }
 
@@ -32,7 +32,7 @@ namespace mwl {
         std::string currTag(tag ? tag : "");
         timespec startTime;
         if (_counters.end() == _counters.find(currTag)) {
-            MWL_ERR("No time counter has tag '%s'", currTag.c_str());
+            MWL_ERROR("No time counter has tag '%s'", currTag.c_str());
             return 0;
         }
         startTime = _counters[currTag];
@@ -45,7 +45,7 @@ namespace mwl {
         case SECOND:
             return nanoSecElapsed / 1E9;
         default:
-            MWL_ERR("unknown time unit %d", unit);
+            MWL_ERROR("unknown time unit %d", unit);
             // fall through
         case MILLISEC:
             return nanoSecElapsed / 100000;

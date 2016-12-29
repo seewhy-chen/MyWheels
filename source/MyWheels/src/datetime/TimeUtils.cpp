@@ -20,7 +20,7 @@ namespace mwl {
             microSec = static_cast<uint64_t>(sleepTime * 1000000);
             break;
         default:
-            MWL_ERR("unknown time unit %d", unit);
+            MWL_ERROR("unknown time unit %d", unit);
             // fall through
         case MILLISEC:
             microSec = static_cast<uint64_t>(sleepTime * 1000);
