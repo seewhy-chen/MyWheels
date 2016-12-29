@@ -20,7 +20,7 @@ namespace mwl {
             return 0;
         } else {
             int32_t err = GetLastError();
-            MWL_WARN_ERRNO("QueryPerformanceCounter for time counter '%s' failed", err);
+            MWL_WARN_ERRNO("QueryPerformanceCounter for time counter '%s' failed", err, perfTag.c_str());
             return -err;
         }
     }
@@ -34,7 +34,7 @@ namespace mwl {
         LARGE_INTEGER currCount;
         if (!QueryPerformanceCounter(&currCount)) {
             int32_t err = GetLastError();
-            MWL_WARN("QueryPerformanceCounter failed", err);
+            MWL_WARN_ERRNO("QueryPerformanceCounter failed", err);
             return 0;
         }
 
