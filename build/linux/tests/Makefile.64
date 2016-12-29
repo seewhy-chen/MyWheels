@@ -6,7 +6,7 @@ OBJ_DIR = ./Debug-64
 OUTPUT_DIR = $(PRJ_ROOT_DIR)/../output/linux/64
 
 INCLUDE_PATH = \
-	-I$(PRJ_ROOT_DIR)/MyWheels/inc\
+	-I$(PRJ_ROOT_DIR)/MyWheels\
 	-I$(PRJ_ROOT_DIR)/tests
 
 COMMON_CX_FLAGS = -c -g -pipe -fpie -fpic -ffunction-sections -funwind-tables

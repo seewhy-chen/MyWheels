@@ -1,7 +1,7 @@
 #ifndef __MWL_TIME_COUNTER_H__
 #define __MWL_TIME_COUNTER_H__
 
-#include "BasicDefines.h"
+#include "inc/BasicDefines.h"
 #include "TimeDefines.h"
 
 namespace mwl {

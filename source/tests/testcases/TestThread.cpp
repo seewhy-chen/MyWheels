@@ -1,9 +1,9 @@
-#include "Thread.h"
-#include "TimeDefines.h"
-#include "InternalCommon.h"
-#include "Condition.h"
-#include "Mutex.h"
+#include "inc/Thread.h"
+#include "inc/TimeDefines.h"
+#include "inc/Condition.h"
+#include "inc/Mutex.h"
 
+#include "InternalCommon.h"
 using namespace mwl;
 
 #include <string>

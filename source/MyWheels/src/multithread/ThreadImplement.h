@@ -1,11 +1,10 @@
 #ifndef __MWL_THREAD_IMPLEMENT_H__
 #define __MWL_THREAD_IMPLEMENT_H__
 
+#include "inc/Thread.h"
+#include "inc/Mutex.h"
+#include "inc/Condition.h"
 #include "InternalCommon.h"
-
-#include "Thread.h"
-#include "Mutex.h"
-#include "Condition.h"
 
 #include <string>
 

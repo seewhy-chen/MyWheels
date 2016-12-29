@@ -1,7 +1,7 @@
 #ifndef __MWL_TIME_COUNTER_IMPLEMENT_H__
 #define __MWL_TIME_COUNTER_IMPLEMENT_H__
 
-#include "TimeCounter.h"
+#include "inc/TimeCounter.h"
 #include "InternalCommon.h"
 
 #include <map>

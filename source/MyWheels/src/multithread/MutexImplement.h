@@ -1,8 +1,8 @@
 #ifndef __MWL_MUTEX_IMPLEMENT_H__
 #define __MWL_MUTEX_IMPLEMENT_H__
 
+#include "inc/Mutex.h"
 #include "InternalCommon.h"
-#include "Mutex.h"
 
 namespace mwl {
 

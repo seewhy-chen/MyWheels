@@ -1,4 +1,4 @@
-#include "BasicDefines.h"
+#include "inc/BasicDefines.h"
 
 #ifdef __MWL_WIN__
 
@@ -22,7 +22,7 @@ namespace mwl {
             if (err == ERROR_TIMEOUT) {
                 return ERR_TIMEOUT;
             } else {
-                MWL_WARN_ERRNO("wait cond failed: %s(%d)", err);
+                MWL_WARN_ERRNO("wait cond failed", err);
                 return -err;
             }
         } else {

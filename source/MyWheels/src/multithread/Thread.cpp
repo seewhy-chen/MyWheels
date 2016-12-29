@@ -1,4 +1,4 @@
-#include "Thread.h"
+#include "inc/Thread.h"
 #include "ThreadImplement.h"
 
 namespace mwl {

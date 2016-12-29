@@ -1,4 +1,4 @@
-#include "Condition.h"
+#include "inc/Condition.h"
 #include "ConditionImplement.h"
 
 namespace mwl {

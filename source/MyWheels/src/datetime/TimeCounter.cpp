@@ -1,4 +1,4 @@
-#include "TimeCounter.h"
+#include "inc/TimeCounter.h"
 #include "TimeCounterImplement.h"
 
 namespace mwl {

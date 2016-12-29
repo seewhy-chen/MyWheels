@@ -1,5 +1,5 @@
-#include "BasicDefines.h"
-#include "TimeCounter.h"
+#include "inc/BasicDefines.h"
+#include "inc/TimeCounter.h"
 using namespace mwl;
 
 void TestTimeCounter() {

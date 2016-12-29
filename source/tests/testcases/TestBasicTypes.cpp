@@ -1,6 +1,6 @@
-#include "BasicDefines.h"
-#include "StaticAssert.h"
-#include "TimeCounter.h"
+#include "inc/BasicDefines.h"
+#include "inc/StaticAssert.h"
+#include "inc/TimeCounter.h"
 using namespace mwl;
 
 void TestBasicTypes() {

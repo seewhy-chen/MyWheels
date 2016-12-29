@@ -1,7 +1,7 @@
 #ifndef __MWL_MUTEX_H__
 #define __MWL_MUTEX_H__
 
-#include "BasicDefines.h"
+#include "inc/BasicDefines.h"
 
 namespace mwl {
 

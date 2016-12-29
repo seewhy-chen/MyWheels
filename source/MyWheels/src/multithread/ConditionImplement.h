@@ -1,8 +1,8 @@
 #ifndef __MWL_CONDITION_IMPLEMENT_H__
 #define __MWL_CONDITION_IMPLEMENT_H__
 
+#include "inc/Condition.h"
 #include "InternalCommon.h"
-#include "Condition.h"
 
 namespace mwl {
 

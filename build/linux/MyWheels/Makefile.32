@@ -9,7 +9,7 @@ DEFINES = \
 	-DMWL_MAKE_SHARED_LIB
 
 INCLUDE_PATH = \
-	-I$(PRJ_ROOT_DIR)/MyWheels/inc\
+	-I$(PRJ_ROOT_DIR)/MyWheels\
 	-I$(PRJ_ROOT_DIR)/MyWheels/src
 
 COMMON_CX_FLAGS = -c -g -pipe -fpie -fpic -ffunction-sections -funwind-tables
