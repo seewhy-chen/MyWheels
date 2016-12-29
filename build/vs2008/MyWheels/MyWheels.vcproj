@@ -318,6 +318,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\source\MyWheels\inc\Semaphore.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\source\MyWheels\inc\StaticAssert.h"
 				>
 			</File>
@@ -405,6 +409,26 @@
 					</File>
 					<File
 						RelativePath="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Win.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="semaphore"
+					>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\Semaphore.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement.h"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement_Linux.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement_Win.cpp"
 						>
 					</File>
 				</Filter>

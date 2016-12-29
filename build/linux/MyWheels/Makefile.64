@@ -45,6 +45,9 @@ OBJECTS = \
 	$(OBJ_DIR)/Mutex.o\
 	$(OBJ_DIR)/MutexImplement_Linux.o\
 	$(OBJ_DIR)/MutexImplement_Win.o\
+	$(OBJ_DIR)/Semaphore.o\
+	$(OBJ_DIR)/SemaphoreImplement_Linux.o\
+	$(OBJ_DIR)/SemaphoreImplement_Win.o\
 	$(OBJ_DIR)/Thread.o\
 	$(OBJ_DIR)/ThreadImplement_Linux.o\
 	$(OBJ_DIR)/ThreadImplement_Win.o
@@ -85,6 +88,12 @@ $(OBJ_DIR)/MutexImplement_Linux.o : ../../../source/MyWheels/src/multithread/Mut
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/MutexImplement_Linux.o ../../../source/MyWheels/src/multithread/MutexImplement_Linux.cpp
 $(OBJ_DIR)/MutexImplement_Win.o : ../../../source/MyWheels/src/multithread/MutexImplement_Win.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/MutexImplement_Win.o ../../../source/MyWheels/src/multithread/MutexImplement_Win.cpp
+$(OBJ_DIR)/Semaphore.o : ../../../source/MyWheels/src/multithread/Semaphore.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Semaphore.o ../../../source/MyWheels/src/multithread/Semaphore.cpp
+$(OBJ_DIR)/SemaphoreImplement_Linux.o : ../../../source/MyWheels/src/multithread/SemaphoreImplement_Linux.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/SemaphoreImplement_Linux.o ../../../source/MyWheels/src/multithread/SemaphoreImplement_Linux.cpp
+$(OBJ_DIR)/SemaphoreImplement_Win.o : ../../../source/MyWheels/src/multithread/SemaphoreImplement_Win.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/SemaphoreImplement_Win.o ../../../source/MyWheels/src/multithread/SemaphoreImplement_Win.cpp
 $(OBJ_DIR)/Thread.o : ../../../source/MyWheels/src/multithread/Thread.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Thread.o ../../../source/MyWheels/src/multithread/Thread.cpp
 $(OBJ_DIR)/ThreadImplement_Linux.o : ../../../source/MyWheels/src/multithread/ThreadImplement_Linux.cpp
