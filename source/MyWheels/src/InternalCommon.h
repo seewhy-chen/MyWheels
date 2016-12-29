@@ -8,7 +8,15 @@
 #include <string.h>
 
 #ifdef __MWL_WIN__
-#include <Windows.h>
+
+    #include <Windows.h>
+
+#elif defined __MWL_LINUX__
+
+    #include <sys/types.h>
+    #include <unistd.h>
+    #include <pthread.h>
+
 #endif
 
 #endif // __MWL_INTERNALCOMMON_H__

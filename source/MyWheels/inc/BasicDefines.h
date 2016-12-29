@@ -3,60 +3,71 @@
 
 #include <stdio.h>
 #include <errno.h>
+#include <string.h>
 
 #ifdef _MSC_VER
 
-#define __MWL_WIN__
-#include <winerror.h>
+    #define __MWL_WIN__
+    #include <winerror.h>
 
-#ifndef ETIMEDOUT
-#define ETIMEDOUT WSAETIMEDOUT
-#endif
+    #if defined(MWL_MAKE_SHARED_LIB)
+        #define MWL_API  __declspec(dllexport)
+    #else
+        #define MWL_API  __declspec(dllimport)
+    #endif  // MWL_MAKE_SHARED_LIB
 
-#if defined(MWL_MAKE_SHARED_LIB)
-    #define MWL_API  __declspec(dllexport)
-#else
-    #define MWL_API  __declspec(dllimport)
-#endif  // MWL_MAKE_SHARED_LIB
+    #if _MSC_VER < 1900
+        typedef signed char int8_t;
+        typedef unsigned char uint8_t;
+        typedef signed short int16_t;
+        typedef unsigned short uint16_t;
+        typedef signed int int32_t;
+        typedef unsigned int uint32_t;
+        typedef signed long long int64_t;
+        typedef unsigned long long uint64_t;
+    #else
+        #include <stdint.h>
+    #endif
 
-#if _MSC_VER < 1900
-    typedef signed char int8_t;
-    typedef unsigned char uint8_t;
-    typedef signed short int16_t;
-    typedef unsigned short uint16_t;
-    typedef signed int int32_t;
-    typedef unsigned int uint32_t;
-    typedef signed long long int64_t;
-    typedef unsigned long long uint64_t;
-#else
-    #include <stdint.h>
-#endif
+    #ifndef ETIMEDOUT
+        #define ETIMEDOUT WSAETIMEDOUT
+    #endif
 
-#define strerror_r(err, buf, buflen) strerror_s(buf, buflen, err)
+    #define ZD "lu"
+    #define JD "llu"
+
+inline static char *strerror_r(int32_t err, char *buf, int32_t buflen) {
+    strerror_s(buf, buflen, err);
+    return buf;
+}
 
 #elif defined __GNUC__
 
-#define __MWL_LINUX__
+    #define __MWL_LINUX__
 
-#if defined(MWL_MAKE_SHARED_LIB)
-    #define MWL_API   __attribute__((visibility("default")))
+    #if defined(MWL_MAKE_SHARED_LIB)
+        #define MWL_API   __attribute__((visibility("default")))
+    #else
+        #define MWL_API
+    #endif  // MWL_MAKE_SHARED_LIB
+
+    #include <stdint.h>
+
+    #define ZD "zd"
+    #define JD "jd"
+
 #else
-    #define MWL_API
-#endif  // MWL_MAKE_SHARED_LIB
 
-#include <stdint.h>
-
-#else
-
-#error unknown compiler!
+    #error unknown compiler!
 
 #endif  // _MSC_VER
 
 #if __cplusplus >= 201103L
-#define __CXX_11__
+    #define __CXX_11__
 #endif
 
 namespace mwl {
+
     class MWL_API NonCopyable {
 #ifdef __CXX_11__
     protected:
@@ -96,8 +107,7 @@ namespace mwl {
 #define MWL_WARN_ERRNO(fmt, err, ...) \
     do { \
         char errMsg[256] = {0}; \
-        strerror_r(err, errMsg, sizeof(errMsg)); \
-        fprintf(stdout, "[Warn] " fmt": %s(%d)\n", ##__VA_ARGS__, errMsg, err); \
+        fprintf(stdout, "[Warn] " fmt": %s (%d)\n", ##__VA_ARGS__, strerror_r(err, errMsg, sizeof(errMsg)), err); \
     } while (0)
 
 #define MWL_ERROR(fmt, ...) \
@@ -108,10 +118,9 @@ namespace mwl {
 #define MWL_ERROR_ERRNO(fmt, err, ...) \
     do { \
         char errMsg[256] = {0}; \
-        strerror_r(err, errMsg, sizeof(errMsg)); \
-        fprintf(stdout, "[Error] " fmt": %s(%d)\n", ##__VA_ARGS__, errMsg, err); \
+        fprintf(stdout, "[Error] " fmt": %s (%d)\n", ##__VA_ARGS__, strerror_r(err, errMsg, sizeof(errMsg)), err); \
     } while (0)
 
-}
+} // namespace mwl
 
 #endif // __MWL_BASIC_DEFINES_H__
