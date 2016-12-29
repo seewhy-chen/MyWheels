@@ -2,10 +2,10 @@
 #define __MWL_MUTEX_IMPLEMENT_H__
 
 #include "InternalCommon.h"
-
 #include "Mutex.h"
 
 namespace mwl {
+
     struct Mutex::Implement {
         Implement();
         ~Implement();
@@ -19,6 +19,7 @@ namespace mwl {
         pthread_mutex_t _m;
 #endif
     };
+
 }
 
 #endif // __MWL_MUTEX_IMPLEMENT_H__

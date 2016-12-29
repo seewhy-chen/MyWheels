@@ -2,6 +2,7 @@
 #include "TimeCounterImplement.h"
 
 namespace mwl {
+
     TimeCounter::TimeCounter() : m_pImpl(new Implement) {
     }
 
@@ -20,4 +21,5 @@ namespace mwl {
     uint64_t TimeCounter::TimeElapsed(const char *tag, TimeUnit unit) {
         return m_pImpl->_TimeElapsed(tag, unit);
     }
+
 }

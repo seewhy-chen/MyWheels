@@ -1,3 +1,4 @@
+
 #ifdef __MWL_WIN__
 
 #include "ThreadImplement.h"
@@ -107,6 +108,7 @@ namespace mwl {
         Mutex::AutoLock _l(lock);
         return stopQueried;
     }
+
 }
 
 #endif // __MWL_WIN__

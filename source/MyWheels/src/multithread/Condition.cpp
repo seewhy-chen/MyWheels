@@ -20,4 +20,5 @@ namespace mwl {
     int32_t Condition::Broadcast() {
         return m_pImpl->_Broadcast();
     }
+
 }

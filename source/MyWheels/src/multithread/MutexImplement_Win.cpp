@@ -1,8 +1,10 @@
+
 #ifdef __MWL_WIN__
 
 #include "MutexImplement.h"
 
 namespace mwl {
+
     Mutex::Implement::Implement() {
         InitializeCriticalSection(&_m);
     }
@@ -28,6 +30,7 @@ namespace mwl {
         LeaveCriticalSection(&_m);
         return 0;
     }
+
 }
 
 #endif // __MWL_WIN__

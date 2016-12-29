@@ -7,6 +7,7 @@
 #endif
 
 namespace mwl {
+
     void TimeSleep(double sleepTime, TimeUnit unit) {
         uint64_t microSec = 0;
         switch(unit) {
@@ -36,4 +37,5 @@ namespace mwl {
         usleep(microSec);
 #endif
     }
+
 }

@@ -2,10 +2,10 @@
 #define __MWL_CONDITION_IMPLEMENT_H__
 
 #include "InternalCommon.h"
-
 #include "Condition.h"
 
 namespace mwl {
+
     struct Condition::Implement{
         Implement();
         ~Implement();
@@ -18,6 +18,7 @@ namespace mwl {
         pthread_cond_t cond;
 #endif
     };
+
 }
 
 #endif // __MWL_CONDITION_IMPLEMENT_H__

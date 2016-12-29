@@ -7,6 +7,7 @@
 #include <map>
 
 namespace mwl {
+
     struct TimeCounter::Implement {
         Implement();
         ~Implement();
@@ -19,6 +20,7 @@ namespace mwl {
         std::map<std::string, timespec> _counters;
 #endif // __MWL_WIN__
     };
+
 }
 
 #endif // __MWL_TIMECOUNTER_IMPLEMENT_H__

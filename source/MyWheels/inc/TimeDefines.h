@@ -4,6 +4,7 @@
 #include "BasicDefines.h"
 
 namespace mwl {
+
     enum TimeUnit {
         HOUR,
         MINUTE,
@@ -13,6 +14,7 @@ namespace mwl {
     };
 
     void MWL_API TimeSleep(double sleepTime, TimeUnit unit = MILLISEC);
+
 }
 
 #endif // __MWL_TIME_DEFINES_H__

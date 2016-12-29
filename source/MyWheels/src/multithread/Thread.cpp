@@ -87,4 +87,5 @@ namespace mwl {
     bool Thread::StopQueried() {
         return m_pImpl->_StopQueried();
     }
+
 }

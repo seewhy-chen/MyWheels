@@ -10,6 +10,7 @@
 #include <string>
 
 namespace mwl {
+
     struct ThreadID::Implement {
 #ifdef __MWL_WIN__
         DWORD pid;
@@ -61,6 +62,7 @@ namespace mwl {
         bool stopQueried;
         bool isRunning;
     };
+
 }
 
 #endif

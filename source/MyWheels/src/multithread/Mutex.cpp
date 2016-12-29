@@ -2,6 +2,7 @@
 #include "MutexImplement.h"
 
 namespace mwl {
+
     Mutex::Mutex() : m_pImpl(new Implement) {}
 
     Mutex::~Mutex() {

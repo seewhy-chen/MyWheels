@@ -5,6 +5,7 @@
 #include "TimeDefines.h"
 
 namespace mwl {
+
     class MWL_API TimeCounter : private NonCopyable {
     public:
         TimeCounter();
@@ -16,6 +17,7 @@ namespace mwl {
         struct Implement;
         Implement *m_pImpl;
     };
+
 }
 
 #endif // __MWL_TIME_COUNTER_H__

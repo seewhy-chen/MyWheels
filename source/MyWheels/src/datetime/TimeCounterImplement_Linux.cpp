@@ -1,8 +1,11 @@
+#include "BasicDefines.h"
+
 #ifdef __MWL_LINUX__
 
 #include "TimeCounterImplement.h"
 
 namespace mwl {
+
     TimeCounter::Implement::Implement() {}
 
     TimeCounter::Implement::~Implement() {}
@@ -54,6 +57,7 @@ namespace mwl {
             return nanoSecElapsed / 1000;
         }
     }
+
 }
 
 #endif // __MWL_LINUX__
