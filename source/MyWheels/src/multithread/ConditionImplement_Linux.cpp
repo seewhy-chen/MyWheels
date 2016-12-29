@@ -1,7 +1,7 @@
+#ifdef __MWL_LINUX__
+
 #include "ConditionImplement.h"
 #include "MutexImplement.h"
-
-#ifdef __MWL_LINUX__
 
 namespace mwl {
 

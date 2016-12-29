@@ -1,6 +1,6 @@
-#include "ThreadImplement.h"
-
 #ifdef __MWL_WIN__
+
+#include "ThreadImplement.h"
 
 namespace mwl {
 

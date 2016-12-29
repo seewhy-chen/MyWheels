@@ -1,7 +1,6 @@
-#include "MutexImplement.h"
-
 #ifdef __MWL_LINUX__
 
+#include "MutexImplement.h"
 #include <pthread.h>
 
 namespace mwl {

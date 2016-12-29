@@ -1,6 +1,6 @@
-#include "TimeCounterImplement.h"
-
 #ifdef __MWL_WIN__
+
+#include "TimeCounterImplement.h"
 
 #include <WinBase.h>
 #include <string>
