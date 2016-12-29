@@ -19,9 +19,11 @@ struct MyThread : public Thread {
             Self().PID(), Self().TID(), Tag(), Parent().PID(), Parent().TID());
 
         _mutex.Lock();
-        _cond.Wait(_mutex, 10);
+        if (_cond.Wait(_mutex, 1000) == ERR_TIMEOUT) {
+            MWL_INFO("%s wait cond timeout", Tag()); 
+        }
         _mutex.Unlock();
-        MWL_INFO("(%u, %u) %s stopped", Self().PID(), Self().TID(), Tag());
+        MWL_INFO("%s stopped", Tag());
 
         return 0;
     }
@@ -34,10 +36,8 @@ void TestThread() {
     t1.Start();
     t2.Start();
     t3.Start();
-    TimeSleep(1000);
-    //cond.Signal();
-    //cond.Signal();
-    //cond.Signal();
+    TimeSleep(500);
+    cond.Signal();
     t1.Join();
     t2.Join();
     t3.Join();
