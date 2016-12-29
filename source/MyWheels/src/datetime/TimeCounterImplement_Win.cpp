@@ -58,7 +58,8 @@ namespace mwl {
         case MILLISEC:
             return ticks * 1000 / _freq.QuadPart;
         case MICROSEC:
-            return ticks * 1000 * 1000 / _freq.QuadPart;}
+            return ticks * 1000 * 1000 / _freq.QuadPart;
+        }
     }
 
 }
