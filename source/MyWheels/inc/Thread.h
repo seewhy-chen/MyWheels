@@ -39,7 +39,6 @@ namespace mwl {
         int32_t ExitCode() const;
 
     protected:
-        void ThreadStarted();
         bool StopQueried();
 
     public:

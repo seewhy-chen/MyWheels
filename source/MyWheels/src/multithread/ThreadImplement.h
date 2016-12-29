@@ -30,7 +30,6 @@ namespace mwl {
         bool _IsRunning();
         int32_t _ExitCode();
 
-        void _ThreadStarted();
         bool _StopQueried();
 
         inline const ThreadID& _Parent() {

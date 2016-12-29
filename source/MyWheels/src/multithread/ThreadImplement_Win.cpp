@@ -14,7 +14,9 @@ namespace mwl {
             pImpl->lock.Lock();
             pImpl->selfID.m_pImpl->pid = GetCurrentProcessId();
             pImpl->selfID.m_pImpl->tid = GetCurrentThreadId();
+            pImpl->isRunning = true;
             pImpl->lock.Unlock();
+            pImpl->cond.Signal();
 
             pImpl->exitCode = pImpl->pThread->Entry();
 
@@ -101,13 +103,6 @@ namespace mwl {
             return -1;
         }
         return exitCode;
-    }
-
-    void Thread::Implement::_ThreadStarted() {
-        lock.Lock();
-        isRunning = true;
-        lock.Unlock();
-        cond.Signal();
     }
 
     bool Thread::Implement::_StopQueried() {
