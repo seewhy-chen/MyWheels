@@ -19,9 +19,7 @@ namespace mwl {
             if (err == ERROR_TIMEOUT) {
                 return ERR_TIMEOUT;
             } else {
-                char errMsg[512] = {0};
-                strerror_s(errMsg, sizeof(errMsg), err);
-                MWL_WARN("wait cond failed: %s(%d)", errMsg, err);
+                MWL_WARN_ERRNO("wait cond failed: %s(%d)", err);
                 return -err;
             }
         } else {

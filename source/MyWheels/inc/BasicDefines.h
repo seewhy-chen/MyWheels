@@ -32,6 +32,8 @@
     #include <stdint.h>
 #endif
 
+#define strerror_r(err, buf, buflen) strerror_s(buf, buflen, err)
+
 #elif defined __GNUC__
 
 #define __MWL_LINUX__
@@ -91,9 +93,23 @@ namespace mwl {
         fprintf(stdout, "[Warn] " fmt"\n", ##__VA_ARGS__); \
     } while (0)
 
-#define MWL_ERR(fmt, ...) \
+#define MWL_WARN_ERRNO(fmt, err, ...) \
+    do { \
+        char errMsg[256] = {0}; \
+        strerror_r(err, errMsg, sizeof(errMsg)); \
+        fprintf(stdout, "[Warn] " fmt": %s(%d)\n", ##__VA_ARGS__, errMsg, err); \
+    } while (0)
+
+#define MWL_ERROR(fmt, ...) \
     do { \
         fprintf(stdout, "[Error] " fmt"\n", ##__VA_ARGS__); \
+    } while (0)
+
+#define MWL_ERROR_ERRNO(fmt, err, ...) \
+    do { \
+        char errMsg[256] = {0}; \
+        strerror_r(err, errMsg, sizeof(errMsg)); \
+        fprintf(stdout, "[Error] " fmt": %s(%d)\n", ##__VA_ARGS__, errMsg, err); \
     } while (0)
 
 }

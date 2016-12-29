@@ -52,9 +52,7 @@ namespace mwl {
         threadHdl = CreateThread(NULL, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(_ThreadBody), this, 0, &selfID.m_pImpl->tid);
         if (!threadHdl) {
             int32_t err = GetLastError();
-            char errMsg[512] = {0};
-            strerror_s(errMsg, sizeof(errMsg), err);
-            MWL_WARN("start thread failed: %s(%d)", errMsg, err);
+            MWL_WARN_ERRNO("start thread failed", err);
             return -err;
         }
 
