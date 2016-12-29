@@ -1,3 +1,5 @@
+#!/usr/bin/make -f
+
 OUTPUT_FILENAME = libMyWheels.so
 PRJ_ROOT_DIR = ../../../source
 OBJ_DIR = ./Debug-32

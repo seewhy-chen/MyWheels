@@ -59,6 +59,7 @@ def generate_makefile(prj_cfg, code_bit):
         exit(-1)
 
     with open(make_file, 'w') as f:
+        f.write("#!/usr/bin/make -f\n\n")
         if prj_cfg['PRJ_TYPE'] == 'bin':
             output_bin = True
             f.write('OUTPUT_FILENAME = %s\n' %prj_name)
@@ -160,7 +161,6 @@ def generate_makefile(prj_cfg, code_bit):
 
             f.write('$(OBJ_DIR)/%s : %s\n\t$(%s) $(%s) $(INCLUDE_PATH) -o $(OBJ_DIR)/%s %s\n' 
                     %(obj_file, src, compiler, flags, obj_file, src))
-
 
 if __name__ == '__main__':
     projects = list_projects()
