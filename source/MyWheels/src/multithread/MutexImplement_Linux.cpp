@@ -1,3 +1,4 @@
+#include "BasicDefines.h"
 
 #ifdef __MWL_LINUX__
 

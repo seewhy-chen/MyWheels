@@ -1,3 +1,5 @@
+#include "BasicDefines.h"
+
 #ifdef __MWL_LINUX__
 
 #include "ThreadImplement.h"
