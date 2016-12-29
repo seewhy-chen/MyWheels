@@ -88,8 +88,11 @@ namespace mwl {
 
     enum ErrorCode {
         ERR_NONE = 0L,
-        ERR_INVAL_PARAM = -EINVAL,
+        ERR_PERM = -EPERM,
         ERR_AGAIN = -EAGAIN,
+        ERR_NOMEM = -ENOMEM,
+        ERR_BUSY = -EBUSY,
+        ERR_INVAL_PARAM = -EINVAL,
         ERR_TIMEOUT = -ETIMEDOUT,
     };
 
