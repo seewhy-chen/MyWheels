@@ -13,7 +13,7 @@ namespace mwl {
         int32_t TryLock();
         int32_t Unlock();
 
-        struct AutoLock {
+        struct MWL_API AutoLock {
             explicit AutoLock(Mutex &mutex);
             ~AutoLock();
 
