@@ -8,6 +8,8 @@
 #include <semaphore.h>
 #endif
 
+#include <string>
+
 namespace mwl {
 
     struct Semaphore::Implement {
@@ -23,6 +25,9 @@ namespace mwl {
 #else
         sem_t* s;
 #endif
+        std::string name;
+        bool createdByMe;
+
     };
 
 }
