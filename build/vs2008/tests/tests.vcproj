@@ -311,7 +311,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\source\tests\testcases\TestCondition.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\source\tests\testcases\TestMutex.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\source\tests\testcases\TestSemaphore.cpp"
 				>
 			</File>
 			<File

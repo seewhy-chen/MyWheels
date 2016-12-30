@@ -3,6 +3,8 @@
 using namespace mwl;
 
 void TestTimeCounter() {
+    MWL_INFO("TestThread started");
+
     TimeCounter counter;
     counter.Start();
     TimeSleep(1000);
@@ -15,4 +17,6 @@ void TestTimeCounter() {
     MWL_INFO("%" JD"ms passed for counter 'not-exist'", t);
     t = counter.TimeElapsed("counter-with-tag", MILLISEC);
     MWL_INFO("%" JD"ms passed for counter 'counter-with-tag'", t);
+
+    MWL_INFO("TestThread done\n");
 }

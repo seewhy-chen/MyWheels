@@ -2,6 +2,7 @@
 #include "inc/TimeDefines.h"
 #include "inc/Condition.h"
 #include "inc/Mutex.h"
+#include "inc/Semaphore.h"
 
 #include "InternalCommon.h"
 using namespace mwl;
@@ -9,36 +10,37 @@ using namespace mwl;
 #include <string>
 
 struct MyThread : public Thread {
-    Condition &_cond;
-    Mutex &_mutex;
-    MyThread(const char *tag, Condition &cond, Mutex &mutex) : _cond(cond), _mutex(mutex) {
+    MyThread(const char *tag) {
         SetTag(tag);
     }
     int32_t Entry() {
-        MWL_INFO("(%u, %u) %s started, parent is (%u, %u)", 
-            Self().PID(), Self().TID(), Tag(), Parent().PID(), Parent().TID());
+        MWL_INFO("%s started as (%u, %u), parent is (%u, %u)", 
+            Tag(), Self().PID(), Self().TID(), Parent().PID(), Parent().TID());
 
-        _mutex.Lock();
-        if (_cond.Wait(_mutex, 1000) == ERR_TIMEOUT) {
-            MWL_INFO("%s wait cond timeout", Tag()); 
-        }
-        _mutex.Unlock();
+        TimeSleep(500); 
+
         MWL_INFO("%s stopped", Tag());
-
         return 0;
     }
 };
 
 void TestThread() {
-    Condition cond;
-    Mutex mutex;
-    MyThread t1("t1", cond, mutex), t2("t2", cond, mutex), t3("t3", cond, mutex);
+    MWL_INFO("TestThread started");
+
+    ThreadID threadID;
+    GetCurrentThreadID(threadID);
+
+    MyThread t1("t1"), t2("t2"), t3("t3");
+    MWL_INFO("(%u, %u) starting t1", threadID.PID(), threadID.TID());
     t1.Start();
+    MWL_INFO("(%u, %u) starting t2", threadID.PID(), threadID.TID());
     t2.Start();
+    MWL_INFO("(%u, %u) starting t3", threadID.PID(), threadID.TID());
     t3.Start();
-    TimeSleep(500);
-    cond.Signal();
+
     t1.Join();
     t2.Join();
     t3.Join();
+
+    MWL_INFO("TestThread done\n");
 }

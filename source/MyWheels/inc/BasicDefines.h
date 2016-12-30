@@ -96,11 +96,11 @@ namespace mwl {
         ERR_TIMEOUT = -ETIMEDOUT,
     };
 
+
 #define MWL_INFO(fmt, ...) \
     do { \
         fprintf(stdout, "[Info] " fmt"\n", ##__VA_ARGS__); \
     } while (0)
-
 
 #define MWL_WARN(fmt, ...) \
     do { \
