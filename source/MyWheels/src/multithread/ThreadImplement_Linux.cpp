@@ -6,6 +6,11 @@
 
 namespace mwl {
 
+    void GetCurrentThreadID(ThreadID &threadID) {
+        threadID.m_pImpl->pid = getpid();
+        threadID.m_pImpl->tid = pthread_self();
+    }
+
     static void* _ThreadBody(void *data) {
 
         pthread_detach(pthread_self());

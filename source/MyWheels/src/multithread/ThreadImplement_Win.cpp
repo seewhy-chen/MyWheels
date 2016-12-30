@@ -6,6 +6,11 @@
 
 namespace mwl {
 
+    void GetCurrentThreadID(ThreadID &threadID) {
+        threadID.m_pImpl->pid = GetCurrentProcessId();
+        threadID.m_pImpl->tid = GetCurrentThreadId();
+    }
+
     static DWORD _ThreadBody(void *data) {
         Thread::Implement *pImpl = reinterpret_cast<Thread::Implement *>(data);
         if (!pImpl) {

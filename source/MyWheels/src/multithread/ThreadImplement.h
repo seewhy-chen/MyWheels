@@ -18,6 +18,10 @@ namespace mwl {
         pid_t pid;
         pthread_t tid;
 #endif
+        Implement() {
+            pid = -1;
+            tid = -1;
+        }
     };
 
     struct Thread::Implement {

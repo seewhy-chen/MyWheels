@@ -47,6 +47,7 @@ namespace mwl {
         Implement *m_pImpl;
     };
 
+    MWL_API void GetCurrentThreadID(ThreadID &threadID);
 }
 
 #endif
