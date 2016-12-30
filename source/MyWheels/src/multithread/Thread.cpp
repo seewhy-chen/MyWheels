@@ -84,8 +84,12 @@ namespace mwl {
         return m_pImpl->_ExitCode();
     }
 
-    bool Thread::StopQueried() {
+    bool Thread::StopQueried() const {
         return m_pImpl->_StopQueried();
+    }
+
+    Thread* CreateThread(ThreadEntry entry, void *pThreadData) {
+        return NULL;
     }
 
 }

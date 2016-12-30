@@ -56,7 +56,7 @@ namespace mwl {
         stopQueried = false;
         parentID.m_pImpl->pid = GetCurrentProcessId();
         parentID.m_pImpl->tid = GetCurrentThreadId();
-        threadHdl = CreateThread(NULL, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(_ThreadBody), this, 0, &selfID.m_pImpl->tid);
+        threadHdl = ::CreateThread(NULL, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(_ThreadBody), this, 0, &selfID.m_pImpl->tid);
         if (!threadHdl) {
             int32_t err = GetLastError();
             MWL_WARN_ERRNO("start thread failed", err);

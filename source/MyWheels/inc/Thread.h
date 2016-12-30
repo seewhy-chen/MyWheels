@@ -37,9 +37,7 @@ namespace mwl {
         const char *Tag() const;
         bool IsRunning() const;
         int32_t ExitCode() const;
-
-    protected:
-        bool StopQueried();
+        bool StopQueried() const;
 
     public:
         struct Implement;
@@ -48,6 +46,9 @@ namespace mwl {
     };
 
     MWL_API void GetCurrentThreadID(ThreadID &threadID);
+
+    typedef void(*ThreadEntry)(Thread* pThread, void *pThreadData);
+    MWL_API Thread* CreateThread(ThreadEntry entry, void *pThreadData);
 }
 
 #endif
