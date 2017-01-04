@@ -77,6 +77,9 @@
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement.h">
       <Filter>src\multithread\semaphore</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\SmartPointer.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp">

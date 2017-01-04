@@ -322,6 +322,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\source\MyWheels\inc\SmartPointer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\source\MyWheels\inc\StaticAssert.h"
 				>
 			</File>

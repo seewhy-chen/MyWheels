@@ -23,6 +23,7 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\Condition.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Mutex.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Semaphore.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\SmartPointer.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\StaticAssert.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Thread.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\TimeCounter.h" />
