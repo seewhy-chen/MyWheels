@@ -400,6 +400,18 @@
 						>
 					</File>
 					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\ThreadContext.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.h"
+						>
+					</File>
+					<File
 						RelativePath="..\..\..\source\MyWheels\src\multithread\ThreadImplement.h"
 						>
 					</File>

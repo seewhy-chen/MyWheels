@@ -2,61 +2,30 @@
 
 #ifdef __MWL_WIN__
 
+#include "inc/Thread.h"
 #include "ThreadImplement.h"
+#include "ThreadContextImplement.h"
 
 namespace mwl {
 
     void GetCurrentThreadID(ThreadID &threadID) {
-        threadID.m_pImpl->pid = GetCurrentProcessId();
-        threadID.m_pImpl->tid = GetCurrentThreadId();
+        threadID.pid = ::GetCurrentProcessId();
+        threadID.tid = ::GetCurrentThreadId();
     }
 
-    static DWORD _ThreadBody(void *data) {
-        Thread::Implement *pImpl = reinterpret_cast<Thread::Implement *>(data);
-        if (!pImpl) {
-            MWL_WARN("pImpl is NULL");
-        } else if (!pImpl->pThread) {
-            MWL_WARN("pImpl->pThread is NULL");
-        } else {
-            pImpl->lock.Lock();
-            pImpl->selfID.m_pImpl->pid = GetCurrentProcessId();
-            pImpl->selfID.m_pImpl->tid = GetCurrentThreadId();
-            pImpl->isRunning = true;
-            pImpl->lock.Unlock();
-            pImpl->cond.Signal();
+    static DWORD _ThreadBody(void *data);
 
-            pImpl->exitCode = pImpl->pThread->Entry();
-
-            pImpl->lock.Lock();
-            pImpl->isRunning = false;
-            pImpl->lock.Unlock();
-            pImpl->cond.Signal();
+    int32_t Thread::Implement::_Start(ThreadEntry entry, void *pSharedData, int32_t timeoutInMs) {
+        Mutex::AutoLock _l(context.m_pImpl->lock);
+        if (context.m_pImpl->isRunning) {
+            return ERR_NONE;
         }
-        return 0;
-    }
+        context.m_pImpl->stopQueried = false;
+        mwl::GetCurrentThreadID(context.m_pImpl->parentID);
+        context.m_pImpl->pSharedData = pSharedData;
+        this->entry = entry;
 
-    Thread::Implement::Implement() {
-        threadHdl = 0;
-        pThread = NULL;
-        exitCode = -1;
-        stopQueried = false;
-        isRunning = false;
-    }
-
-    Thread::Implement::~Implement() {
-        _Stop(-1);
-    }
-
-    int32_t Thread::Implement::_Start(int32_t timeoutInMs) {
-        if (_IsRunning()) {
-            return 0;
-        }
-         
-        Mutex::AutoLock _l(lock);
-        stopQueried = false;
-        parentID.m_pImpl->pid = GetCurrentProcessId();
-        parentID.m_pImpl->tid = GetCurrentThreadId();
-        threadHdl = ::CreateThread(NULL, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(_ThreadBody), this, 0, &selfID.m_pImpl->tid);
+        threadHdl = ::CreateThread(NULL, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(_ThreadBody), this, 0, &context.m_pImpl->selfID.tid);
         if (!threadHdl) {
             int32_t err = GetLastError();
             MWL_WARN_ERRNO("start thread failed", err);
@@ -65,56 +34,49 @@ namespace mwl {
 
         int32_t ret = 0;
         do {
-            ret = cond.Wait(lock, timeoutInMs);
-        } while(!isRunning && ERR_TIMEOUT == ret);
+            ret = context.m_pImpl->cond.Wait(context.m_pImpl->lock, timeoutInMs);
+        } while(!context.m_pImpl->isRunning && ERR_TIMEOUT == ret);
 
-        return isRunning ? 0 : ret;
-    }
-
-    int32_t Thread::Implement::_Stop(int32_t timeoutInMs) {
-        if (!_IsRunning()) {
-            return 0;
-        }
-        _QueryToStop();
-        return _Join(timeoutInMs);
+        return context.m_pImpl->isRunning ? ERR_NONE : ret;
     }
 
     int32_t Thread::Implement::_Join(int32_t timeoutInMs) {
         int32_t ret = ERR_TIMEOUT;
-        Mutex::AutoLock _l(lock);
-        while(isRunning && ERR_TIMEOUT == ret) {
-            ret = cond.Wait(lock, timeoutInMs);
+        Mutex::AutoLock _l(context.m_pImpl->lock);
+        while (context.m_pImpl->isRunning && ERR_TIMEOUT == ret) {
+            ret = context.m_pImpl->cond.Wait(context.m_pImpl->lock, timeoutInMs);
         }
-        if (!isRunning) {
+        if (!context.m_pImpl->isRunning) {
             CloseHandle(threadHdl);
             threadHdl = 0;
         }
 
-        return isRunning ? ERR_TIMEOUT : 0;
+        return context.m_pImpl->isRunning ? ERR_TIMEOUT : 0;
     }
 
-    void Thread::Implement::_QueryToStop() {
-        Mutex::AutoLock _l(lock);
-        stopQueried = true;
-    }
+    static DWORD _ThreadBody(void *data) {
+        Thread::Implement *pThreadImpl = reinterpret_cast<Thread::Implement *>(data);
+        if (!pThreadImpl) {
+            MWL_WARN("pThreadImpl is NULL");
+        } else {
+            ThreadContext &context = pThreadImpl->context;
+            context.m_pImpl->lock.Lock();
+            mwl::GetCurrentThreadID(context.m_pImpl->selfID);
+            context.m_pImpl->isRunning = true;
+            context.m_pImpl->lock.Unlock();
+            context.m_pImpl->cond.Signal();
 
-    bool Thread::Implement::_IsRunning() {
-        Mutex::AutoLock _l(lock);
-        return isRunning;
-    }
+            context.m_pImpl->exitCode = pThreadImpl->entry(&context);
 
-    int32_t Thread::Implement::_ExitCode() {
-        if (_IsRunning()) {
-            return -1;
+            context.m_pImpl->lock.Lock();
+            context.m_pImpl->isRunning = false;
+            context.m_pImpl->lock.Unlock();
+            context.m_pImpl->cond.Signal();
         }
-        return exitCode;
-    }
-
-    bool Thread::Implement::_StopQueried() {
-        Mutex::AutoLock _l(lock);
-        return stopQueried;
+        return 0;
     }
 
 }
 
 #endif // __MWL_WIN__
+

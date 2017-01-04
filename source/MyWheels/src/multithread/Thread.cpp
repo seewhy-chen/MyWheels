@@ -3,53 +3,62 @@
 
 namespace mwl {
 
-    ThreadID::ThreadID() : m_pImpl(new Implement()) {}
-
-    ThreadID::ThreadID(const ThreadID &rhs) : m_pImpl(new Implement()) {
-        *m_pImpl = *rhs.m_pImpl;
+    ThreadID::ThreadID() {
+        pid = tid = -1;
     }
 
-    ThreadID& ThreadID::operator=(const ThreadID &rhs) {
+    ThreadID::ThreadID(const ThreadID &rhs) {
+        pid = rhs.pid;
+        tid = rhs.tid;
+    }
+
+    ThreadID &ThreadID::operator=(const ThreadID &rhs) {
         if (this != &rhs) {
-            *m_pImpl = *rhs.m_pImpl;
+            pid = rhs.pid;
+            tid = rhs.tid;
         }
         return *this;
     }
 
-    ThreadID::~ThreadID() {
-        delete m_pImpl;
-    }
-
-    uint32_t ThreadID::PID() const {
-        return m_pImpl->pid;
-    }
-
-    uint32_t ThreadID::TID() const {
-        return m_pImpl->tid;
-    }
-
     bool ThreadID::operator==(const ThreadID &rhs) const {
-        return this == &rhs || (m_pImpl->pid == rhs.m_pImpl->pid && m_pImpl->tid == rhs.m_pImpl->tid);
+        return this == &rhs || (pid == rhs.pid && tid == rhs.tid);
     }
 
-    Thread::Thread() : m_pImpl(new Implement()) {
-        m_pImpl->pThread = this;
+    Thread::Thread(const char *tag) : m_pImpl(new Implement()) {
+        SetTag(tag);
     }
 
     Thread::~Thread() {
         delete m_pImpl;
     }
 
-    void Thread::SetTag(const char *tag) {
-        if (tag) {
-            m_pImpl->tag = tag;
-        } else {
-            m_pImpl->tag.clear();
-        }
+    int32_t Thread::SetTag(const char *tag) {
+        return m_pImpl->_SetTag(tag);
     }
 
-    int32_t Thread::Start(int32_t timeoutInMs) {
-        return m_pImpl->_Start(timeoutInMs);
+    static int32_t _SimpleThreadWrapper(ThreadContext *pControllee) {
+        SimpleThreadEntry *entry = reinterpret_cast<SimpleThreadEntry *>(pControllee->SharedData());
+        return (*entry)();
+    }
+
+    int32_t Thread::Start(SimpleThreadEntry simpleEntry) {
+        return Start(simpleEntry, -1);
+    }
+
+    int32_t Thread::Start(SimpleThreadEntry simpleEntry, int32_t timeoutInMs) {
+        return m_pImpl->_Start(_SimpleThreadWrapper, &simpleEntry, timeoutInMs);
+    }
+
+    int32_t Thread::Start(ThreadEntry entry) {
+        return m_pImpl->_Start(entry, NULL, -1);
+    }
+
+    int32_t Thread::Start(ThreadEntry entry, void *pSharedData) {
+        return m_pImpl->_Start(entry, pSharedData, -1);
+    }
+
+    int32_t Thread::Start(ThreadEntry entry, void *pSharedData, int32_t timeoutInMs) {
+        return m_pImpl->_Start(entry, pSharedData, timeoutInMs);
     }
 
     int32_t Thread::Stop(int32_t timeoutInMs) {
@@ -64,12 +73,16 @@ namespace mwl {
         return m_pImpl->_QueryToStop();
     }
 
-    const ThreadID& Thread::Parent() const {
-        return m_pImpl->_Parent();
+    void *Thread::SharedData() {
+        return m_pImpl->_SharedData();
     }
 
-    const ThreadID& Thread::Self() const {
-        return m_pImpl->_Self();
+    const ThreadID &Thread::ParentID() const {
+        return m_pImpl->_ParentID();
+    }
+
+    const ThreadID &Thread::SelfID() const {
+        return m_pImpl->_SelfID();
     }
 
     const char *Thread::Tag() const {
@@ -84,12 +97,43 @@ namespace mwl {
         return m_pImpl->_ExitCode();
     }
 
-    bool Thread::StopQueried() const {
-        return m_pImpl->_StopQueried();
+    Thread* StartThread(SimpleThreadEntry simpleEntry) {
+        return StartThread(simpleEntry, NULL, -1);
     }
 
-    Thread* CreateThread(ThreadEntry entry, void *pThreadData) {
-        return NULL;
+    Thread* StartThread(SimpleThreadEntry simpleEntry, const char *tag) {
+        return StartThread(simpleEntry, tag, -1);
     }
 
+    Thread* StartThread(SimpleThreadEntry simpleEntry, const char *tag, int32_t timeoutInMs) {
+        Thread *pThread = new Thread(tag);
+        int32_t ret = pThread->Start(simpleEntry, timeoutInMs);
+        if (ret != ERR_NONE) {
+            delete pThread;
+            pThread = NULL;
+        }
+        return pThread;
+    }
+
+    Thread* StartThread(ThreadEntry entry) {
+        return StartThread(entry, NULL, NULL, -1);
+    }
+
+    Thread* StartThread(ThreadEntry entry, void *pSharedData) {
+        return StartThread(entry, pSharedData, NULL, -1);
+    }
+
+    Thread* StartThread(ThreadEntry entry, void *pSharedData, const char *tag) {
+        return StartThread(entry, pSharedData, tag, -1);
+    }
+
+    Thread* StartThread(ThreadEntry entry, void *pSharedData, const char *tag, int32_t timeoutInMs) {
+        Thread *pThread = new Thread(tag);
+        int32_t ret = pThread->Start(entry, pSharedData, timeoutInMs);
+        if (ret != ERR_NONE) {
+            delete pThread;
+            pThread = NULL;
+        }
+        return pThread;
+    }
 }

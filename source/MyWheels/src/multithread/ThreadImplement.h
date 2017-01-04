@@ -4,68 +4,77 @@
 #include "inc/Thread.h"
 #include "inc/Mutex.h"
 #include "inc/Condition.h"
+
 #include "InternalCommon.h"
+#include "ThreadImplement.h"
+#include "ThreadContextImplement.h"
 
 #include <string>
 
 namespace mwl {
 
-    struct ThreadID::Implement {
-#ifdef __MWL_WIN__
-        DWORD pid;
-        DWORD tid;
-#else
-        pid_t pid;
-        pthread_t tid;
-#endif
-        Implement() {
-            pid = -1;
-            tid = -1;
-        }
-    };
-
     struct Thread::Implement {
-        Implement();
-        ~Implement();
-        int32_t _Start(int32_t timeoutInMs);
-        int32_t _Stop(int32_t timeoutInMs);
-        int32_t _Join(int32_t timeoutInMs);
-        void _QueryToStop();
-        bool _IsRunning();
-        int32_t _ExitCode();
-
-        bool _StopQueried();
-
-        inline const ThreadID& _Parent() {
-            return parentID;
+        inline int32_t _SetTag(const char* tag) {
+            if (tag) {
+                context.m_pImpl->tag = tag;
+            } else {
+                context.m_pImpl->tag.clear();
+            }
+            return ERR_NONE;
         }
 
-        inline const ThreadID& _Self() {
-            return selfID;
+        int32_t _Stop(int32_t timeoutInMs) {
+            if (!_IsRunning()) {
+                return 0;
+            }
+            _QueryToStop();
+            return _Join(timeoutInMs);
+        }
+
+        inline void _QueryToStop() {
+            return context.QueryToStop();
+        }
+
+        inline void *_SharedData() {
+            return context.SharedData();
+        }
+
+        inline const ThreadID &_ParentID() {
+            return context.ParentID();
+        }
+
+        inline const ThreadID &_SelfID() {
+            return context.SelfID();
         }
 
         inline const char *_Tag() {
-            return tag.c_str();
+            return context.Tag();
         }
 
+        inline bool _IsRunning() {
+            Mutex::AutoLock _l(context.m_pImpl->lock);
+            return context.m_pImpl->isRunning;
+        }
+
+        inline int32_t _ExitCode() {
+            Mutex::AutoLock _l(context.m_pImpl->lock);
+            if (context.m_pImpl->isRunning) {
+                return ERR_INVAL_OP;
+            } else {
+                return context.m_pImpl->exitCode;
+            }
+        }
+
+        int32_t _Start(ThreadEntry entry, void *pSharedData, int32_t timeoutInMs);
+        int32_t _Join(int32_t timeoutInMs);
+
+        ThreadContext context;
+        ThreadEntry entry;
 #ifdef __MWL_WIN__
         HANDLE threadHdl;
-#else
 #endif
-
-        Thread *pThread;
-        ThreadID parentID;
-        ThreadID selfID;
-        std::string tag;
-
-        Mutex lock;
-        Condition cond;
-
-        int32_t exitCode;
-        bool stopQueried;
-        bool isRunning;
     };
 
 }
 
-#endif
+#endif // __MWL_THREAD_IMPLEMENT_H__

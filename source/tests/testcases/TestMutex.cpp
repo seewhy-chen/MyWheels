@@ -7,32 +7,30 @@ using namespace mwl;
 
 #include <string>
 
-struct MutexThread : public Thread {
-    Mutex &mutex;
-    MutexThread(const char *tag, Mutex &mutex_) : mutex(mutex_) {
-        SetTag(tag);
-    }
-
-    int32_t Entry() {
-        MWL_INFO("%s started", Tag());
-        TimeSleep(500);
-        mutex.Lock();
-        MWL_INFO("%s got the mutex", Tag());
-        TimeSleep(500);
-        mutex.Unlock();
-        MWL_INFO("%s stopped", Tag());
-        return 0;
-    }
-};
+int32_t MutexTester(ThreadContext *pCtx) {
+    Mutex *pMutex = reinterpret_cast<Mutex*>(pCtx->SharedData());
+    MWL_INFO("%s started", pCtx->Tag());
+    TimeSleep(500);
+    pMutex->Lock();
+    MWL_INFO("%s got the mutex", pCtx->Tag());
+    TimeSleep(500);
+    pMutex->Unlock();
+    MWL_INFO("%s stopped", pCtx->Tag());
+    return 0;
+}
 
 void TestMutex() {
     MWL_INFO("TestMutex started");
 
     Mutex mutex;
-    MutexThread t1("t1", mutex), t2("t2", mutex), t3("t3", mutex);
-    t1.Start();
-    t2.Start();
-    t3.Start();
+    Thread t1, t2, t3;
+    t1.SetTag("t1");
+    t2.SetTag("t2");
+    t3.SetTag("t3");
+
+    t1.Start(MutexTester, &mutex);
+    t2.Start(MutexTester, &mutex);
+    t3.Start(MutexTester, &mutex);
 
     t1.Join();
     t2.Join();

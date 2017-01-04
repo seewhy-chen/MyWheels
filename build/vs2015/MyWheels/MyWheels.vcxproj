@@ -22,6 +22,7 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\BasicDefines.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Condition.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Mutex.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Semaphore.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\StaticAssert.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Thread.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\TimeCounter.h" />
@@ -30,6 +31,8 @@
     <ClInclude Include="..\..\..\source\MyWheels\src\InternalCommon.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\MutexImplement.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement.h" />
   </ItemGroup>
   <ItemGroup>
@@ -43,7 +46,12 @@
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Mutex.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Linux.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Win.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Semaphore.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement_Linux.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement_Win.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Thread.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadContext.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Linux.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Win.cpp" />
   </ItemGroup>

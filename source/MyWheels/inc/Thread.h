@@ -3,52 +3,79 @@
 
 #include "inc/BasicDefines.h"
 
+#ifdef __MWL_LINUX__
+#include <pthread.h>
+#endif
+
 namespace mwl {
 
     struct MWL_API ThreadID {
         ThreadID();
         ThreadID(const ThreadID &rhs);
         ThreadID& operator=(const ThreadID &rhs);
-        ~ThreadID();
-
-        uint32_t PID() const;
-        uint32_t TID() const;
         bool operator==(const ThreadID &rhs) const;
 
-        struct Implement;
-        Implement *m_pImpl;
-    };
-
-    class MWL_API Thread : private NonCopyable {
-    public:
-        Thread();
-        ~Thread();
-        
-        void SetTag(const char *tag);
-        virtual int32_t Entry() = 0;
-
-        int32_t Start(int32_t timeoutInMs = -1);
-        int32_t Stop(int32_t timeoutInMs = -1);
-        int32_t Join(int32_t timeoutInMs = -1);
-        void QueryToStop();
-
-        const ThreadID& Parent() const;
-        const ThreadID& Self() const;
-        const char *Tag() const;
-        bool IsRunning() const;
-        int32_t ExitCode() const;
-        bool StopQueried() const;
-
-    public:
-        struct Implement;
-    private:
-        Implement *m_pImpl;
+        unsigned long pid;
+        unsigned long tid;
     };
 
     MWL_API void GetCurrentThreadID(ThreadID &threadID);
 
-    typedef void(*ThreadEntry)(Thread* pThread, void *pThreadData);
-    MWL_API Thread* CreateThread(ThreadEntry entry, void *pThreadData);
+    class MWL_API ThreadContext : private NonCopyable {
+    public:
+        ThreadContext();
+        ~ThreadContext();
+        void QueryToStop();
+        void *SharedData();
+        bool StopQueried() const;
+        const ThreadID& ParentID() const;
+        const ThreadID& SelfID() const;
+        const char *Tag() const;
+
+        struct Implement;
+        Implement *m_pImpl;
+    };
+
+    typedef int32_t (*SimpleThreadEntry)();
+    typedef int32_t (*ThreadEntry)(ThreadContext *pContext);
+
+    class MWL_API Thread : private NonCopyable {
+    public:
+        explicit Thread(const char *tag = NULL);
+        ~Thread();
+        int32_t SetTag(const char *tag);
+        int32_t Start(SimpleThreadEntry simpleEntry);
+        int32_t Start(SimpleThreadEntry simpleEntry, int32_t timeoutInMs);
+        int32_t Start(ThreadEntry entry);
+        int32_t Start(ThreadEntry entry, void *pSharedData);
+        int32_t Start(ThreadEntry entry, void *pSharedData, int32_t timeoutInMs);
+        int32_t Stop(int32_t timeoutInMs = -1);
+        int32_t Join(int32_t timeoutInMs = -1);
+
+        void QueryToStop();
+        void *SharedData();
+        const ThreadID& ParentID() const;
+        const ThreadID& SelfID() const;
+        const char *Tag() const;
+        bool IsRunning() const;
+        int32_t ExitCode() const;
+
+        struct Implement; 
+
+    private:
+        Implement *m_pImpl;
+    };
+
+    // TODO: wrap following return value with shared_ptr
+    Thread* StartThread(SimpleThreadEntry simpleEntry);
+    Thread* StartThread(SimpleThreadEntry simpleEntry, const char *tag);
+    Thread* StartThread(SimpleThreadEntry simpleEntry, const char *tag, int32_t timeoutInMs);
+
+    Thread* StartThread(ThreadEntry entry);
+    Thread* StartThread(ThreadEntry entry, void *pSharedData);
+    Thread* StartThread(ThreadEntry entry, void *pSharedData, const char *tag);
+    Thread* StartThread(ThreadEntry entry, void *pSharedData, const char *tag, int32_t timeoutInMs);
+
 }
 
 #endif

@@ -8,7 +8,7 @@
 #ifdef _MSC_VER
 
     #define __MWL_WIN__
-    #include <winerror.h>
+    #include <Windows.h>
 
     #if defined(MWL_MAKE_SHARED_LIB)
         #define MWL_API  __declspec(dllexport)
@@ -94,6 +94,8 @@ namespace mwl {
         ERR_BUSY = -EBUSY,
         ERR_INVAL_PARAM = -EINVAL,
         ERR_TIMEOUT = -ETIMEDOUT,
+
+        ERR_INVAL_OP = -0x10000L,
     };
 
 

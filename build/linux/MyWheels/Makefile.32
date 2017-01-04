@@ -49,6 +49,11 @@ OBJECTS = \
 	$(OBJ_DIR)/SemaphoreImplement_Linux.o\
 	$(OBJ_DIR)/SemaphoreImplement_Win.o\
 	$(OBJ_DIR)/Thread.o\
+	$(OBJ_DIR)/ThreadContext.o\
+	$(OBJ_DIR)/ThreadContextImplement.o\
+	$(OBJ_DIR)/ThreadController.o\
+	$(OBJ_DIR)/ThreadControllerImplement_Linux.o\
+	$(OBJ_DIR)/ThreadControllerImplement_Win.o\
 	$(OBJ_DIR)/ThreadImplement_Linux.o\
 	$(OBJ_DIR)/ThreadImplement_Win.o
 
@@ -96,6 +101,16 @@ $(OBJ_DIR)/SemaphoreImplement_Win.o : ../../../source/MyWheels/src/multithread/S
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/SemaphoreImplement_Win.o ../../../source/MyWheels/src/multithread/SemaphoreImplement_Win.cpp
 $(OBJ_DIR)/Thread.o : ../../../source/MyWheels/src/multithread/Thread.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Thread.o ../../../source/MyWheels/src/multithread/Thread.cpp
+$(OBJ_DIR)/ThreadContext.o : ../../../source/MyWheels/src/multithread/ThreadContext.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ThreadContext.o ../../../source/MyWheels/src/multithread/ThreadContext.cpp
+$(OBJ_DIR)/ThreadContextImplement.o : ../../../source/MyWheels/src/multithread/ThreadContextImplement.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ThreadContextImplement.o ../../../source/MyWheels/src/multithread/ThreadContextImplement.cpp
+$(OBJ_DIR)/ThreadController.o : ../../../source/MyWheels/src/multithread/ThreadController.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ThreadController.o ../../../source/MyWheels/src/multithread/ThreadController.cpp
+$(OBJ_DIR)/ThreadControllerImplement_Linux.o : ../../../source/MyWheels/src/multithread/ThreadControllerImplement_Linux.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ThreadControllerImplement_Linux.o ../../../source/MyWheels/src/multithread/ThreadControllerImplement_Linux.cpp
+$(OBJ_DIR)/ThreadControllerImplement_Win.o : ../../../source/MyWheels/src/multithread/ThreadControllerImplement_Win.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ThreadControllerImplement_Win.o ../../../source/MyWheels/src/multithread/ThreadControllerImplement_Win.cpp
 $(OBJ_DIR)/ThreadImplement_Linux.o : ../../../source/MyWheels/src/multithread/ThreadImplement_Linux.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ThreadImplement_Linux.o ../../../source/MyWheels/src/multithread/ThreadImplement_Linux.cpp
 $(OBJ_DIR)/ThreadImplement_Win.o : ../../../source/MyWheels/src/multithread/ThreadImplement_Win.cpp

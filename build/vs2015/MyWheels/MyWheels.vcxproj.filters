@@ -27,6 +27,9 @@
     <Filter Include="src\multithread\thread">
       <UniqueIdentifier>{007e8e60-df2d-4dc0-82ce-ec302f9165e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\multithread\semaphore">
+      <UniqueIdentifier>{35fd8314-0b6f-4283-9100-6a482f149550}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\MyWheels\inc\BasicDefines.h">
@@ -64,6 +67,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement.h">
       <Filter>src\multithread\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Semaphore.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.h">
+      <Filter>src\multithread\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement.h">
+      <Filter>src\multithread\semaphore</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +117,21 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Win.cpp">
       <Filter>src\multithread\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadContext.cpp">
+      <Filter>src\multithread\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.cpp">
+      <Filter>src\multithread\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Semaphore.cpp">
+      <Filter>src\multithread\semaphore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement_Linux.cpp">
+      <Filter>src\multithread\semaphore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement_Win.cpp">
+      <Filter>src\multithread\semaphore</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -8,32 +8,38 @@ using namespace mwl;
 
 #include <string>
 
-struct ConditionThread : public Thread {
+struct ConditionTest {
     Condition &cond;
     Mutex &mutex;
-    ConditionThread(const char *tag, Condition &cond_, Mutex &mutex_) : cond(cond_), mutex(mutex_) {
-        SetTag(tag);
-    }
-    int32_t Entry() {
-        MWL_INFO("%s started", Tag());
-        Mutex::AutoLock _l(mutex);
-        if (cond.Wait(mutex, 1000) == ERR_TIMEOUT) {
-            MWL_INFO("%s wait cond timeout", Tag()); 
-        }
-        MWL_INFO("%s stopped", Tag());
-        return 0;
+    ConditionTest(Condition &cond_, Mutex &mutex_) : cond(cond_), mutex(mutex_) {
     }
 };
+
+int32_t Entry(ThreadContext *pCtx) {
+    ConditionTest *pTest = reinterpret_cast<ConditionTest*>(pCtx->SharedData());
+    MWL_INFO("%s started", pCtx->Tag());
+    Mutex::AutoLock _l(pTest->mutex);
+    if (pTest->cond.Wait(pTest->mutex, 1000) == ERR_TIMEOUT) {
+        MWL_INFO("%s wait cond timeout", pCtx->Tag()); 
+    }
+    MWL_INFO("%s stopped", pCtx->Tag());
+    return 0;
+}
+
 
 void TestCondition() {
     MWL_INFO("TestCondition started");
 
     Condition cond;
     Mutex mutex;
-    ConditionThread t1("t1", cond, mutex), t2("t2", cond, mutex), t3("t3", cond, mutex);
-    t1.Start();
-    t2.Start();
-    t3.Start();
+    ConditionTest t1(cond, mutex), t2(cond, mutex), t3(cond, mutex);
+    Thread thread1, thread2, thread3;
+    thread1.SetTag("t1");
+    thread2.SetTag("t2");
+    thread3.SetTag("t3");
+    thread1.Start(Entry, &t1);
+    thread2.Start(Entry, &t2);
+    thread3.Start(Entry, &t3);
 
     TimeSleep(500);
     cond.Signal();
@@ -43,9 +49,9 @@ void TestCondition() {
     cond.Broadcast();
     MWL_INFO("broadcasted");
 
-    t1.Join();
-    t2.Join();
-    t3.Join();
+    thread1.Join();
+    thread2.Join();
+    thread3.Join();
 
     MWL_INFO("TestCondition done\n");
 }
