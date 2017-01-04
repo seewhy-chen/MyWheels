@@ -1,9 +1,9 @@
 Here's something TODO:
 
 # Concurrency
-* Conditon Variable
-* Semphor
-* Thread
+* Conditon Variable -- done
+* Semaphore -- done
+* Thread -- done
 * ThreadPool
 * Process
 
@@ -36,4 +36,4 @@ Here's something TODO:
 * Calendar
 
 # Misc
-* Smart pointer
+* Smart pointer -- done
