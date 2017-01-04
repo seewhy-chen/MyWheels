@@ -97,42 +97,40 @@ namespace mwl {
         return m_pImpl->_ExitCode();
     }
 
-    Thread* StartThread(SimpleThreadEntry simpleEntry) {
+    SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry) {
         return StartThread(simpleEntry, NULL, -1);
     }
 
-    Thread* StartThread(SimpleThreadEntry simpleEntry, const char *tag) {
+    SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag) {
         return StartThread(simpleEntry, tag, -1);
     }
 
-    Thread* StartThread(SimpleThreadEntry simpleEntry, const char *tag, int32_t timeoutInMs) {
-        Thread *pThread = new Thread(tag);
+    SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag, int32_t timeoutInMs) {
+        SharedPtr<Thread> pThread(new Thread(tag));
         int32_t ret = pThread->Start(simpleEntry, timeoutInMs);
         if (ret != ERR_NONE) {
-            delete pThread;
-            pThread = NULL;
+            pThread.reset();
         }
         return pThread;
     }
 
-    Thread* StartThread(ThreadEntry entry) {
+    SharedPtr<Thread> StartThread(ThreadEntry entry) {
         return StartThread(entry, NULL, NULL, -1);
     }
 
-    Thread* StartThread(ThreadEntry entry, void *pSharedData) {
+    SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData) {
         return StartThread(entry, pSharedData, NULL, -1);
     }
 
-    Thread* StartThread(ThreadEntry entry, void *pSharedData, const char *tag) {
+    SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const char *tag) {
         return StartThread(entry, pSharedData, tag, -1);
     }
 
-    Thread* StartThread(ThreadEntry entry, void *pSharedData, const char *tag, int32_t timeoutInMs) {
-        Thread *pThread = new Thread(tag);
+    SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const char *tag, int32_t timeoutInMs) {
+        SharedPtr<Thread> pThread(new Thread(tag));
         int32_t ret = pThread->Start(entry, pSharedData, timeoutInMs);
         if (ret != ERR_NONE) {
-            delete pThread;
-            pThread = NULL;
+            pThread.reset();
         }
         return pThread;
     }

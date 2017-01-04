@@ -2,10 +2,7 @@
 #define __MWL_THREAD_H__
 
 #include "inc/BasicDefines.h"
-
-#ifdef __MWL_LINUX__
-#include <pthread.h>
-#endif
+#include "inc/SmartPointer.h"
 
 namespace mwl {
 
@@ -66,15 +63,14 @@ namespace mwl {
         Implement *m_pImpl;
     };
 
-    // TODO: wrap following return value with shared_ptr
-    Thread* StartThread(SimpleThreadEntry simpleEntry);
-    Thread* StartThread(SimpleThreadEntry simpleEntry, const char *tag);
-    Thread* StartThread(SimpleThreadEntry simpleEntry, const char *tag, int32_t timeoutInMs);
+    MWL_API SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry);
+    MWL_API SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag);
+    MWL_API SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag, int32_t timeoutInMs);
 
-    Thread* StartThread(ThreadEntry entry);
-    Thread* StartThread(ThreadEntry entry, void *pSharedData);
-    Thread* StartThread(ThreadEntry entry, void *pSharedData, const char *tag);
-    Thread* StartThread(ThreadEntry entry, void *pSharedData, const char *tag, int32_t timeoutInMs);
+    MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry);
+    MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData);
+    MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const char *tag);
+    MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const char *tag, int32_t timeoutInMs);
 
 }
 
