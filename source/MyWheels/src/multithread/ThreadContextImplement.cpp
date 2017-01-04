@@ -3,6 +3,13 @@
 
 namespace mwl {
 
+    ThreadContext::Implement::Implement() {
+        pSharedData = NULL;
+        exitCode = ERR_INVAL_OP;
+        stopQueried = false;
+        isRunning = false;
+    }
+
     void ThreadContext::Implement::_QueryToStop() {
         Mutex::AutoLock _l(lock);
         stopQueried = true;

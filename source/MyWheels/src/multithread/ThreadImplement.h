@@ -14,6 +14,16 @@
 namespace mwl {
 
     struct Thread::Implement {
+        Implement() {
+#ifdef __MWL_WIN__
+        threadHdl = 0;
+#endif
+        }
+
+        ~Implement() {
+            _Stop(-1);
+        }
+
         inline int32_t _SetTag(const char* tag) {
             if (tag) {
                 context.m_pImpl->tag = tag;

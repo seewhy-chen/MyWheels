@@ -22,6 +22,7 @@ namespace mwl {
         bool stopQueried;
         bool isRunning;
 
+        Implement();
         void _QueryToStop();
         void *_SharedData();
         bool _StopQueried();
