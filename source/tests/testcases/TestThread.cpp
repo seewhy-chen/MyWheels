@@ -27,17 +27,16 @@ void TestThread() {
     ThreadID threadID;
     GetCurrentThreadID(threadID);
 
-    Thread t1, t2, t3;
+    Thread t1, t2;
     t1.SetTag("t1");
     t2.SetTag("t2");
-    t3.SetTag("t3");
     t1.Start(ThreadTester);
     t2.Start(ThreadTester);
-    t3.Start(ThreadTester);
+    SharedPtr<Thread> t3 = StartThread(ThreadTester, NULL, "t3");
 
     t1.Join();
     t2.Join();
-    t3.Join();
+    t3->Join();
 
     MWL_INFO("TestThread done\n");
 }
