@@ -311,6 +311,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\source\tests\testcases\TestByteArray.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\source\tests\testcases\TestCondition.cpp"
 				>
 			</File>

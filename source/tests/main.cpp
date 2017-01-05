@@ -8,6 +8,7 @@ extern void TestThread();
 extern void TestMutex();
 extern void TestCondition();
 extern void TestSemaphore();
+extern void TestByteArray();
 
 int main(int argc, char *argv[]) {
     TestBasicTypes();
@@ -16,6 +17,7 @@ int main(int argc, char *argv[]) {
     TestMutex();
     TestCondition();
     TestSemaphore();
+    TestByteArray();
 
 #ifdef __MWL_WIN__
 	system("pause");

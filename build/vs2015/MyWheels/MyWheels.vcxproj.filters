@@ -30,6 +30,9 @@
     <Filter Include="src\multithread\semaphore">
       <UniqueIdentifier>{35fd8314-0b6f-4283-9100-6a482f149550}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\container">
+      <UniqueIdentifier>{4bc086ef-38d0-4df1-b5f6-a155b46d5c76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\MyWheels\inc\BasicDefines.h">
@@ -78,6 +81,9 @@
       <Filter>src\multithread\semaphore</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\source\MyWheels\inc\SmartPointer.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\ByteArray.h">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>
@@ -135,6 +141,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement_Win.cpp">
       <Filter>src\multithread\semaphore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArray.cpp">
+      <Filter>src\container</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

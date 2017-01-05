@@ -35,6 +35,7 @@ MKDIR = mkdir -p
 first: all
 
 OBJECTS = \
+	$(OBJ_DIR)/ByteArray.o\
 	$(OBJ_DIR)/TimeCounter.o\
 	$(OBJ_DIR)/TimeCounterImplement_Linux.o\
 	$(OBJ_DIR)/TimeCounterImplement_Win.o\
@@ -73,6 +74,8 @@ clean :
 
 rebuild : clean all
 
+$(OBJ_DIR)/ByteArray.o : ../../../source/MyWheels/src/container/ByteArray.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ByteArray.o ../../../source/MyWheels/src/container/ByteArray.cpp
 $(OBJ_DIR)/TimeCounter.o : ../../../source/MyWheels/src/datetime/TimeCounter.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounter.o ../../../source/MyWheels/src/datetime/TimeCounter.cpp
 $(OBJ_DIR)/TimeCounterImplement_Linux.o : ../../../source/MyWheels/src/datetime/TimeCounterImplement_Linux.cpp

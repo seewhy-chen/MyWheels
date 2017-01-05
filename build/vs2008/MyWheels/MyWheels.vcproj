@@ -310,6 +310,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\source\MyWheels\inc\ByteArray.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\source\MyWheels\inc\Condition.h"
 				>
 			</File>
@@ -470,6 +474,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\source\MyWheels\src\datetime\TimeUtils.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="container"
+				>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\container\ByteArray.cpp"
 					>
 				</File>
 			</Filter>

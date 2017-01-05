@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\source\tests\main.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestBasicTypes.cpp" />
+    <ClCompile Include="..\..\..\source\tests\testcases\TestByteArray.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestCondition.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestMutex.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestSemaphore.cpp" />
