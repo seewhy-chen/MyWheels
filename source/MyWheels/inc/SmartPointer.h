@@ -5,6 +5,8 @@
 #include <memory>
 
 namespace mwl {
+
+
 #if defined __CXX_11__
     #define SharedPtr std::shared_ptr
     #define WeakPtr std::weak_ptr

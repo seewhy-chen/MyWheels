@@ -484,6 +484,14 @@
 					RelativePath="..\..\..\source\MyWheels\src\container\ByteArray.cpp"
 					>
 				</File>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\container\ByteArrayImplement.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\container\ByteArrayImplement.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 	</Files>
