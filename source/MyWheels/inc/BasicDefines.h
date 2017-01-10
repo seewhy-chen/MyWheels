@@ -126,6 +126,8 @@ namespace mwl {
         fprintf(stdout, "[Error] " fmt": %s (%d)\n", ##__VA_ARGS__, strerror_r(err, errMsg, sizeof(errMsg)), err); \
     } while (0)
 
+#define MWL_ARR_SIZE(arr) (static_cast<int32_t>(sizeof((arr))/sizeof((arr)[0])))
+
 } // namespace mwl
 
 #endif // __MWL_BASIC_DEFINES_H__
