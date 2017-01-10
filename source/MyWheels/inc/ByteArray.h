@@ -36,9 +36,14 @@ namespace mwl {
         int64_t Size() const;
 
         int64_t Copy(const uint8_t *pData, int64_t dataSize);
+        int64_t Copy(const ByteArray &data, int64_t dataSize, int64_t startPos = 0);
         int64_t Assign(const uint8_t *pData, int64_t dataSize);
+        int64_t Assign(const ByteArray &data, int64_t dataSize, int64_t startPos = 0);
         int64_t Share(uint8_t *pData, int64_t dataSize);
+        int64_t Share(ByteArray &data, int64_t dataSize, int64_t startPos = 0);
         int64_t Takeover(uint8_t *pData, int64_t dataSize);
+        int64_t Takeover(ByteArray &data);
+        int64_t Move(int64_t dst, int64_t src, int64_t dataSize);
 
         void Swap(ByteArray &other);
         void Fill(uint8_t val);

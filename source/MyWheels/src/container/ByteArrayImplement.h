@@ -18,6 +18,7 @@ namespace mwl {
         int64_t _Assign(const uint8_t *pData, int64_t dataSize);
         int64_t _Share(uint8_t *pData, int64_t dataLen);
         int64_t _Takeover(uint8_t *pData, int64_t dataLen);
+        int64_t _Move(int64_t dst, int64_t src, int64_t dataSize);
 
         inline int64_t _Size() { return bufSize; }
         void _Reset(uint8_t *pData = NULL, int64_t dataSize = 0);

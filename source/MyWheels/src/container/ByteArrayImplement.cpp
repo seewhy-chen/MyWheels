@@ -1,6 +1,5 @@
+#include "InternalCommon.h"
 #include "ByteArrayImplement.h"
-
-#include <algorithm> // for std::min
 
 namespace mwl {
 
@@ -72,7 +71,7 @@ namespace mwl {
 
     int64_t ByteArray::Implement::_Copy(const uint8_t *pData, int64_t dataSize) {
         if (pData && dataSize > 0) {
-            int64_t dataCanCopy = std::min<int64_t>(dataSize, bufSize);
+            int64_t dataCanCopy = std::min(dataSize, bufSize);
             memcpy(pBuf, pData, static_cast<size_t>(dataCanCopy));
             return dataCanCopy;
         } else {
@@ -110,8 +109,24 @@ namespace mwl {
         return bufSize;
     }
 
+    int64_t ByteArray::Implement::_Move(int64_t dst, int64_t src, int64_t dataSize) {
+        if (src < 0 || src >= bufSize || dst < 0 || dst >= bufSize) {
+            return ERR_INVAL_PARAM;
+        }
+        if (src == dst) {
+            return 0;
+        }
+        int64_t dataCanMove = std::min(bufSize - dst, std::min(bufSize - src, dataSize));
+        memmove(pBuf + dst, pBuf + src, static_cast<size_t>(dataCanMove));
+        return dataCanMove;
+    }
+
     void ByteArray::Implement::_Reset(uint8_t *pData, int64_t dataSize) {
-        if (pData != pBuf) {
+        if (!pData || dataSize <= 0) {
+            pData = NULL;
+            dataSize = 0;
+        }
+        if (pBuf != pData) {
             if (!shared) {
                 delete[] pBuf;
             }
