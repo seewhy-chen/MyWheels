@@ -128,6 +128,12 @@ namespace mwl {
 
 #define MWL_ARR_SIZE(arr) (static_cast<int32_t>(sizeof((arr))/sizeof((arr)[0])))
 
+    enum OwnerShip {
+        OWN_COPY,
+        OWN_SHARE,
+        OWN_TAKEOVER,
+    };
+
 } // namespace mwl
 
 #endif // __MWL_BASIC_DEFINES_H__

@@ -2,30 +2,61 @@
 #define __MWL_BYTE_ARRAY_IMPLEMENT_H__
 
 #include "inc/ByteArray.h"
+#include "inc/SmartPointer.h"
 
 namespace mwl {
 
+    struct RawMemoryManager {
+        uint8_t *pBuf;
+        int32_t bufSize;
+        bool shared;
+        RawMemoryManager() {
+            pBuf = NULL;
+            bufSize = 0;
+            shared = false;
+        }
+
+        ~RawMemoryManager() {
+            Reset();
+        }
+
+        void Reset(uint8_t *pBuf_ = NULL, int32_t bufSize_ = 0, bool shared_ = false) {
+            if (pBuf != pBuf_) {
+                if (!shared) {
+                    delete[] pBuf;
+                }
+                pBuf = pBuf_;
+                bufSize = bufSize_;
+                shared = shared_;
+            }
+        }
+    };
+
     struct ByteArray::Implement  {
-        Implement(int64_t initSize, uint8_t initVal);
-        Implement(uint8_t *pData, int64_t dataSize, OwnerShip ownership);
+        Implement(int32_t initSize, uint8_t initVal);
+        Implement(uint8_t *pData, int32_t dataSize, OwnerShip ownership);
         Implement(const Implement &rhs);
         ~Implement();
-        uint8_t* _Begin();
-        uint8_t* _End();
-        uint8_t& _ElementAt(int64_t idx);
+        uint8_t *_Begin();
+        uint8_t *_End();
+        uint8_t &_ElementAt(int32_t idx);
         void _Fill(uint8_t val);
-        int64_t _Copy(const uint8_t *pData, int64_t dataSize);
-        int64_t _Assign(const uint8_t *pData, int64_t dataSize);
-        int64_t _Share(uint8_t *pData, int64_t dataLen);
-        int64_t _Takeover(uint8_t *pData, int64_t dataLen);
-        int64_t _Move(int64_t dst, int64_t src, int64_t dataSize);
+        int32_t _Copy(const uint8_t *pSrc, int32_t srcLen, int32_t copyStartPos, int32_t copyLen);
+        int32_t _Assign(const uint8_t *pSrc, int32_t srcLen, int32_t assignStartPos, int32_t assignLen);
+        int32_t _Share(uint8_t *pSrc, int32_t srcLen, int32_t shareStartPos, int32_t shareLen);
+        int32_t _Takeover(uint8_t *pData, int32_t dataLen);
+        int32_t _Move(int32_t dst, int32_t src, int32_t dataSize);
+        void _Reset();
 
-        inline int64_t _Size() { return bufSize; }
-        void _Reset(uint8_t *pData = NULL, int64_t dataSize = 0);
+        inline int32_t _Size() {
+            return arrSize;
+        }
 
-        uint8_t* pBuf;
-        int64_t bufSize;
-        bool shared;
+
+        SharedPtr<RawMemoryManager> rawMem;
+        uint8_t *pArray;
+        int32_t arrStartPos;
+        int32_t arrSize;
     };
 
 }

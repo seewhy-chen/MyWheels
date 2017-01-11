@@ -4,135 +4,170 @@
 namespace mwl {
 
     static uint8_t s_dummy = 0;
-    ByteArray::Implement::Implement(int64_t initSize, uint8_t initVal) {
-        pBuf = NULL;
-        bufSize = 0;
-        shared = false;
+    ByteArray::Implement::Implement(int32_t initSize, uint8_t initVal)
+        : rawMem(new RawMemoryManager()), pArray(NULL), arrStartPos(0), arrSize(0) {
         if (initSize > 0) {
-            bufSize = initSize;
-            pBuf = new uint8_t[static_cast<size_t>(bufSize)];
-            memset(pBuf, initVal, static_cast<size_t>(bufSize));
+            rawMem->pBuf = new uint8_t[arrSize];
+            rawMem->bufSize = initSize;
+            memset(rawMem->pBuf, initVal, arrSize);
+            arrSize = initSize;
+            pArray = rawMem->pBuf + arrStartPos;
         }
     }
 
-    ByteArray::Implement::Implement(uint8_t *pData, int64_t dataSize, OwnerShip ownership) {
-        pBuf = NULL;
-        bufSize = 0;
-        shared = false;
+    ByteArray::Implement::Implement(uint8_t *pData, int32_t dataSize, OwnerShip ownership)
+        : rawMem(new RawMemoryManager()), pArray(NULL), arrStartPos(0), arrSize(0) {
         if (pData && dataSize > 0) {
             switch (ownership) {
             case OWN_TAKEOVER:
             case OWN_SHARE: {
-                    pBuf = pData;
-                    shared = (OWN_SHARE == ownership);
+                    rawMem->pBuf = pData;
+                    rawMem->bufSize = dataSize;
+                    rawMem->shared = (OWN_SHARE == ownership);
                 }
                 break;
             case OWN_COPY: {
-                    pBuf = new uint8_t[static_cast<size_t>(dataSize)];
-                    memcpy(pBuf, pData, static_cast<size_t>(dataSize));
+                    rawMem->pBuf = new uint8_t[dataSize];
+                    rawMem->bufSize = dataSize;
+                    memcpy(rawMem->pBuf, pData, dataSize);
                 }
                 break;
             }
-            bufSize = dataSize;
+            pArray = rawMem->pBuf;
+            arrSize = dataSize;
         }
     }
 
-    ByteArray::Implement::Implement(const ByteArray::Implement &rhs) {
-        bufSize = 0;
-        if (rhs.bufSize > 0 && rhs.pBuf) {
-            memcpy(pBuf, rhs.pBuf, static_cast<size_t>(rhs.bufSize));
-            bufSize = rhs.bufSize;
+    ByteArray::Implement::Implement(const ByteArray::Implement &rhs)
+        : rawMem(new RawMemoryManager()), pArray(NULL), arrStartPos(0), arrSize(0) {
+        if (rhs.arrSize > 0 && rhs.rawMem && rhs.rawMem->pBuf) {
+            rawMem->pBuf = new uint8_t[rhs.arrSize];
+            rawMem->bufSize = rhs.arrSize;
+            memcpy(rawMem->pBuf, rhs.pArray, rhs.arrSize);
+            pArray = rawMem->pBuf;
+            arrSize = rhs.arrSize;
         }
     }
 
     ByteArray::Implement::~Implement() {
-        _Reset();
     }
 
     uint8_t *ByteArray::Implement::_Begin() {
-        return bufSize > 0 ? pBuf : NULL;
+        return arrSize > 0 ? pArray : NULL;
     }
 
     uint8_t *ByteArray::Implement::_End() {
-        return bufSize > 0 ? pBuf + bufSize : NULL;
+        return arrSize > 0 ? pArray + arrSize : NULL;
     }
 
-    uint8_t &ByteArray::Implement::_ElementAt(int64_t idx) {
-        if (0 <= idx && idx < bufSize) {
-            return pBuf[idx];
+    uint8_t &ByteArray::Implement::_ElementAt(int32_t idx) {
+        if (0 <= idx && idx < arrSize) {
+            return pArray[idx];
         } else {
             return s_dummy;
         }
     }
 
     void ByteArray::Implement::_Fill(uint8_t val) {
-        memset(pBuf, val, static_cast<size_t>(bufSize));
+        if (pArray && arrSize > 0) {
+            memset(pArray, val, arrSize);
+        }
     }
 
-    int64_t ByteArray::Implement::_Copy(const uint8_t *pData, int64_t dataSize) {
-        if (pData && dataSize > 0) {
-            int64_t dataCanCopy = std::min(dataSize, bufSize);
-            memcpy(pBuf, pData, static_cast<size_t>(dataCanCopy));
-            return dataCanCopy;
-        } else {
+    int32_t ByteArray::Implement::_Copy(const uint8_t *pSrc, int32_t srcLen, int32_t copyStartPos, int32_t copyLen) {
+        if (!pSrc || srcLen <= 0) {
+            pSrc = NULL;
+            srcLen = 0;
+        }
+        if (copyStartPos < 0 || copyStartPos >= srcLen || copyLen <= 0) {
             return 0;
         }
-    }
-
-    int64_t ByteArray::Implement::_Assign(const uint8_t *pData, int64_t dataSize) {
-        if (shared) {
-            pBuf = NULL;
-            bufSize = 0;
-            shared = false;
-        }
-
-        if (pData && dataSize > 0) {
-            if (dataSize > bufSize) {
-                _Reset();
-                pBuf = new uint8_t[static_cast<size_t>(dataSize)];
+        size_t dataCanCopy = std::min(arrSize, std::min(srcLen - copyStartPos, copyLen));
+        if (dataCanCopy > 0) {
+            if (pSrc != rawMem->pBuf) {
+                memcpy(pArray, pSrc + copyStartPos, dataCanCopy);
+            } else {
+                memmove(pArray, pSrc + copyStartPos, dataCanCopy);
             }
-            memcpy(pBuf, pData, static_cast<size_t>(dataSize));
-            bufSize = dataSize;
+            return dataCanCopy;
         }
-        return bufSize;
+        return dataCanCopy;
     }
 
-    int64_t ByteArray::Implement::_Share(uint8_t *pData, int64_t dataSize) {
-        _Reset(pData, dataSize);
-        shared = true;
-        return bufSize;
+    int32_t ByteArray::Implement::_Assign(const uint8_t *pSrc, int32_t srcLen, int32_t assignStartPos, int32_t assignLen) {
+        if (!pSrc || srcLen <= 0) {
+            pSrc = NULL;
+            srcLen = 0;
+        }
+        if (assignStartPos < 0 || assignStartPos >= srcLen || assignLen < 0) {
+            return ERR_INVAL_PARAM;
+        }
+
+        size_t dataCanAssign = std::min(srcLen - assignStartPos, assignLen);
+        if (pSrc == rawMem->pBuf) {
+            arrStartPos = assignStartPos;
+        } else {
+            rawMem.reset(new RawMemoryManager());
+            arrSize = 0;
+            arrStartPos = 0;
+            if (dataCanAssign > 0) {
+                rawMem->pBuf = new uint8_t[dataCanAssign];
+                rawMem->bufSize = dataCanAssign;
+                memcpy(rawMem->pBuf, pSrc + assignStartPos, dataCanAssign);
+            }
+        }
+        pArray = rawMem->pBuf + arrStartPos;
+        arrSize = dataCanAssign;
+        return arrSize;
     }
 
-    int64_t ByteArray::Implement::_Takeover(uint8_t *pData, int64_t dataSize) {
-        _Reset(pData, dataSize);
-        shared = false;
-        return bufSize;
+    int32_t ByteArray::Implement::_Share(uint8_t *pSrc, int32_t srcLen, int32_t shareStartPos, int32_t shareLen) {
+        if (!pSrc || srcLen <= 0) {
+            pSrc = NULL;
+            shareLen = 0;
+        }
+        if (shareStartPos < 0 || shareStartPos >= srcLen || shareLen < 0) {
+            return ERR_INVAL_PARAM;
+        }
+        size_t dataCanShare = std::min(srcLen - shareStartPos, shareLen);
+        rawMem->Reset(pSrc, srcLen, true);
+        arrStartPos = shareStartPos;
+        pArray = rawMem->pBuf + arrStartPos;
+        arrSize = dataCanShare;
+        return arrSize;
     }
 
-    int64_t ByteArray::Implement::_Move(int64_t dst, int64_t src, int64_t dataSize) {
-        if (src < 0 || src >= bufSize || dst < 0 || dst >= bufSize) {
+    int32_t ByteArray::Implement::_Takeover(uint8_t *pData, int32_t dataSize) {
+        if (!pData || dataSize <= 0) {
+            pData = NULL;
+            dataSize = 0;
+        }
+        rawMem.reset(new RawMemoryManager());
+        rawMem->pBuf = pData;
+        rawMem->bufSize = dataSize;
+        pArray = rawMem->pBuf;
+        arrStartPos = 0;
+        arrSize = dataSize;
+        return arrSize;
+    }
+
+    int32_t ByteArray::Implement::_Move(int32_t dst, int32_t src, int32_t moveLen) {
+        if (src < 0 || src >= arrSize || dst < 0 || dst >= arrSize) {
             return ERR_INVAL_PARAM;
         }
         if (src == dst) {
             return 0;
         }
-        int64_t dataCanMove = std::min(bufSize - dst, std::min(bufSize - src, dataSize));
-        memmove(pBuf + dst, pBuf + src, static_cast<size_t>(dataCanMove));
+        size_t dataCanMove = std::min(arrSize - dst, std::min(arrSize - src, moveLen));
+        memmove(pArray + dst, pArray + src, dataCanMove);
         return dataCanMove;
     }
 
-    void ByteArray::Implement::_Reset(uint8_t *pData, int64_t dataSize) {
-        if (!pData || dataSize <= 0) {
-            pData = NULL;
-            dataSize = 0;
-        }
-        if (pBuf != pData) {
-            if (!shared) {
-                delete[] pBuf;
-            }
-            pBuf = pData;
-        }
-        bufSize = dataSize;
+    void ByteArray::Implement::_Reset() {
+        rawMem.reset(new RawMemoryManager());
+        pArray = NULL;
+        arrStartPos = 0;
+        arrSize = 0;
     }
 
 }
