@@ -21,6 +21,9 @@ void TestByteArray() {
 
     ByteArray arr2;
     arr2.Share(arr1.Data(), arr1.Size());
+    ByteArray::ConstIterator it = arr2.CBegin();
+    ++it;
+    *it = 13;
     fprintf(stdout, "\nafter arr2 sharing arr1:");
     fprintf(stdout, "\narr2:\t");
     for (int32_t i = 0; i < arr2.Size(); ++i) {

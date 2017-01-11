@@ -37,8 +37,10 @@ namespace mwl {
         Implement(uint8_t *pData, int32_t dataSize, OwnerShip ownership);
         Implement(const Implement &rhs);
         ~Implement();
-        uint8_t *_Begin();
-        uint8_t *_End();
+        const ByteArray::Iterator& _Begin();
+        const ByteArray::ConstIterator& _CBegin();
+        const ByteArray::Iterator& _End();
+        const ByteArray::ConstIterator& _CEnd();
         uint8_t &_ElementAt(int32_t idx);
         void _Fill(uint8_t val);
         int32_t _Copy(const uint8_t *pSrc, int32_t srcLen, int32_t copyStartPos, int32_t copyLen);

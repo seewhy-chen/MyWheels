@@ -91,6 +91,9 @@ namespace mwl {
     ByteArray::ConstIterator::ConstIterator(const ByteArray::ConstIterator &src) {
     }
 
+    ByteArray::ConstIterator::ConstIterator(const ByteArray::Iterator &src) {
+    }
+
     ByteArray::ConstIterator::~ConstIterator() {
     }
 

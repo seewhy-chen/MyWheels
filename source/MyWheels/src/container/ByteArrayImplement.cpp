@@ -52,12 +52,22 @@ namespace mwl {
     ByteArray::Implement::~Implement() {
     }
 
-    uint8_t *ByteArray::Implement::_Begin() {
-        return arrSize > 0 ? pArray : NULL;
+    ByteArray::Iterator s_dummyIt;
+    ByteArray::ConstIterator s_dummyCIt;
+    const ByteArray::Iterator& ByteArray::Implement::_Begin() {
+        return s_dummyIt; 
     }
 
-    uint8_t *ByteArray::Implement::_End() {
-        return arrSize > 0 ? pArray + arrSize : NULL;
+    const ByteArray::ConstIterator& ByteArray::Implement::_CBegin() {
+        return s_dummyCIt; 
+    }
+
+    const ByteArray::Iterator &ByteArray::Implement::_End() {
+        return s_dummyIt;
+    }
+
+    const ByteArray::ConstIterator &ByteArray::Implement::_CEnd() {
+        return s_dummyCIt;
     }
 
     uint8_t &ByteArray::Implement::_ElementAt(int32_t idx) {

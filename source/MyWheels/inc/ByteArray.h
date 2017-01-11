@@ -9,7 +9,7 @@ namespace mwl {
     class MWL_API ByteArray {
     public:
         struct IteratorImplement;
-        struct Iterator {
+        struct MWL_API Iterator {
             Iterator();
             Iterator(const Iterator &src);
             ~Iterator();
@@ -40,9 +40,10 @@ namespace mwl {
             IteratorImplement *m_pImpl;
         };
 
-        struct ConstIterator {
+        struct MWL_API ConstIterator {
             ConstIterator();
             ConstIterator(const ConstIterator &src);
+            ConstIterator(const ByteArray::Iterator &src);
             ~ConstIterator();
             ConstIterator& operator=(const ConstIterator &rhs);
 
@@ -81,12 +82,12 @@ namespace mwl {
         uint8_t operator[](int32_t idx) const;
         uint8_t &operator[](int32_t idx);
 
-        ByteArray::Iterator Begin();
-        ByteArray::ConstIterator Begin() const;
-        ByteArray::ConstIterator CBegin() const;
-        ByteArray::Iterator End();
-        ByteArray::ConstIterator End() const;
-        ByteArray::ConstIterator CEnd() const;
+        const ByteArray::Iterator& Begin();
+        const ByteArray::ConstIterator& Begin() const;
+        const ByteArray::ConstIterator& CBegin() const;
+        const ByteArray::Iterator& End();
+        const ByteArray::ConstIterator& End() const;
+        const ByteArray::ConstIterator& CEnd() const;
 
         uint8_t *Data(int32_t startIdx = 0);
         const uint8_t *Data(int32_t startIdx = 0) const;
