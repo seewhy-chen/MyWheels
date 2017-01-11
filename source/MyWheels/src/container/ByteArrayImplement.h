@@ -59,6 +59,16 @@ namespace mwl {
         int32_t arrSize;
     };
 
+    struct ByteArray::IteratorImplement {
+        IteratorImplement() {
+            pArrImpl = NULL;
+            posInArr = 0;
+        }
+        ByteArray::Implement *pArrImpl;
+        int32_t posInArr;
+    }; 
+
+
 }
 
 #endif // __MWL_BYTE_ARRAY_IMPLEMENT_H__

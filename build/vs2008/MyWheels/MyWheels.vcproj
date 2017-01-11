@@ -492,6 +492,10 @@
 					RelativePath="..\..\..\source\MyWheels\src\container\ByteArrayImplement.h"
 					>
 				</File>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\container\ByteArrayIterator.cpp"
+					>
+				</File>
 			</Filter>
 		</Filter>
 	</Files>

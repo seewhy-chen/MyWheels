@@ -8,6 +8,69 @@ namespace mwl {
 
     class MWL_API ByteArray {
     public:
+        struct IteratorImplement;
+        struct Iterator {
+            Iterator();
+            Iterator(const Iterator &src);
+            ~Iterator();
+            Iterator& operator=(const Iterator &rhs);
+
+            uint8_t& operator*() const;
+            uint8_t* operator->() const;
+
+            Iterator& operator++();
+            Iterator operator++(int32_t);
+
+            Iterator& operator--();
+            Iterator operator--(int32_t);
+
+            Iterator& operator+=(int32_t step);
+            Iterator& operator-=(int32_t step);
+
+            Iterator operator+(int32_t step) const;
+            Iterator operator-(int32_t step) const;
+
+            bool operator<(const Iterator &rhs) const;
+            bool operator>(const Iterator &rhs) const;
+            bool operator<=(const Iterator &rhs) const;
+            bool operator>=(const Iterator &rhs) const;
+            bool operator==(const Iterator &rhs) const;
+            bool operator!=(const Iterator &rhs) const;
+
+            IteratorImplement *m_pImpl;
+        };
+
+        struct ConstIterator {
+            ConstIterator();
+            ConstIterator(const ConstIterator &src);
+            ~ConstIterator();
+            ConstIterator& operator=(const ConstIterator &rhs);
+
+            uint8_t& operator*() const;
+            uint8_t* operator->() const;
+
+            ConstIterator& operator++();
+            ConstIterator operator++(int32_t);
+
+            ConstIterator& operator--();
+            ConstIterator operator--(int32_t);
+
+            ConstIterator& operator+=(int32_t step);
+            ConstIterator& operator-=(int32_t step);
+
+            ConstIterator operator+(int32_t step) const;
+            ConstIterator operator-(int32_t step) const;
+
+            bool operator<(const ConstIterator &rhs) const;
+            bool operator>(const ConstIterator &rhs) const;
+            bool operator<=(const ConstIterator &rhs) const;
+            bool operator>=(const ConstIterator &rhs) const;
+            bool operator==(const ConstIterator &rhs) const;
+            bool operator!=(const ConstIterator &rhs) const;
+
+            IteratorImplement *m_pImpl;
+        };
+
         explicit ByteArray(int32_t initSize = 0, uint8_t initVal = 0);
         explicit ByteArray(uint8_t *pData, int32_t dataSize, OwnerShip ownership = OWN_COPY);
         ByteArray(const uint8_t *pData, int32_t dataSize);
@@ -18,14 +81,17 @@ namespace mwl {
         uint8_t operator[](int32_t idx) const;
         uint8_t &operator[](int32_t idx);
 
-        uint8_t At(int32_t idx) const;
-        uint8_t &At(int32_t idx);
-        uint8_t *Begin();
-        const uint8_t *Begin() const;
-        uint8_t *End();
-        const uint8_t *End() const;
+        ByteArray::Iterator Begin();
+        ByteArray::ConstIterator Begin() const;
+        ByteArray::ConstIterator CBegin() const;
+        ByteArray::Iterator End();
+        ByteArray::ConstIterator End() const;
+        ByteArray::ConstIterator CEnd() const;
+
         uint8_t *Data(int32_t startIdx = 0);
         const uint8_t *Data(int32_t startIdx = 0) const;
+        uint8_t At(int32_t idx) const;
+        uint8_t &At(int32_t idx);
 
         int32_t Copy(const uint8_t *pSrc, int32_t copyLen);
         int32_t Copy(const ByteArray &src);
@@ -46,8 +112,8 @@ namespace mwl {
         bool Empty() const;
         int32_t Size() const;
 
-    private:
         struct Implement;
+    private:
         Implement *m_pImpl;
     };
 

@@ -45,20 +45,41 @@ namespace mwl {
         return m_pImpl->_ElementAt(idx);
     }
 
-    uint8_t *ByteArray::Begin() {
-        return m_pImpl->_Begin();
+    ByteArray::Iterator ByteArray::Begin() {
+        ByteArray::Iterator it;
+        it.m_pImpl->pArrImpl = m_pImpl;
+        it.m_pImpl->posInArr = 0;
+        return it;
     }
 
-    const uint8_t *ByteArray::Begin() const {
-        return m_pImpl->_Begin();
+    ByteArray::ConstIterator ByteArray::Begin() const {
+        return CBegin();
     }
 
-    uint8_t *ByteArray::End() {
-        return m_pImpl->_End();
+    ByteArray::ConstIterator ByteArray::CBegin() const {
+        ByteArray::ConstIterator it;
+        it.m_pImpl->pArrImpl = m_pImpl;
+        it.m_pImpl->posInArr = m_pImpl->arrSize;
+        return it;
     }
 
-    const uint8_t *ByteArray::End() const {
-        return m_pImpl->_End();
+    ByteArray::Iterator ByteArray::End() {
+        ByteArray::Iterator it;
+        it.m_pImpl->pArrImpl = m_pImpl;
+        it.m_pImpl->posInArr = m_pImpl->arrSize;
+        return it;
+    }
+
+    ByteArray::ConstIterator ByteArray::End() const {
+        return CEnd();
+    }
+
+    ByteArray::ConstIterator ByteArray::CEnd() const {
+        ByteArray::ConstIterator it;
+        it.m_pImpl->pArrImpl = m_pImpl;
+        it.m_pImpl->posInArr = m_pImpl->arrSize;
+        return it;
+
     }
 
     uint8_t *ByteArray::Data(int32_t startIdx) {
@@ -158,4 +179,5 @@ namespace mwl {
     void ByteArray::Reset() {
         m_pImpl->_Reset();
     }
+
 }
