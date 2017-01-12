@@ -252,6 +252,36 @@ void TestByteArray() {
     }
     fprintf(stdout, "\n");
 
+    ByteArray arr5(10, 10);
+    arr1.Share(arr5);
+    arr5.Share(*arr4);
+    fprintf(stdout, "\nafter arr1 shares arr5 and arr5 shares arr4:");
+    fprintf(stdout, "\nrawArr:\t");
+    for (int32_t i = 0; i < MWL_ARR_SIZE(rawArr); ++i) {
+        fprintf(stdout, "%d, ", rawArr[i]);
+    }
+    fprintf(stdout, "\narr1:\t");
+    for (int32_t i = 0; i < arr1.Size(); ++i) {
+        fprintf(stdout, "%d, ", arr1[i]);
+    }
+    fprintf(stdout, "\narr2:\t");
+    for (int32_t i = 0; i < arr2.Size(); ++i) {
+        fprintf(stdout, "%d, ", arr2[i]);
+    }
+    fprintf(stdout, "\narr3:\t");
+    for (int32_t i = 0; i < arr3.Size(); ++i) {
+        fprintf(stdout, "%d, ", arr3[i]);
+    }
+    fprintf(stdout, "\narr4:\t");
+    for (int32_t i = 0; i < arr4->Size(); ++i) {
+        fprintf(stdout, "%d, ", arr4->At(i));
+    }
+    fprintf(stdout, "\narr5:\t");
+    for (int32_t i = 0; i < arr5.Size(); ++i) {
+        fprintf(stdout, "%d, ", arr5.At(i));
+    }
+    fprintf(stdout, "\n");
+
     fprintf(stdout, "\n");
     MWL_INFO("TestByteArray done\n");
 }

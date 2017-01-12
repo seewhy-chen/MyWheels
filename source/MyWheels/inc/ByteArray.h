@@ -106,7 +106,7 @@ namespace mwl {
         int32_t Assign(const uint8_t *pSrc, int32_t assignLen);
         int32_t Assign(const ByteArray &src);
         int32_t Share(uint8_t *pSrc, int32_t srcLen);
-        int32_t Share(ByteArray &src);
+        int32_t Share(const ByteArray &src);
         int32_t Takeover(uint8_t *pSrc, int32_t srcLen);
         int32_t Takeover(ByteArray &other);
         int32_t Move(int32_t dst, int32_t src, int32_t dataSize);

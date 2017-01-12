@@ -132,6 +132,9 @@ namespace mwl {
     }
 
     int32_t ByteArray::Copy(const ByteArray &src) {
+        if (this == &src) {
+            return m_pImpl->_Size();
+        }
         return m_pImpl->_Copy(src.m_pImpl->rawMem->pBuf, src.m_pImpl->rawMem->bufSize,
                               src.m_pImpl->arrStartPos, src.m_pImpl->arrSize);
     }
@@ -141,6 +144,9 @@ namespace mwl {
     }
 
     int32_t ByteArray::Assign(const ByteArray &src) {
+        if (this == &src) {
+            return m_pImpl->_Size();
+        }
         return m_pImpl->_Assign(src.m_pImpl->rawMem->pBuf, src.m_pImpl->rawMem->bufSize,
                                 src.m_pImpl->arrStartPos, src.m_pImpl->arrSize);
     }
@@ -149,9 +155,15 @@ namespace mwl {
         return m_pImpl->_Share(pData, dataSize, 0, dataSize);
     }
 
-    int32_t ByteArray::Share(ByteArray &src) {
-        return m_pImpl->_Share(src.m_pImpl->rawMem->pBuf, src.m_pImpl->rawMem->bufSize,
-                               src.m_pImpl->arrStartPos, src.m_pImpl->arrSize);
+    int32_t ByteArray::Share(const ByteArray &src) {
+        if (this != &src) {
+            m_pImpl->rawMem = src.m_pImpl->rawMem;
+            m_pImpl->arrStartPos = src.m_pImpl->arrStartPos;
+            m_pImpl->arrSize = src.m_pImpl->arrSize;
+            m_pImpl->pArray = m_pImpl->rawMem->pBuf + m_pImpl->arrStartPos;
+            m_pImpl->end.m_pImpl->posInArr = m_pImpl->arrSize;
+        }
+        return m_pImpl->_Size();
     }
 
     int32_t ByteArray::Takeover(uint8_t *pSrc, int32_t srcLen) {
@@ -160,10 +172,7 @@ namespace mwl {
 
     int32_t ByteArray::Takeover(ByteArray &other) {
         if (this != &other) {
-            m_pImpl->rawMem = other.m_pImpl->rawMem;
-            m_pImpl->arrStartPos = other.m_pImpl->arrStartPos;
-            m_pImpl->arrSize = other.m_pImpl->arrSize;
-            m_pImpl->pArray = m_pImpl->rawMem->pBuf + m_pImpl->arrStartPos;
+            Share(other);
             other.m_pImpl->_Reset();
         }
         return m_pImpl->_Size();

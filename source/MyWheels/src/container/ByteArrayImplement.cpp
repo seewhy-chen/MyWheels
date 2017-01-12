@@ -7,11 +7,11 @@ namespace mwl {
     ByteArray::Implement::Implement(int32_t initSize, uint8_t initVal)
         : rawMem(new RawMemoryManager()), pArray(nullptr), arrStartPos(0), arrSize(0) {
         if (initSize > 0) {
-            rawMem->pBuf = new uint8_t[arrSize];
+            rawMem->pBuf = new uint8_t[initSize];
+            memset(rawMem->pBuf, initVal, initSize);
             rawMem->bufSize = initSize;
-            memset(rawMem->pBuf, initVal, arrSize);
             arrSize = initSize;
-            pArray = rawMem->pBuf + arrStartPos;
+            pArray = rawMem->pBuf;
         }
         begin.m_pImpl->pArrImpl = this;
         begin.m_pImpl->posInArr = 0;
