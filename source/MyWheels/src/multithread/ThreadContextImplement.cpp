@@ -4,7 +4,7 @@
 namespace mwl {
 
     ThreadContext::Implement::Implement() {
-        pSharedData = NULL;
+        pSharedData = nullptr;
         exitCode = ERR_INVAL_OP;
         stopQueried = false;
         isRunning = false;

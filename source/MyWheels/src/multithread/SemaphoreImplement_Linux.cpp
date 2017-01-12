@@ -11,7 +11,7 @@
 namespace mwl {
 
     Semaphore::Implement::Implement() {
-        s = NULL;
+        s = nullptr;
     }
 
     Semaphore::Implement::~Implement() {
@@ -50,7 +50,7 @@ namespace mwl {
             ret = sem_wait(s);
         } else {
             struct timeval tv;
-            gettimeofday(&tv, NULL);
+            gettimeofday(&tv, nullptr);
             struct timespec ts;
             ts.tv_sec = tv.tv_sec + (tv.tv_usec + timeoutInMs * 1000) / 1000000;
             ts.tv_nsec = ((tv.tv_usec + timeoutInMs * 1000) % 1000000) * 1000;
@@ -87,7 +87,7 @@ namespace mwl {
             if (createdByMe) {
                 sem_unlink(name.c_str());
             }
-            s = NULL;
+            s = nullptr;
             name.clear();
         }
         return ERR_NONE;

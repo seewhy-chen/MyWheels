@@ -10,7 +10,7 @@
 namespace mwl {
 
     Condition::Implement::Implement() {
-        int32_t ret = pthread_cond_init(&cond, NULL);
+        int32_t ret = pthread_cond_init(&cond, nullptr);
         if (ret) {
             MWL_WARN_ERRNO("init cond failed", ret);
         }
@@ -29,7 +29,7 @@ namespace mwl {
             ret = pthread_cond_wait(&cond, &mutex.Impl()->m);
         } else {
             struct timeval tv;
-            gettimeofday(&tv, NULL);
+            gettimeofday(&tv, nullptr);
             struct timespec ts;
             ts.tv_sec = tv.tv_sec + (tv.tv_usec + timeoutInMs * 1000) / 1000000;
             ts.tv_nsec = ((tv.tv_usec + timeoutInMs * 1000) % 1000000) * 1000;

@@ -50,7 +50,7 @@ namespace mwl {
     }
 
     int32_t Thread::Start(ThreadEntry entry) {
-        return m_pImpl->_Start(entry, NULL, -1);
+        return m_pImpl->_Start(entry, nullptr, -1);
     }
 
     int32_t Thread::Start(ThreadEntry entry, void *pSharedData) {
@@ -98,7 +98,7 @@ namespace mwl {
     }
 
     SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry) {
-        return StartThread(simpleEntry, NULL, -1);
+        return StartThread(simpleEntry, nullptr, -1);
     }
 
     SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag) {
@@ -115,11 +115,11 @@ namespace mwl {
     }
 
     SharedPtr<Thread> StartThread(ThreadEntry entry) {
-        return StartThread(entry, NULL, NULL, -1);
+        return StartThread(entry, nullptr, nullptr, -1);
     }
 
     SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData) {
-        return StartThread(entry, pSharedData, NULL, -1);
+        return StartThread(entry, pSharedData, nullptr, -1);
     }
 
     SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const char *tag) {

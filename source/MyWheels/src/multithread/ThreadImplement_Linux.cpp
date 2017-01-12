@@ -27,7 +27,7 @@ namespace mwl {
         context.m_pImpl->pSharedData = pSharedData;
         this->entry = entry;
 
-        if (pthread_create(&context.m_pImpl->selfID.tid, NULL, _ThreadBody, this) != 0) {
+        if (pthread_create(&context.m_pImpl->selfID.tid, nullptr, _ThreadBody, this) != 0) {
             int32_t err = errno;
             MWL_WARN_ERRNO("create thread failed", err);
             return -err;
@@ -54,7 +54,7 @@ namespace mwl {
         pthread_detach(pthread_self());
         Thread::Implement *pThreadImpl = reinterpret_cast<Thread::Implement *>(data);
         if (!pThreadImpl) {
-            MWL_WARN("pThreadImpl is NULL");
+            MWL_WARN("pThreadImpl is nullptr");
         } else {
             ThreadContext &context = pThreadImpl->context;
             context.m_pImpl->lock.Lock();
@@ -70,7 +70,7 @@ namespace mwl {
             context.m_pImpl->lock.Unlock();
             context.m_pImpl->cond.Signal();
         }
-        return NULL;
+        return nullptr;
     }
 }
 

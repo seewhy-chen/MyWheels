@@ -38,7 +38,7 @@ namespace mwl {
 
     class MWL_API Thread : private NonCopyable {
     public:
-        explicit Thread(const char *tag = NULL);
+        explicit Thread(const char *tag = nullptr);
         ~Thread();
         int32_t SetTag(const char *tag);
         int32_t Start(SimpleThreadEntry simpleEntry);

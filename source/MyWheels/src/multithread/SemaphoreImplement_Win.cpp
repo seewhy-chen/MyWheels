@@ -7,7 +7,7 @@
 namespace mwl {
 
     Semaphore::Implement::Implement() {
-        s = NULL;
+        s = nullptr;
         createdByMe = false;
     }
 
@@ -17,7 +17,7 @@ namespace mwl {
 
     int32_t Semaphore::Implement::_Open(const char *name, int32_t initVal) {
         _Close();
-        s = CreateSemaphore(NULL, initVal, 0x7FFFFFFFL, name);
+        s = CreateSemaphore(nullptr, initVal, 0x7FFFFFFFL, name);
         int32_t err = GetLastError();
         if (!s) {
             MWL_WARN_ERRNO("create semaphore %s failed", err, name);
@@ -76,7 +76,7 @@ namespace mwl {
             return ERR_INVAL_PARAM;
         }
 
-        if (!ReleaseSemaphore(s, 1, NULL)) {
+        if (!ReleaseSemaphore(s, 1, nullptr)) {
             int32_t err = GetLastError();
             MWL_WARN_ERRNO("release semaphore %s failed", err, name.c_str());
             return -err;
@@ -88,7 +88,7 @@ namespace mwl {
         if (s && createdByMe) {
             CloseHandle(s);
         }
-        s = NULL;
+        s = nullptr;
         name.clear();
         return ERR_NONE;
     }

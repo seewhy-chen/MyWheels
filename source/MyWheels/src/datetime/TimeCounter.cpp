@@ -15,7 +15,7 @@ namespace mwl {
     }
 
     uint64_t TimeCounter::TimeElapsed(TimeUnit unit) {
-        return m_pImpl->_TimeElapsed(NULL, unit);
+        return m_pImpl->_TimeElapsed(nullptr, unit);
     }
 
     uint64_t TimeCounter::TimeElapsed(const char *tag, TimeUnit unit) {

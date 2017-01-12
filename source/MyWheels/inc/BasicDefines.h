@@ -25,6 +25,7 @@
         typedef unsigned int uint32_t;
         typedef signed long long int64_t;
         typedef unsigned long long uint64_t;
+        #define nullptr 0
     #else
         #include <stdint.h>
     #endif

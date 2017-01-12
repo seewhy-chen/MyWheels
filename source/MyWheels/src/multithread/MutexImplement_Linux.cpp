@@ -8,7 +8,7 @@
 namespace mwl {
 
     Mutex::Implement::Implement() {
-        int32_t ret = pthread_mutex_init(&m, NULL);
+        int32_t ret = pthread_mutex_init(&m, nullptr);
         if (ret) {
             MWL_WARN_ERRNO("init mutex failed", ret);
         }

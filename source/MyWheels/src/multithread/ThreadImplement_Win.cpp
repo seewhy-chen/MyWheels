@@ -25,7 +25,7 @@ namespace mwl {
         context.m_pImpl->pSharedData = pSharedData;
         this->entry = entry;
 
-        threadHdl = ::CreateThread(NULL, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(_ThreadBody), this, 0, &context.m_pImpl->selfID.tid);
+        threadHdl = ::CreateThread(nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(_ThreadBody), this, 0, &context.m_pImpl->selfID.tid);
         if (!threadHdl) {
             int32_t err = GetLastError();
             MWL_WARN_ERRNO("start thread failed", err);
