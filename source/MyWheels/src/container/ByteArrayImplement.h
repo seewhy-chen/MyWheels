@@ -11,7 +11,7 @@ namespace mwl {
         int32_t bufSize;
         bool shared;
         RawMemoryManager() {
-            pBuf = NULL;
+            pBuf = nullptr;
             bufSize = 0;
             shared = false;
         }
@@ -20,7 +20,7 @@ namespace mwl {
             Reset();
         }
 
-        void Reset(uint8_t *pBuf_ = NULL, int32_t bufSize_ = 0, bool shared_ = false) {
+        void Reset(uint8_t *pBuf_ = nullptr, int32_t bufSize_ = 0, bool shared_ = false) {
             if (pBuf != pBuf_) {
                 if (!shared) {
                     delete[] pBuf;
@@ -37,10 +37,8 @@ namespace mwl {
         Implement(uint8_t *pData, int32_t dataSize, OwnerShip ownership);
         Implement(const Implement &rhs);
         ~Implement();
-        const ByteArray::Iterator& _Begin();
-        const ByteArray::ConstIterator& _CBegin();
-        const ByteArray::Iterator& _End();
-        const ByteArray::ConstIterator& _CEnd();
+        ByteArray::Iterator _Begin();
+        ByteArray::Iterator _End();
         uint8_t &_ElementAt(int32_t idx);
         void _Fill(uint8_t val);
         int32_t _Copy(const uint8_t *pSrc, int32_t srcLen, int32_t copyStartPos, int32_t copyLen);
@@ -59,13 +57,16 @@ namespace mwl {
         uint8_t *pArray;
         int32_t arrStartPos;
         int32_t arrSize;
+        Iterator begin;
+        Iterator end;
     };
 
     struct ByteArray::IteratorImplement {
-        IteratorImplement() {
-            pArrImpl = NULL;
-            posInArr = 0;
-        }
+        IteratorImplement() : pArrImpl(nullptr), posInArr(0) {}
+
+        IteratorImplement(const IteratorImplement &rhs)
+        : pArrImpl(rhs.pArrImpl), posInArr(rhs.posInArr) {}
+
         ByteArray::Implement *pArrImpl;
         int32_t posInArr;
     }; 

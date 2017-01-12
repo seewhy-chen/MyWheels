@@ -14,8 +14,25 @@ void TestByteArray() {
     ByteArray arr1(rawArr, sizeof(rawArr), OWN_SHARE);
     fprintf(stdout, "\nafter arr1 sharing rawArr:");
     fprintf(stdout, "\narr1:\t");
-    for (int32_t i = 0; i < arr1.Size(); ++i) {
-        fprintf(stdout, "%d, ", arr1[i]);
+    for (ByteArray::ConstIterator i = arr1.Begin(); i != arr1.CEnd(); ++i) {
+        fprintf(stdout, "%d, ", *i);
+    }
+
+    for (ByteArray::Iterator i = arr1.Begin(); i != arr1.End(); ++i) {
+        *i = *i + 2;
+    }
+    fprintf(stdout, "\nafter iterating arr1:");
+    fprintf(stdout, "\nrawArr:\t");
+    for (int32_t i = 0; i < MWL_ARR_SIZE(rawArr); ++i) {
+        fprintf(stdout, "%d, ", rawArr[i]);
+    }
+    fprintf(stdout, "\narr1:\t");
+    for (ByteArray::ConstIterator i = arr1.Begin(); i != arr1.CEnd(); ++i) {
+        fprintf(stdout, "%d, ", *i);
+    }
+    fprintf(stdout, "\nreversed arr1:\t");
+    for (ByteArray::ConstReverseIterator i = arr1.RBegin(); i != arr1.CREnd(); ++i) {
+        fprintf(stdout, "%d, ", *i);
     }
     fprintf(stdout, "\n");
 
@@ -23,7 +40,6 @@ void TestByteArray() {
     arr2.Share(arr1.Data(), arr1.Size());
     ByteArray::ConstIterator it = arr2.CBegin();
     ++it;
-    *it = 13;
     fprintf(stdout, "\nafter arr2 sharing arr1:");
     fprintf(stdout, "\narr2:\t");
     for (int32_t i = 0; i < arr2.Size(); ++i) {
@@ -166,9 +182,9 @@ void TestByteArray() {
     fprintf(stdout, "\n");
 
     uint8_t*p = new uint8_t[100];
-    memset(p, 0, 100);
+    memset(p, 42, 100);
     arr3.Takeover(p, 100);
-    fprintf(stdout, "\nafter taking over a ptr, arr3.Size() = %d", arr3.Size());
+    fprintf(stdout, "\nafter taking over a ptr of many 42s, arr3.Size() = %d", arr3.Size());
     fprintf(stdout, "\nafter %d bytes copied from arr3 to arr2", arr2.Copy(arr3.Data(), arr3.Size()));
     fprintf(stdout, "\nrawArr:\t");
     for (int32_t i = 0; i < MWL_ARR_SIZE(rawArr); ++i) {

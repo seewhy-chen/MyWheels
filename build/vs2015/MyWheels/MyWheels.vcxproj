@@ -41,6 +41,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArray.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArrayImplement.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArrayIterator.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Linux.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Win.cpp" />
