@@ -33,7 +33,6 @@ namespace mwl {
         struct ReverseIterator;
         struct ConstReverseIterator;
         struct IteratorImplement;
-
         struct MWL_API Iterator {
             MWL_IT_COMMON_METHODS(Iterator);
             explicit Iterator(const ReverseIterator &src);
@@ -47,6 +46,7 @@ namespace mwl {
             ConstIterator(const ByteArray::Iterator &src);
             explicit ConstIterator(const ByteArray::ReverseIterator &src);
             explicit ConstIterator(const ByteArray::ConstReverseIterator &src);
+            explicit ConstIterator(const ByteArray::ConstReverseIterator&src);
             const uint8_t &operator*() const;
             const uint8_t *operator->() const;
             IteratorImplement *m_pImpl;
