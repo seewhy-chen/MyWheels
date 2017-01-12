@@ -151,5 +151,8 @@
     <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArrayImplement.cpp">
       <Filter>src\container</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArrayIterator.cpp">
+      <Filter>src\container</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

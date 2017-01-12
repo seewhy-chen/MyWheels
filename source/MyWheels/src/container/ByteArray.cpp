@@ -45,28 +45,52 @@ namespace mwl {
         return m_pImpl->_ElementAt(idx);
     }
 
-    const ByteArray::Iterator& ByteArray::Begin() {
+    ByteArray::Iterator ByteArray::Begin() {
         return m_pImpl->_Begin();
     }
 
-    const ByteArray::ConstIterator& ByteArray::Begin() const {
-        return m_pImpl->_CBegin();
+    ByteArray::ConstIterator ByteArray::Begin() const {
+        return ByteArray::ConstIterator(m_pImpl->_Begin());
     }
 
-    const ByteArray::ConstIterator& ByteArray::CBegin() const {
-        return m_pImpl->_CBegin();
+    ByteArray::ConstIterator ByteArray::CBegin() const {
+        return ByteArray::ConstIterator(m_pImpl->_Begin());
     }
 
-    const ByteArray::Iterator& ByteArray::End() {
+    ByteArray::ReverseIterator ByteArray::RBegin() {
+        return ByteArray::ReverseIterator(m_pImpl->_End());
+    }
+
+    ByteArray::ConstReverseIterator ByteArray::RBegin() const {
+        return ByteArray::ConstReverseIterator(m_pImpl->_End());
+    }
+
+    ByteArray::ConstReverseIterator ByteArray::CRBegin() const {
+        return ByteArray::ConstReverseIterator(m_pImpl->_End());
+    }
+
+    ByteArray::Iterator ByteArray::End() {
         return m_pImpl->_End();
     }
 
-    const ByteArray::ConstIterator& ByteArray::End() const {
-        return m_pImpl->_CEnd();
+    ByteArray::ConstIterator ByteArray::End() const {
+        return CEnd();
     }
 
-    const ByteArray::ConstIterator& ByteArray::CEnd() const {
-        return m_pImpl->_CEnd();
+    ByteArray::ConstIterator ByteArray::CEnd() const {
+        return ByteArray::ConstIterator(m_pImpl->_End());
+    }
+
+    ByteArray::ReverseIterator ByteArray::REnd() {
+        return ByteArray::ReverseIterator(m_pImpl->_Begin());
+    }
+
+    ByteArray::ConstReverseIterator ByteArray::REnd() const {
+        return ByteArray::ConstReverseIterator(m_pImpl->_Begin());
+    }
+
+    ByteArray::ConstReverseIterator ByteArray::CREnd() const {
+        return ByteArray::ConstReverseIterator(m_pImpl->_Begin());
     }
 
     uint8_t *ByteArray::Data(int32_t startIdx) {

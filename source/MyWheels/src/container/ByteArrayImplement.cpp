@@ -5,7 +5,7 @@ namespace mwl {
 
     static uint8_t s_dummy = 0;
     ByteArray::Implement::Implement(int32_t initSize, uint8_t initVal)
-        : rawMem(new RawMemoryManager()), pArray(NULL), arrStartPos(0), arrSize(0) {
+        : rawMem(new RawMemoryManager()), pArray(nullptr), arrStartPos(0), arrSize(0) {
         if (initSize > 0) {
             rawMem->pBuf = new uint8_t[arrSize];
             rawMem->bufSize = initSize;
@@ -13,10 +13,14 @@ namespace mwl {
             arrSize = initSize;
             pArray = rawMem->pBuf + arrStartPos;
         }
+        begin.m_pImpl->pArrImpl = this;
+        begin.m_pImpl->posInArr = 0;
+        end.m_pImpl->pArrImpl = this;
+        end.m_pImpl->posInArr = arrSize;
     }
 
     ByteArray::Implement::Implement(uint8_t *pData, int32_t dataSize, OwnerShip ownership)
-        : rawMem(new RawMemoryManager()), pArray(NULL), arrStartPos(0), arrSize(0) {
+        : rawMem(new RawMemoryManager()), pArray(nullptr), arrStartPos(0), arrSize(0) {
         if (pData && dataSize > 0) {
             switch (ownership) {
             case OWN_TAKEOVER:
@@ -36,10 +40,14 @@ namespace mwl {
             pArray = rawMem->pBuf;
             arrSize = dataSize;
         }
+        begin.m_pImpl->pArrImpl = this;
+        begin.m_pImpl->posInArr = 0;
+        end.m_pImpl->pArrImpl = this;
+        end.m_pImpl->posInArr = arrSize;
     }
 
     ByteArray::Implement::Implement(const ByteArray::Implement &rhs)
-        : rawMem(new RawMemoryManager()), pArray(NULL), arrStartPos(0), arrSize(0) {
+        : rawMem(new RawMemoryManager()), pArray(nullptr), arrStartPos(0), arrSize(0) {
         if (rhs.arrSize > 0 && rhs.rawMem && rhs.rawMem->pBuf) {
             rawMem->pBuf = new uint8_t[rhs.arrSize];
             rawMem->bufSize = rhs.arrSize;
@@ -47,27 +55,21 @@ namespace mwl {
             pArray = rawMem->pBuf;
             arrSize = rhs.arrSize;
         }
+        begin.m_pImpl->pArrImpl = this;
+        begin.m_pImpl->posInArr = 0;
+        end.m_pImpl->pArrImpl = this;
+        end.m_pImpl->posInArr = arrSize;
     }
 
     ByteArray::Implement::~Implement() {
     }
 
-    ByteArray::Iterator s_dummyIt;
-    ByteArray::ConstIterator s_dummyCIt;
-    const ByteArray::Iterator& ByteArray::Implement::_Begin() {
-        return s_dummyIt; 
+    ByteArray::Iterator ByteArray::Implement::_Begin() {
+        return begin;
     }
 
-    const ByteArray::ConstIterator& ByteArray::Implement::_CBegin() {
-        return s_dummyCIt; 
-    }
-
-    const ByteArray::Iterator &ByteArray::Implement::_End() {
-        return s_dummyIt;
-    }
-
-    const ByteArray::ConstIterator &ByteArray::Implement::_CEnd() {
-        return s_dummyCIt;
+    ByteArray::Iterator ByteArray::Implement::_End() {
+        return end;
     }
 
     uint8_t &ByteArray::Implement::_ElementAt(int32_t idx) {
@@ -86,13 +88,13 @@ namespace mwl {
 
     int32_t ByteArray::Implement::_Copy(const uint8_t *pSrc, int32_t srcLen, int32_t copyStartPos, int32_t copyLen) {
         if (!pSrc || srcLen <= 0) {
-            pSrc = NULL;
+            pSrc = nullptr;
             srcLen = 0;
         }
         if (copyStartPos < 0 || copyStartPos >= srcLen || copyLen <= 0) {
             return 0;
         }
-        size_t dataCanCopy = std::min(arrSize, std::min(srcLen - copyStartPos, copyLen));
+        int32_t dataCanCopy = std::min(arrSize, std::min(srcLen - copyStartPos, copyLen));
         if (dataCanCopy > 0) {
             if (pSrc != rawMem->pBuf) {
                 memcpy(pArray, pSrc + copyStartPos, dataCanCopy);
@@ -106,14 +108,14 @@ namespace mwl {
 
     int32_t ByteArray::Implement::_Assign(const uint8_t *pSrc, int32_t srcLen, int32_t assignStartPos, int32_t assignLen) {
         if (!pSrc || srcLen <= 0) {
-            pSrc = NULL;
+            pSrc = nullptr;
             srcLen = 0;
         }
         if (assignStartPos < 0 || assignStartPos >= srcLen || assignLen < 0) {
             return ERR_INVAL_PARAM;
         }
 
-        size_t dataCanAssign = std::min(srcLen - assignStartPos, assignLen);
+        int32_t dataCanAssign = std::min(srcLen - assignStartPos, assignLen);
         if (pSrc == rawMem->pBuf) {
             arrStartPos = assignStartPos;
         } else {
@@ -128,28 +130,30 @@ namespace mwl {
         }
         pArray = rawMem->pBuf + arrStartPos;
         arrSize = dataCanAssign;
+        end.m_pImpl->posInArr = arrSize;
         return arrSize;
     }
 
     int32_t ByteArray::Implement::_Share(uint8_t *pSrc, int32_t srcLen, int32_t shareStartPos, int32_t shareLen) {
         if (!pSrc || srcLen <= 0) {
-            pSrc = NULL;
+            pSrc = nullptr;
             shareLen = 0;
         }
         if (shareStartPos < 0 || shareStartPos >= srcLen || shareLen < 0) {
             return ERR_INVAL_PARAM;
         }
-        size_t dataCanShare = std::min(srcLen - shareStartPos, shareLen);
+        int32_t dataCanShare = std::min(srcLen - shareStartPos, shareLen);
         rawMem->Reset(pSrc, srcLen, true);
         arrStartPos = shareStartPos;
         pArray = rawMem->pBuf + arrStartPos;
         arrSize = dataCanShare;
+        end.m_pImpl->posInArr = arrSize;
         return arrSize;
     }
 
     int32_t ByteArray::Implement::_Takeover(uint8_t *pData, int32_t dataSize) {
         if (!pData || dataSize <= 0) {
-            pData = NULL;
+            pData = nullptr;
             dataSize = 0;
         }
         rawMem.reset(new RawMemoryManager());
@@ -158,6 +162,7 @@ namespace mwl {
         pArray = rawMem->pBuf;
         arrStartPos = 0;
         arrSize = dataSize;
+        end.m_pImpl->posInArr = arrSize;
         return arrSize;
     }
 
@@ -168,16 +173,17 @@ namespace mwl {
         if (src == dst) {
             return 0;
         }
-        size_t dataCanMove = std::min(arrSize - dst, std::min(arrSize - src, moveLen));
+        int32_t dataCanMove = std::min(arrSize - dst, std::min(arrSize - src, moveLen));
         memmove(pArray + dst, pArray + src, dataCanMove);
         return dataCanMove;
     }
 
     void ByteArray::Implement::_Reset() {
         rawMem.reset(new RawMemoryManager());
-        pArray = NULL;
+        pArray = nullptr;
         arrStartPos = 0;
         arrSize = 0;
+        end.m_pImpl->posInArr = arrSize;
     }
 
 }

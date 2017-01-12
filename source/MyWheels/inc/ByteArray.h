@@ -6,88 +6,94 @@
 
 namespace mwl {
 
+#define MWL_IT_COMMON_METHODS(ItClass) \
+            ItClass(); \
+            ItClass(const ItClass &src); \
+            ~ItClass(); \
+            ItClass& operator=(const ItClass &rhs); \
+            ItClass& operator++(); \
+            ItClass operator++(int32_t); \
+            ItClass& operator--(); \
+            ItClass operator--(int32_t); \
+            ItClass& operator+=(int32_t step); \
+            ItClass& operator-=(int32_t step); \
+            ItClass operator+(int32_t step) const; \
+            ItClass operator-(int32_t step) const; \
+            bool operator<(const ItClass &rhs) const; \
+            bool operator>(const ItClass &rhs) const; \
+            bool operator<=(const ItClass &rhs) const; \
+            bool operator>=(const ItClass &rhs) const; \
+            bool operator==(const ItClass &rhs) const; \
+            bool operator!=(const ItClass &rhs) const; \
+
     class MWL_API ByteArray {
     public:
         struct IteratorImplement;
+        struct Iterator;
+        struct ConstIterator;
+        struct ReverseIterator;
+        struct ConstReverseIterator;
         struct MWL_API Iterator {
-            Iterator();
-            Iterator(const Iterator &src);
-            ~Iterator();
-            Iterator& operator=(const Iterator &rhs);
-
-            uint8_t& operator*() const;
-            uint8_t* operator->() const;
-
-            Iterator& operator++();
-            Iterator operator++(int32_t);
-
-            Iterator& operator--();
-            Iterator operator--(int32_t);
-
-            Iterator& operator+=(int32_t step);
-            Iterator& operator-=(int32_t step);
-
-            Iterator operator+(int32_t step) const;
-            Iterator operator-(int32_t step) const;
-
-            bool operator<(const Iterator &rhs) const;
-            bool operator>(const Iterator &rhs) const;
-            bool operator<=(const Iterator &rhs) const;
-            bool operator>=(const Iterator &rhs) const;
-            bool operator==(const Iterator &rhs) const;
-            bool operator!=(const Iterator &rhs) const;
-
+            MWL_IT_COMMON_METHODS(Iterator);
+            explicit Iterator(const ReverseIterator &src);
+            uint8_t &operator*() const;
+            uint8_t *operator->() const;
             IteratorImplement *m_pImpl;
         };
 
         struct MWL_API ConstIterator {
-            ConstIterator();
-            ConstIterator(const ConstIterator &src);
+            MWL_IT_COMMON_METHODS(ConstIterator);
             ConstIterator(const ByteArray::Iterator &src);
-            ~ConstIterator();
-            ConstIterator& operator=(const ConstIterator &rhs);
+            explicit ConstIterator(const ByteArray::ReverseIterator &src);
+            explicit ConstIterator(const ByteArray::ConstReverseIterator&src);
+            const uint8_t &operator*() const;
+            const uint8_t *operator->() const;
+            IteratorImplement *m_pImpl;
+        };
 
-            uint8_t& operator*() const;
-            uint8_t* operator->() const;
+        struct MWL_API ReverseIterator {
+            MWL_IT_COMMON_METHODS(ReverseIterator);
+            explicit ReverseIterator(const ByteArray::Iterator &src);
+            uint8_t &operator*() const;
+            uint8_t *operator->() const;
+            IteratorImplement *m_pImpl;
+        };
 
-            ConstIterator& operator++();
-            ConstIterator operator++(int32_t);
-
-            ConstIterator& operator--();
-            ConstIterator operator--(int32_t);
-
-            ConstIterator& operator+=(int32_t step);
-            ConstIterator& operator-=(int32_t step);
-
-            ConstIterator operator+(int32_t step) const;
-            ConstIterator operator-(int32_t step) const;
-
-            bool operator<(const ConstIterator &rhs) const;
-            bool operator>(const ConstIterator &rhs) const;
-            bool operator<=(const ConstIterator &rhs) const;
-            bool operator>=(const ConstIterator &rhs) const;
-            bool operator==(const ConstIterator &rhs) const;
-            bool operator!=(const ConstIterator &rhs) const;
-
+        struct MWL_API ConstReverseIterator {
+            MWL_IT_COMMON_METHODS(ConstReverseIterator);
+            ConstReverseIterator(const ByteArray::ReverseIterator &src);
+            explicit ConstReverseIterator(const ByteArray::Iterator &src);
+            explicit ConstReverseIterator(const ByteArray::ConstIterator &src);
+            const uint8_t &operator*() const;
+            const uint8_t *operator->() const;
             IteratorImplement *m_pImpl;
         };
 
         explicit ByteArray(int32_t initSize = 0, uint8_t initVal = 0);
         explicit ByteArray(uint8_t *pData, int32_t dataSize, OwnerShip ownership = OWN_COPY);
         ByteArray(const uint8_t *pData, int32_t dataSize);
-        ByteArray(const ByteArray &rhs);
+        ByteArray(const ByteArray &src);
         ~ByteArray();
 
         ByteArray &operator=(const ByteArray &rhs);
         uint8_t operator[](int32_t idx) const;
         uint8_t &operator[](int32_t idx);
 
-        const ByteArray::Iterator& Begin();
-        const ByteArray::ConstIterator& Begin() const;
-        const ByteArray::ConstIterator& CBegin() const;
-        const ByteArray::Iterator& End();
-        const ByteArray::ConstIterator& End() const;
-        const ByteArray::ConstIterator& CEnd() const;
+        ByteArray::Iterator Begin();
+        ByteArray::ConstIterator Begin() const;
+        ByteArray::ConstIterator CBegin() const;
+
+        ByteArray::ReverseIterator RBegin();
+        ByteArray::ConstReverseIterator RBegin() const;
+        ByteArray::ConstReverseIterator CRBegin() const;
+
+        ByteArray::Iterator End();
+        ByteArray::ConstIterator End() const;
+        ByteArray::ConstIterator CEnd() const;
+
+        ByteArray::ReverseIterator REnd();
+        ByteArray::ConstReverseIterator REnd() const;
+        ByteArray::ConstReverseIterator CREnd() const;
 
         uint8_t *Data(int32_t startIdx = 0);
         const uint8_t *Data(int32_t startIdx = 0) const;
