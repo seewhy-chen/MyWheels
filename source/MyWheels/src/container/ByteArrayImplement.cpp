@@ -119,13 +119,13 @@ namespace mwl {
         if (pSrc == rawMem->pBuf) {
             arrStartPos = assignStartPos;
         } else {
-            rawMem.reset(new RawMemoryManager());
             arrSize = 0;
             arrStartPos = 0;
             if (dataCanAssign > 0) {
-                rawMem->pBuf = new uint8_t[dataCanAssign];
-                rawMem->bufSize = dataCanAssign;
+                rawMem.reset(new RawMemoryManager(new uint8_t[dataCanAssign], dataCanAssign));
                 memcpy(rawMem->pBuf, pSrc + assignStartPos, dataCanAssign);
+            } else {
+                rawMem.reset(new RawMemoryManager());
             }
         }
         pArray = rawMem->pBuf + arrStartPos;
@@ -143,7 +143,8 @@ namespace mwl {
             return ERR_INVAL_PARAM;
         }
         int32_t dataCanShare = std::min(srcLen - shareStartPos, shareLen);
-        rawMem->Reset(pSrc, srcLen, true);
+        SharedPtr<RawMemoryManager> newMem(new RawMemoryManager(pSrc, srcLen, true));
+        rawMem = newMem;
         arrStartPos = shareStartPos;
         pArray = rawMem->pBuf + arrStartPos;
         arrSize = dataCanShare;
@@ -156,9 +157,7 @@ namespace mwl {
             pData = nullptr;
             dataSize = 0;
         }
-        rawMem.reset(new RawMemoryManager());
-        rawMem->pBuf = pData;
-        rawMem->bufSize = dataSize;
+        rawMem.reset(new RawMemoryManager(pData, dataSize));
         pArray = rawMem->pBuf;
         arrStartPos = 0;
         arrSize = dataSize;
@@ -176,6 +175,32 @@ namespace mwl {
         int32_t dataCanMove = std::min(arrSize - dst, std::min(arrSize - src, moveLen));
         memmove(pArray + dst, pArray + src, dataCanMove);
         return dataCanMove;
+    }
+
+    int32_t ByteArray::Implement::_Resize(int32_t newSize, uint8_t fillVal) {
+        if (newSize < 0) {
+            newSize = 0;
+        }
+        if (newSize > _Capacity()) {
+            _Reserve(newSize);
+            memset(pArray + arrSize, fillVal, newSize - arrSize);
+        }
+        arrSize = newSize;
+        return arrSize;
+    }
+
+    int32_t ByteArray::Implement::_Reserve(int32_t newCapacity) {
+        if (_Capacity() < newCapacity) {
+            rawMem.reset(new RawMemoryManager(new uint8_t[newCapacity], newCapacity));
+            memcpy(rawMem->pBuf, pArray, arrSize);
+            arrStartPos = 0;
+            pArray = rawMem->pBuf;
+        }
+        return _Capacity();
+    }
+
+    int32_t ByteArray::Implement::_Capacity() {
+        return rawMem->bufSize - arrStartPos;
     }
 
     void ByteArray::Implement::_Reset() {

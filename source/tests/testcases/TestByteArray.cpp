@@ -38,8 +38,6 @@ void TestByteArray() {
 
     ByteArray arr2;
     arr2.Share(arr1.Data(), arr1.Size());
-    ByteArray::ConstIterator it = arr2.CBegin();
-    ++it;
     fprintf(stdout, "\nafter arr2 sharing arr1:");
     fprintf(stdout, "\narr2:\t");
     for (int32_t i = 0; i < arr2.Size(); ++i) {
@@ -62,6 +60,24 @@ void TestByteArray() {
         fprintf(stdout, "%d, ", arr2[i]);
     }
     fprintf(stdout, "\n");
+
+    arr2.Resize(arr2.Size()/2);
+    fprintf(stdout, "\nafter resize arr2 to its half:");
+    fprintf(stdout, "\nrawArr:\t");
+    for (int32_t i = 0; i < MWL_ARR_SIZE(rawArr); ++i) {
+        fprintf(stdout, "%d, ", rawArr[i]);
+    }
+    fprintf(stdout, "\narr1:\t");
+    for (int32_t i = 0; i < arr1.Size(); ++i) {
+        fprintf(stdout, "%d, ", arr1.At(i));
+    }
+    fprintf(stdout, "\narr2:\t");
+    for (int32_t i = 0; i < arr2.Size(); ++i) {
+        fprintf(stdout, "%d, ", arr2[i]);
+    }
+    fprintf(stdout, "\n");
+
+    arr2.Resize(arr1.Size());
 
     arr2.Copy(*arr2.Slice(1,4));
     fprintf(stdout, "\nafter copy arr2[1:3] to itself:");

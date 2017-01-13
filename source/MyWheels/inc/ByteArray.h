@@ -46,7 +46,6 @@ namespace mwl {
             ConstIterator(const ByteArray::Iterator &src);
             explicit ConstIterator(const ByteArray::ReverseIterator &src);
             explicit ConstIterator(const ByteArray::ConstReverseIterator &src);
-            explicit ConstIterator(const ByteArray::ConstReverseIterator&src);
             const uint8_t &operator*() const;
             const uint8_t *operator->() const;
             IteratorImplement *m_pImpl;
@@ -117,8 +116,11 @@ namespace mwl {
         void Clear();
         void Reset();
 
-        bool Empty() const;
+        int32_t Resize(int32_t newSize, uint8_t fillVal = 0);
         int32_t Size() const;
+        int32_t Reserve(int32_t newCapacity);
+        int32_t Capacity() const;
+        bool Empty() const;
 
         struct Implement;
     private:

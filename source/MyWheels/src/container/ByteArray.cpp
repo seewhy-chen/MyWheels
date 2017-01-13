@@ -101,12 +101,24 @@ namespace mwl {
         return &m_pImpl->_ElementAt(startIdx);
     }
 
-    bool ByteArray::Empty() const {
-        return 0 == m_pImpl->_Size();
+    int32_t ByteArray::Resize(int32_t newSize, uint8_t fillVal) {
+        return m_pImpl->_Resize(newSize, fillVal);
     }
 
     int32_t ByteArray::Size() const {
         return m_pImpl->_Size();
+    }
+
+    int32_t ByteArray::Reserve(int32_t newCapacity) {
+        return m_pImpl->_Reserve(newCapacity);
+    }
+
+    int32_t ByteArray::Capacity() const {
+        return m_pImpl->_Capacity();
+    }
+
+    bool ByteArray::Empty() const {
+        return 0 == m_pImpl->_Size();
     }
 
     SharedPtr<ByteArray> ByteArray::Slice(int32_t start, int32_t end) {
