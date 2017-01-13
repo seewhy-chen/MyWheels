@@ -87,7 +87,7 @@ def generate_makefile(prj_cfg, code_bit):
             f.write('\n')
 
         f.write('COMMON_CX_FLAGS = -c -g -pipe -fpie -fpic -ffunction-sections -funwind-tables\n')
-        f.write('COMMON_CX_FLAGS += -fstack-protector -fno-short-enums -Wall -m%d -fdiagnostics-color=auto\n' %(code_bit))
+        f.write('COMMON_CX_FLAGS += -fstack-protector -fno-short-enums -Wall -Wextra -Werror -m%d -fdiagnostics-color=auto\n' %(code_bit))
         f.write('COMMON_CX_FLAGS += -O2 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300\n')
         f.write('COMMON_CX_FLAGS += -fvisibility=hidden\n')
         f.write('\n')

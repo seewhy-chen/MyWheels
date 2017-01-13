@@ -13,7 +13,7 @@ INCLUDE_PATH = \
 	-I$(PRJ_ROOT_DIR)/MyWheels/src
 
 COMMON_CX_FLAGS = -c -g -pipe -fpie -fpic -ffunction-sections -funwind-tables
-COMMON_CX_FLAGS += -fstack-protector -fno-short-enums -Wall -m64 -fdiagnostics-color=auto
+COMMON_CX_FLAGS += -fstack-protector -fno-short-enums -Wall -Wextra -Werror -m64 -fdiagnostics-color=auto
 COMMON_CX_FLAGS += -O2 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300
 COMMON_CX_FLAGS += -fvisibility=hidden
 

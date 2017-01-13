@@ -10,13 +10,13 @@ extern void TestCondition();
 extern void TestSemaphore();
 extern void TestByteArray();
 
-int main(int argc, char *argv[]) {
-    //TestBasicTypes();
-    //TestTimeCounter();
-    //TestThread();
-    //TestMutex();
-    //TestCondition();
-    //TestSemaphore();
+int main(int /*argc*/, char */*argv*/[]) {
+    TestBasicTypes();
+    TestTimeCounter();
+    TestThread();
+    TestMutex();
+    TestCondition();
+    TestSemaphore();
     TestByteArray();
 
 #ifdef __MWL_WIN__
