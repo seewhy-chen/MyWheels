@@ -13,11 +13,11 @@
 #ifdef __MWL_WIN__
 
     #ifdef min
-    #undef min
+        #undef min
     #endif
 
     #ifdef max
-    #undef max
+        #undef max
     #endif
 
     #define NOMINMAX // disable macro definition of 'min'

@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
     TestByteArray();
 
 #ifdef __MWL_WIN__
-	system("pause");
+    system("pause");
 #endif
     return 0;
 }
