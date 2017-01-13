@@ -8,7 +8,7 @@ Here's something TODO:
 * Process
 
 # Data Structure
-* Array
+* Array  -- partly done
 * List
 * Queue
 * RingBuffer
