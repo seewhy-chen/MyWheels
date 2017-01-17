@@ -25,6 +25,7 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\Mutex.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Semaphore.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\SmartPointer.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Socket.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\StaticAssert.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Thread.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\TimeCounter.h" />
@@ -60,6 +61,7 @@
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Linux.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Win.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\network\Socket.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{40C75FB6-8F69-44B8-9AED-2177A7E65FFA}</ProjectGuid>

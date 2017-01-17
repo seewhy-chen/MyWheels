@@ -332,6 +332,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\source\MyWheels\inc\Socket.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\source\MyWheels\inc\StaticAssert.h"
 				>
 			</File>
@@ -496,6 +500,14 @@
 				</File>
 				<File
 					RelativePath="..\..\..\source\MyWheels\src\container\ByteArrayIterator.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="network"
+				>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\network\Socket.cpp"
 					>
 				</File>
 			</Filter>
