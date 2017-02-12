@@ -3,6 +3,7 @@
 
 #include "inc/BasicDefines.h"
 #include "inc/TimeDefines.h"
+#include "inc/SmartPointer.h"
 
 namespace mwl {
 
@@ -47,6 +48,13 @@ namespace mwl {
         bool IsSamePort(const SockAddress &rhs) const;
         bool operator==(const SockAddress &rhs) const;
         void Swap(SockAddress &other);
+        
+        struct Implement;
+        Implement* Impl();
+
+    private:
+        Implement *m_pImpl;
+
     };
 
     class MWL_API Socket : private NonCopyable {
@@ -83,6 +91,10 @@ namespace mwl {
         int32_t RawFd() const;
         const SockAddress& LocalAddress() const;
         const SockAddress& PeerAddress() const;
+
+    private:
+        struct Implement;
+        Implement *m_pImpl;
     };
 
     typedef void (*SockEventHandler)(Socket* pSock, uint32_t event, void *pData);

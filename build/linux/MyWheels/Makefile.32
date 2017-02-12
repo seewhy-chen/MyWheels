@@ -58,7 +58,8 @@ OBJECTS = \
 	$(OBJ_DIR)/ThreadControllerImplement_Linux.o\
 	$(OBJ_DIR)/ThreadControllerImplement_Win.o\
 	$(OBJ_DIR)/ThreadImplement_Linux.o\
-	$(OBJ_DIR)/ThreadImplement_Win.o
+	$(OBJ_DIR)/ThreadImplement_Win.o\
+	$(OBJ_DIR)/Socket.o
 
 $(OBJ_DIR) :
 	$(MKDIR) $(OBJ_DIR)
@@ -124,3 +125,5 @@ $(OBJ_DIR)/ThreadImplement_Linux.o : ../../../source/MyWheels/src/multithread/Th
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ThreadImplement_Linux.o ../../../source/MyWheels/src/multithread/ThreadImplement_Linux.cpp
 $(OBJ_DIR)/ThreadImplement_Win.o : ../../../source/MyWheels/src/multithread/ThreadImplement_Win.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ThreadImplement_Win.o ../../../source/MyWheels/src/multithread/ThreadImplement_Win.cpp
+$(OBJ_DIR)/Socket.o : ../../../source/MyWheels/src/network/Socket.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Socket.o ../../../source/MyWheels/src/network/Socket.cpp
