@@ -23,16 +23,17 @@ namespace mwl {
         }
     }
 
-    int32_t Condition::Implement::_Wait(Mutex &mutex, int32_t timeoutInMs) {
+    int32_t Condition::Implement::_Wait(Mutex &mutex, const TimeSpec timeout) {
+        int32_t timeoutInUs = timeout.ToI32(MICROSEC);
         int32_t ret = ERR_NONE;
-        if (timeoutInMs < 0) {
+        if (timeoutInUs < 0) {
             ret = pthread_cond_wait(&cond, &mutex.Impl()->m);
         } else {
             struct timeval tv;
             gettimeofday(&tv, nullptr);
             struct timespec ts;
-            ts.tv_sec = tv.tv_sec + (tv.tv_usec + timeoutInMs * 1000) / 1000000;
-            ts.tv_nsec = ((tv.tv_usec + timeoutInMs * 1000) % 1000000) * 1000;
+            ts.tv_sec = tv.tv_sec + (tv.tv_usec + timeoutInUs) / 1000000;
+            ts.tv_nsec = ((tv.tv_usec + timeoutInUs) % 1000000) * 1000;
             ret = pthread_cond_timedwait(&cond, &mutex.Impl()->m, &ts);
         }
 

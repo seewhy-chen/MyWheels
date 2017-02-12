@@ -28,11 +28,11 @@ namespace mwl {
         return s ? ERR_NONE : -err;
     }
 
-    int32_t Semaphore::Implement::_Wait(int32_t timeoutInMs) {
+    int32_t Semaphore::Implement::_Wait(const TimeSpec &timeout) {
         if (!s) {
             return ERR_INVAL_PARAM;
         }
-
+        int32_t timeoutInMs = timeout.ToI32(MILLISEC);
         if (timeoutInMs < 0) {
             timeoutInMs = INFINITE;
         }

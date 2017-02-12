@@ -13,8 +13,8 @@ namespace mwl {
         return m_pImpl->_Open(name, initVal);
     }
 
-    int32_t Semaphore::Wait(int32_t timeoutInMs) {
-        return m_pImpl->_Wait(timeoutInMs);
+    int32_t Semaphore::Wait(const TimeSpec &timeout) {
+        return m_pImpl->_Wait(timeout);
     }
 
     int32_t Semaphore::Post() {

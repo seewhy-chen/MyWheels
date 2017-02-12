@@ -16,7 +16,7 @@ namespace mwl {
         Implement();
         ~Implement();
         int32_t _Open(const char *name, int32_t initVal);
-        int32_t _Wait(int32_t timeoutInMs);
+        int32_t _Wait(const TimeSpec &timeout);
         int32_t _Post();
         int32_t _Close();
 

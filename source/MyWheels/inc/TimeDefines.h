@@ -11,9 +11,28 @@ namespace mwl {
         SECOND,
         MILLISEC,
         MICROSEC,
+        NANOSEC,
+
+        TimeUnitCount
     };
 
-    void MWL_API TimeSleep(double sleepTime, TimeUnit unit = MILLISEC);
+    class MWL_API TimeSpec {
+    public:
+        TimeSpec(double tv = 0, TimeUnit tu = MILLISEC);
+        ~TimeSpec();
+        int32_t ToI32(TimeUnit tu) const;
+        uint32_t ToU32(TimeUnit tu) const;
+        int64_t ToI64(TimeUnit tu) const;
+        uint64_t ToU64(TimeUnit tu) const;
+        double ToDouble(TimeUnit tu) const;
+    private:
+        struct Implement;
+        Implement *m_pImpl;
+    };
+
+    const TimeSpec MWL_PERMANANT(-1);
+
+    void MWL_API TimeSleep(const TimeSpec &sleepTime);
 
 }
 

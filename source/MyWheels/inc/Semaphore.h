@@ -2,6 +2,7 @@
 #define __MWL_SEMAPHORE_H__
 
 #include "inc/BasicDefines.h"
+#include "inc/TimeDefines.h"
 
 namespace mwl {
 
@@ -10,7 +11,7 @@ namespace mwl {
         Semaphore();
         ~Semaphore();
         int32_t Open(const char *name, int32_t initVal);
-        int32_t Wait(int32_t timeoutInMs = -1);
+        int32_t Wait(const TimeSpec &timeout = MWL_PERMANANT);
         int32_t Post();
         int32_t Close();
 

@@ -33,12 +33,12 @@ namespace mwl {
             return ERR_NONE;
         }
 
-        int32_t _Stop(int32_t timeoutInMs) {
+        int32_t _Stop(const TimeSpec &timeout) {
             if (!_IsRunning()) {
                 return 0;
             }
             _QueryToStop();
-            return _Join(timeoutInMs);
+            return _Join(timeout);
         }
 
         inline void _QueryToStop() {
@@ -75,8 +75,8 @@ namespace mwl {
             }
         }
 
-        int32_t _Start(ThreadEntry entry, void *pSharedData, int32_t timeoutInMs);
-        int32_t _Join(int32_t timeoutInMs);
+        int32_t _Start(ThreadEntry entry, void *pSharedData, const TimeSpec &timeout);
+        int32_t _Join(const TimeSpec &timeout);
 
         ThreadContext context;
         ThreadEntry entry;

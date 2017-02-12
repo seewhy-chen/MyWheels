@@ -40,20 +40,20 @@ namespace mwl {
         return s ? ERR_NONE : -err;
     }
 
-    int32_t Semaphore::Implement::_Wait(int32_t timeoutInMs) {
+    int32_t Semaphore::Implement::_Wait(const TimeSpec &timeout) {
         if (!s) {
             return ERR_INVAL_PARAM;
         }
-        
         int32_t ret = 0;
-        if (timeoutInMs < 0) {
+        int32_t timeoutInUs = timeout.ToI32(MICROSEC); 
+        if (timeoutInUs < 0) {
             ret = sem_wait(s);
         } else {
             struct timeval tv;
             gettimeofday(&tv, nullptr);
             struct timespec ts;
-            ts.tv_sec = tv.tv_sec + (tv.tv_usec + timeoutInMs * 1000) / 1000000;
-            ts.tv_nsec = ((tv.tv_usec + timeoutInMs * 1000) % 1000000) * 1000;
+            ts.tv_sec = tv.tv_sec + (tv.tv_usec + timeoutInUs) / 1000000;
+            ts.tv_nsec = ((tv.tv_usec + timeoutInUs) % 1000000) * 1000;
             ret = sem_timedwait(s, &ts);
         }
 

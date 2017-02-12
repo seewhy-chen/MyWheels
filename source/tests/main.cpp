@@ -10,7 +10,7 @@ extern void TestCondition();
 extern void TestSemaphore();
 extern void TestByteArray();
 
-int main(int /*argc*/, char */*argv*/[]) {
+int main(int, char *[]) {
     TestBasicTypes();
     TestTimeCounter();
     TestThread();

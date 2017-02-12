@@ -116,47 +116,47 @@ namespace mwl {
         return int32_t();
     }
 
-    int32_t Socket::Connect(const SockAddress & address, int64_t timeout, TimeUnit unit) {
+    int32_t Socket::Connect(const SockAddress & address, const TimeSpec &timeout) {
         return int32_t();
     }
 
-    SharedPtr<Socket> Socket::Accept(int64_t timeout, TimeUnit unit) {
+    SharedPtr<Socket> Socket::Accept(const TimeSpec &timeout) {
         return SharedPtr<Socket>();
     }
 
-    uint32_t Socket::Select(uint32_t events, int64_t timeout, TimeUnit unit) {
+    uint32_t Socket::Select(uint32_t events, const TimeSpec &timeout) {
         return uint32_t();
     }
 
-    int32_t Socket::Send(const void * pData, int32_t dataLen, int64_t timeout, TimeUnit unit) {
+    int32_t Socket::Send(const void * pData, int32_t dataLen, const TimeSpec &timeout) {
         return int32_t();
     }
 
-    int32_t Socket::SendAll(const void * pData, int32_t dataLen, int64_t timeout, TimeUnit unit) {
+    int32_t Socket::SendAll(const void * pData, int32_t dataLen, const TimeSpec &timeout) {
         return int32_t();
     }
 
-    int32_t Socket::SendTo(const void * pData, int32_t dataLen, const SockAddress & dstAddr, int64_t timeout, TimeUnit unit) {
+    int32_t Socket::SendTo(const void * pData, int32_t dataLen, const SockAddress & dstAddr, const TimeSpec &timeout) {
         return int32_t();
     }
 
-    int32_t Socket::SendAllTo(const void * pData, int32_t dataLen, const SockAddress & dstAddr, int64_t timeout, TimeUnit unit) {
+    int32_t Socket::SendAllTo(const void * pData, int32_t dataLen, const SockAddress & dstAddr, const TimeSpec &timeout) {
         return int32_t();
     }
 
-    int32_t Socket::Recv(void * pData, int32_t dataLen, int64_t timeout, TimeUnit unit) {
+    int32_t Socket::Recv(void * pData, int32_t dataLen, const TimeSpec &timeout) {
         return int32_t();
     }
 
-    int32_t Socket::RecvAll(void * pData, int32_t dataLen, int64_t timeout, TimeUnit unit) {
+    int32_t Socket::RecvAll(void * pData, int32_t dataLen, const TimeSpec &timeout) {
         return int32_t();
     }
 
-    int32_t Socket::RecvFrom(void * pData, int32_t dataLen, SockAddress & srcAddr, int64_t timeout, TimeUnit unit) {
+    int32_t Socket::RecvFrom(void * pData, int32_t dataLen, SockAddress & srcAddr, const TimeSpec &timeout) {
         return int32_t();
     }
 
-    int32_t Socket::RecvAllFrom(void * pData, int32_t dataLen, SockAddress & srcAddr, int64_t timeout, TimeUnit unit) {
+    int32_t Socket::RecvAllFrom(void * pData, int32_t dataLen, SockAddress & srcAddr, const TimeSpec &timeout) {
         return int32_t();
     }
 
@@ -218,7 +218,7 @@ namespace mwl {
         return int32_t();
     }
 
-    int32_t SockSelector::Select(uint32_t events, int64_t timeout, TimeUnit unit) {
+    int32_t SockSelector::Select(uint32_t events, const TimeSpec &timeout) {
         return int32_t();
     }
 }

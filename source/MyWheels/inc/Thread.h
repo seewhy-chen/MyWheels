@@ -2,6 +2,7 @@
 #define __MWL_THREAD_H__
 
 #include "inc/BasicDefines.h"
+#include "inc/TimeDefines.h"
 #include "inc/SmartPointer.h"
 
 namespace mwl {
@@ -42,12 +43,12 @@ namespace mwl {
         ~Thread();
         int32_t SetTag(const char *tag);
         int32_t Start(SimpleThreadEntry simpleEntry);
-        int32_t Start(SimpleThreadEntry simpleEntry, int32_t timeoutInMs);
+        int32_t Start(SimpleThreadEntry simpleEntry, const TimeSpec &timeout);
         int32_t Start(ThreadEntry entry);
         int32_t Start(ThreadEntry entry, void *pSharedData);
-        int32_t Start(ThreadEntry entry, void *pSharedData, int32_t timeoutInMs);
-        int32_t Stop(int32_t timeoutInMs = -1);
-        int32_t Join(int32_t timeoutInMs = -1);
+        int32_t Start(ThreadEntry entry, void *pSharedData, const TimeSpec &timeout);
+        int32_t Stop(const TimeSpec &timeout = -1);
+        int32_t Join(const TimeSpec &timeout = -1);
 
         void QueryToStop();
         void *SharedData();
@@ -65,12 +66,12 @@ namespace mwl {
 
     MWL_API SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry);
     MWL_API SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag);
-    MWL_API SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag, int32_t timeoutInMs);
+    MWL_API SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag, const TimeSpec &timeout);
 
     MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry);
     MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData);
     MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const char *tag);
-    MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const char *tag, int32_t timeoutInMs);
+    MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const char *tag, const TimeSpec &timeout);
 
 }
 

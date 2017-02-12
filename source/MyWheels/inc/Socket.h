@@ -5,6 +5,10 @@
 #include "inc/TimeDefines.h"
 #include "inc/SmartPointer.h"
 
+#ifdef __MWL_LINUX__
+    #include <sys/socket.h> // for sockaddr
+#endif
+
 namespace mwl {
 
     enum SockFamily {
@@ -68,19 +72,19 @@ namespace mwl {
 
         int32_t Bind(const SockAddress &address);
         int32_t Listen(int32_t backlog);
-        int32_t Connect(const SockAddress &address, int64_t timeout = -1, TimeUnit unit = MILLISEC);
-        SharedPtr<Socket> Accept(int64_t timeout = -1, TimeUnit unit = MILLISEC);
-        uint32_t Select(uint32_t events, int64_t timeout = -1, TimeUnit unit = MILLISEC);
+        int32_t Connect(const SockAddress &address, const TimeSpec &timeout = MWL_PERMANANT);
+        SharedPtr<Socket> Accept(const TimeSpec &timeout = MWL_PERMANANT);
+        uint32_t Select(uint32_t events, const TimeSpec &timeout = MWL_PERMANANT);
 
-        int32_t Send(const void *pData, int32_t dataLen, int64_t timeout = -1, TimeUnit unit = MILLISEC);
-        int32_t SendAll(const void *pData, int32_t dataLen, int64_t timeout = -1, TimeUnit unit = MILLISEC);
-        int32_t SendTo(const void *pData, int32_t dataLen, const SockAddress& dstAddr, int64_t timeout = -1, TimeUnit unit = MILLISEC);
-        int32_t SendAllTo(const void *pData, int32_t dataLen, const SockAddress& dstAddr, int64_t timeout = -1, TimeUnit unit = MILLISEC);
+        int32_t Send(const void *pData, int32_t dataLen, const TimeSpec &timeout = MWL_PERMANANT);
+        int32_t SendAll(const void *pData, int32_t dataLen, const TimeSpec &timeout = MWL_PERMANANT);
+        int32_t SendTo(const void *pData, int32_t dataLen, const SockAddress& dstAddr, const TimeSpec &timeout = MWL_PERMANANT);
+        int32_t SendAllTo(const void *pData, int32_t dataLen, const SockAddress& dstAddr, const TimeSpec &timeout = MWL_PERMANANT);
 
-        int32_t Recv(void *pData, int32_t dataLen, int64_t timeout = -1, TimeUnit unit = MILLISEC);
-        int32_t RecvAll(void *pData, int32_t dataLen, int64_t timeout = -1, TimeUnit unit = MILLISEC);
-        int32_t RecvFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, int64_t timeout = -1, TimeUnit unit = MILLISEC);
-        int32_t RecvAllFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, int64_t timeout = -1, TimeUnit unit = MILLISEC);
+        int32_t Recv(void *pData, int32_t dataLen, const TimeSpec &timeout = MWL_PERMANANT);
+        int32_t RecvAll(void *pData, int32_t dataLen, const TimeSpec &timeout = MWL_PERMANANT);
+        int32_t RecvFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, const TimeSpec &timeout = MWL_PERMANANT);
+        int32_t RecvAllFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, const TimeSpec &timeout = MWL_PERMANANT);
 
         int32_t SetNonblock(bool nonblock);
         int32_t IsNonblock() const;
@@ -104,7 +108,7 @@ namespace mwl {
         ~SockSelector();
         int32_t AddSocket(Socket* pSock, uint32_t events, SockEventHandler evtHandler, void *pData);
         int32_t RemoveSocket(const Socket* pSock);
-        int32_t Select(uint32_t events, int64_t timeout = -1, TimeUnit unit = MILLISEC);
+        int32_t Select(uint32_t events, const TimeSpec &timeout = MWL_PERMANANT);
     };
 
     void SockGetHostByName();

@@ -9,7 +9,7 @@ namespace mwl {
     struct Condition::Implement{
         Implement();
         ~Implement();
-        int32_t _Wait(Mutex &mutex, int32_t timeoutInMs);
+        int32_t _Wait(Mutex &mutex, const TimeSpec &timeout);
         int32_t _Signal();
         int32_t _Broadcast();
 #ifdef __MWL_WIN__

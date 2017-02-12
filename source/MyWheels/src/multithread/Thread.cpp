@@ -45,8 +45,8 @@ namespace mwl {
         return Start(simpleEntry, -1);
     }
 
-    int32_t Thread::Start(SimpleThreadEntry simpleEntry, int32_t timeoutInMs) {
-        return m_pImpl->_Start(_SimpleThreadWrapper, &simpleEntry, timeoutInMs);
+    int32_t Thread::Start(SimpleThreadEntry simpleEntry, const TimeSpec &timeout) {
+        return m_pImpl->_Start(_SimpleThreadWrapper, &simpleEntry, timeout);
     }
 
     int32_t Thread::Start(ThreadEntry entry) {
@@ -57,16 +57,16 @@ namespace mwl {
         return m_pImpl->_Start(entry, pSharedData, -1);
     }
 
-    int32_t Thread::Start(ThreadEntry entry, void *pSharedData, int32_t timeoutInMs) {
-        return m_pImpl->_Start(entry, pSharedData, timeoutInMs);
+    int32_t Thread::Start(ThreadEntry entry, void *pSharedData, const TimeSpec &timeout) {
+        return m_pImpl->_Start(entry, pSharedData, timeout);
     }
 
-    int32_t Thread::Stop(int32_t timeoutInMs) {
-        return m_pImpl->_Stop(timeoutInMs);
+    int32_t Thread::Stop(const TimeSpec &timeout) {
+        return m_pImpl->_Stop(timeout);
     }
 
-    int32_t Thread::Join(int32_t timeoutInMs) {
-        return m_pImpl->_Join(timeoutInMs);
+    int32_t Thread::Join(const TimeSpec &timeout) {
+        return m_pImpl->_Join(timeout);
     }
 
     void Thread::QueryToStop() {
@@ -105,9 +105,9 @@ namespace mwl {
         return StartThread(simpleEntry, tag, -1);
     }
 
-    SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag, int32_t timeoutInMs) {
+    SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag, const TimeSpec &timeout) {
         SharedPtr<Thread> pThread(new Thread(tag));
-        int32_t ret = pThread->Start(simpleEntry, timeoutInMs);
+        int32_t ret = pThread->Start(simpleEntry, timeout);
         if (ret != ERR_NONE) {
             pThread.reset();
         }
@@ -126,9 +126,9 @@ namespace mwl {
         return StartThread(entry, pSharedData, tag, -1);
     }
 
-    SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const char *tag, int32_t timeoutInMs) {
+    SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const char *tag, const TimeSpec &timeout) {
         SharedPtr<Thread> pThread(new Thread(tag));
-        int32_t ret = pThread->Start(entry, pSharedData, timeoutInMs);
+        int32_t ret = pThread->Start(entry, pSharedData, timeout);
         if (ret != ERR_NONE) {
             pThread.reset();
         }
