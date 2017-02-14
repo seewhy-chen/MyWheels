@@ -64,20 +64,22 @@ namespace mwl {
         int32_t SetAddress(const char *host, const char *service, SockAddressFamily af = SOCK_AF_UNSPEC);
         int32_t SetAddress(const char *host, int32_t port, SockAddressFamily af = SOCK_AF_UNSPEC);
         int32_t SetAddress(const sockaddr *pSockAddr);
-        int32_t SetHost(const char *strHost);
+
+        int32_t SetHost(const char *host);
         int32_t SetHost(const sockaddr *pSockAddr);
+
         int32_t SetPort(int32_t port);
         int32_t SetPort(const sockaddr *pSockAddr);
+
         int32_t SetFamily(SockAddressFamily af);
         int32_t SetFamily(const sockaddr *pSockAddr);
 
-        // presentation name
-        const char *Address() const;
-        // resolved name, if possible
+        int32_t Resolve();
+
         const char *Host() const;
         int32_t Port() const;
         SockAddressFamily AddressFamily() const;
-        const sockaddr *RawAddr() const;
+        const sockaddr* RawAddr() const;
 
         void Swap(SockAddress &other);
 

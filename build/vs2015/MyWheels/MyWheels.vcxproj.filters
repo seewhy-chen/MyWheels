@@ -95,6 +95,9 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\Socket.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\network\SockAddressImplement.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp">
@@ -161,6 +164,12 @@
       <Filter>src\container</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\MyWheels\src\network\Socket.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\network\SockAddress.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\network\SockAddressImplement.cpp">
       <Filter>src\network</Filter>
     </ClCompile>
   </ItemGroup>

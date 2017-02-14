@@ -141,9 +141,11 @@ namespace mwl {
     }
 
     int32_t SockAddress::Implement::_SetHost(const char *host) {
-        _host.clear();
         if (host) {
             _host = host;
+        }
+        else {
+            _host.clear();
         }
         return ERR_NONE;
     }
@@ -156,6 +158,7 @@ namespace mwl {
         char service[64];
         snprintf(service, sizeof(service), "%d", port);
         _service = service;
+        _port = port;
         return ERR_NONE;
     }
 
@@ -180,20 +183,30 @@ namespace mwl {
         return _ParseSockAddr(pSockAddr, NULL, NULL, &_af);
     }
 
+    int32_t SockAddress::Implement::_Resolve() {
+        addrinfo hint;
+        memset(&hint, 0, sizeof(hint));
+        hint.ai_family = s_afMap[_af];
+        addrinfo *pAddrInfo = NULL;
+        int32_t ret = getaddrinfo(_host.c_str(), _service.c_str(), &hint, &pAddrInfo);
+        if (pAddrInfo) {
+            memcpy(&_ss, pAddrInfo->ai_addr, pAddrInfo->ai_addrlen);
+            _rawAddr = reinterpret_cast<sockaddr*>(&_ss);
+            freeaddrinfo(pAddrInfo);
+        }
+        else {
+            MWL_WARN("getaddrinfo for host %s and service %s failed: %s",
+                     _host.c_str(), _service.c_str(), gai_strerror(ret));
+        }
+        if (ERR_NONE == ret) {
+            _rawAddr = reinterpret_cast<sockaddr*>(&_ss);
+        }
+        return ret;
+    }
+
     const sockaddr* SockAddress::Implement::_RawAddr() {
         if (!_rawAddr) {
-            addrinfo hint;
-            memset(&hint, 0, sizeof(hint));
-            hint.ai_family = s_afMap[_af];
-            addrinfo *pAddrInfo = NULL;
-            int32_t ret = getaddrinfo(_host.c_str(), _service.c_str(), &hint, &pAddrInfo);
-            if (pAddrInfo) {
-                memcpy(&_addrStorage, pAddrInfo->ai_addr, pAddrInfo->ai_addrlen);
-                _rawAddr = reinterpret_cast<sockaddr*>(&_addrStorage);
-                freeaddrinfo(pAddrInfo);
-            } else {
-                MWL_WARN("getaddrinfo for %s at port %d failed: %s", _host.c_str(), _service.c_str(), gai_strerror(ret));
-            }
+            _Resolve();
         }
         return _rawAddr;
     }
@@ -203,6 +216,7 @@ namespace mwl {
         _addr.clear();
         _host.clear();
         _service.clear();
+        _port = 0;
         _rawAddr = nullptr;
     }
 }

@@ -65,11 +65,28 @@ namespace mwl {
         return m_pImpl->_SetFamily(pSockAddr);
     }
 
+    int32_t SockAddress::Resolve() {
+        return m_pImpl->_Resolve();
+    }
+
+    const char *SockAddress::Host() const {
+        return m_pImpl->_host.c_str();
+    }
+
+    int32_t SockAddress::Port() const {
+        return m_pImpl->_port;
+    }
+
+    SockAddressFamily SockAddress::AddressFamily() const {
+        return m_pImpl->_af;
+    }
+
+    const sockaddr *SockAddress::RawAddr() const {
+        return m_pImpl->_RawAddr();
+    }
+
     void SockAddress::Swap(SockAddress &other) {
         std::swap(m_pImpl, other.m_pImpl);
     }
 
-    const sockaddr *SockAddress::RawAddr() const {
-        return m_pImpl->_rawAddr;
-    }
 }

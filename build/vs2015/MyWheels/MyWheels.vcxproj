@@ -38,6 +38,7 @@
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\network\SockAddressImplement.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArray.cpp" />
@@ -61,6 +62,8 @@
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Linux.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Win.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\network\SockAddress.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\network\SockAddressImplement.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\network\Socket.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -130,6 +133,9 @@
       <PreprocessorDefinitions>MWL_MAKE_SHARED_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -140,6 +146,9 @@
       <PreprocessorDefinitions>MWL_MAKE_SHARED_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

@@ -22,6 +22,7 @@ namespace mwl {
         int32_t _SetPort(const sockaddr *pSockAddr);
         int32_t _SetFamily(SockAddressFamily af);
         int32_t _SetFamily(const sockaddr *pSockAddr);
+        int32_t _Resolve();
         const sockaddr* _RawAddr();
         
         void _Reset();
@@ -29,8 +30,9 @@ namespace mwl {
         std::string _addr;
         std::string _host;
         std::string _service;
+        int32_t _port;
         sockaddr *_rawAddr;
-        sockaddr_storage  _addrStorage;
+        sockaddr_storage _ss;
     };
 }
 
