@@ -8,6 +8,8 @@
 #ifdef _MSC_VER
 
 #define __MWL_WIN__
+
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
 #if defined(MWL_MAKE_SHARED_LIB)
@@ -63,10 +65,12 @@ inline static char *strerror_r(int32_t err, char *buf, int32_t buflen) {
 
 #endif  // _MSC_VER
 
+
 #if __cplusplus >= 201103L
     #define __CXX_11__
 #endif
 
+#include "inc/StaticAssert.h"
 namespace mwl {
 
     class MWL_API NonCopyable {

@@ -23,6 +23,8 @@
     #define NOMINMAX // disable macro definition of 'min'
     #include <Windows.h>
 
+    #define snprintf sprintf_s
+
 #elif defined __MWL_LINUX__
 
     #include <sys/types.h>
