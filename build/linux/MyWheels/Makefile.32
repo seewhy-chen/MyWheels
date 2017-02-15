@@ -59,6 +59,8 @@ OBJECTS = \
 	$(OBJ_DIR)/ThreadControllerImplement_Win.o\
 	$(OBJ_DIR)/ThreadImplement_Linux.o\
 	$(OBJ_DIR)/ThreadImplement_Win.o\
+	$(OBJ_DIR)/SockAddress.o\
+	$(OBJ_DIR)/SockAddressImplement.o\
 	$(OBJ_DIR)/Socket.o
 
 $(OBJ_DIR) :
@@ -125,5 +127,9 @@ $(OBJ_DIR)/ThreadImplement_Linux.o : ../../../source/MyWheels/src/multithread/Th
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ThreadImplement_Linux.o ../../../source/MyWheels/src/multithread/ThreadImplement_Linux.cpp
 $(OBJ_DIR)/ThreadImplement_Win.o : ../../../source/MyWheels/src/multithread/ThreadImplement_Win.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ThreadImplement_Win.o ../../../source/MyWheels/src/multithread/ThreadImplement_Win.cpp
+$(OBJ_DIR)/SockAddress.o : ../../../source/MyWheels/src/network/SockAddress.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/SockAddress.o ../../../source/MyWheels/src/network/SockAddress.cpp
+$(OBJ_DIR)/SockAddressImplement.o : ../../../source/MyWheels/src/network/SockAddressImplement.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/SockAddressImplement.o ../../../source/MyWheels/src/network/SockAddressImplement.cpp
 $(OBJ_DIR)/Socket.o : ../../../source/MyWheels/src/network/Socket.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Socket.o ../../../source/MyWheels/src/network/Socket.cpp

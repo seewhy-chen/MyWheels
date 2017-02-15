@@ -328,6 +328,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\source\tests\testcases\TestSocket.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\source\tests\testcases\TestThread.cpp"
 				>
 			</File>
