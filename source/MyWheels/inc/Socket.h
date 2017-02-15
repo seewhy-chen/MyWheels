@@ -7,6 +7,7 @@
 
 #ifdef __MWL_WIN__
     #include <WinSock2.h>
+    #include <ws2tcpip.h> // for socklen_t
 #elif defined __MWL_LINUX__
     #include <sys/socket.h> // for sockaddr
 #endif
@@ -14,11 +15,12 @@
 namespace mwl {
 
     enum SockAddressFamily {
-        SOCK_AF_INVALID = -1L,
-        SOCK_AF_UNSPEC = 0L,
-        SOCK_AF_INET    = 1L,
-        SOCK_AF_INET6   = 2L,
-        SOCK_AF_LOCAL   = 3L,
+        SOCK_AF_INVALID     = -1L,
+        SOCK_AF_UNSPEC      = 0L,
+        SOCK_AF_INET        = 1L,
+        SOCK_AF_INET6       = 2L,
+        SOCK_AF_LOCAL       = 3L,
+        SOCK_AF_ABSTRACT    = 4L,
 
         SockAddressFamilyCount
     };
@@ -55,31 +57,30 @@ namespace mwl {
     public:
         explicit SockAddress(const char *host = nullptr, const char *service = nullptr, SockAddressFamily af = SOCK_AF_UNSPEC);
         explicit SockAddress(const char *host, int32_t port, SockAddressFamily af = SOCK_AF_UNSPEC);
-        explicit SockAddress(const sockaddr *pSockAddr);
+        explicit SockAddress(const sockaddr *pSockAddr, socklen_t addrLen);
         SockAddress(const SockAddress &src);
         ~SockAddress();
         SockAddress &operator=(const SockAddress &rhs);
 
-        // address: host + port
-        int32_t SetAddress(const char *host, const char *service, SockAddressFamily af = SOCK_AF_UNSPEC);
+        int32_t SetAddress(const char *host, const char *service = nullptr, SockAddressFamily af = SOCK_AF_UNSPEC);
         int32_t SetAddress(const char *host, int32_t port, SockAddressFamily af = SOCK_AF_UNSPEC);
-        int32_t SetAddress(const sockaddr *pSockAddr);
+        int32_t SetAddress(const sockaddr *pSockAddr, socklen_t addrLen);
 
         int32_t SetHost(const char *host);
-        int32_t SetHost(const sockaddr *pSockAddr);
+        int32_t SetHost(const sockaddr *pSockAddr, socklen_t addrLen);
 
         int32_t SetPort(int32_t port);
-        int32_t SetPort(const sockaddr *pSockAddr);
+        int32_t SetPort(const sockaddr *pSockAddr, socklen_t addrLen);
 
         int32_t SetFamily(SockAddressFamily af);
-        int32_t SetFamily(const sockaddr *pSockAddr);
+        int32_t SetFamily(const sockaddr *pSockAddr, socklen_t addrLen);
 
         int32_t Resolve();
 
         const char *Host() const;
         int32_t Port() const;
-        SockAddressFamily AddressFamily() const;
-        const sockaddr* RawAddr() const;
+        SockAddressFamily Family() const;
+        const sockaddr* SockAddr() const;
 
         void Swap(SockAddress &other);
 
@@ -91,6 +92,7 @@ namespace mwl {
 
     };
 
+#if 0
     class MWL_API Socket : private NonCopyable {
     public:
         Socket();
@@ -140,7 +142,7 @@ namespace mwl {
         int32_t RemoveSocket(const Socket *pSock);
         int32_t Select(uint32_t events, const TimeSpec &timeout = MWL_PERMANANT);
     };
-
+#endif
     void SockGetHostByName();
     void SockGetHostByAddr();
     void SockGetServByName();

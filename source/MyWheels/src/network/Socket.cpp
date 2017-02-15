@@ -2,7 +2,7 @@
 #include "SockAddressImplement.h"
 
 namespace mwl {
-
+#if 0
     struct Socket::Implement {
         SockAddress &_LocalAddress() {
             return localAddr;
@@ -147,4 +147,5 @@ namespace mwl {
     int32_t SockSelector::Select(uint32_t events, const TimeSpec &timeout) {
         return -1;
     }
+#endif
 }

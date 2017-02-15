@@ -28,6 +28,9 @@
     <ClCompile Include="..\..\..\source\tests\testcases\TestByteArray.cpp">
       <Filter>testcases</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\tests\testcases\TestSocket.cpp">
+      <Filter>testcases</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\tests\InternalCommon.h" />

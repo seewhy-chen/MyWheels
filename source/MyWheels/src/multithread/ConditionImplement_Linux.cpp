@@ -23,7 +23,7 @@ namespace mwl {
         }
     }
 
-    int32_t Condition::Implement::_Wait(Mutex &mutex, const TimeSpec timeout) {
+    int32_t Condition::Implement::_Wait(Mutex &mutex, const TimeSpec &timeout) {
         int32_t timeoutInUs = timeout.ToI32(MICROSEC);
         int32_t ret = ERR_NONE;
         if (timeoutInUs < 0) {

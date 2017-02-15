@@ -32,7 +32,7 @@ void TestThread() {
     t2.SetTag("t2");
     t1.Start(ThreadTester);
     t2.Start(ThreadTester);
-    SharedPtr<Thread> t3 = StartThread(ThreadTester, NULL, "t3");
+    SharedPtr<Thread> t3 = StartThread(ThreadTester, nullptr, "t3");
 
     t1.Join();
     t2.Join();
