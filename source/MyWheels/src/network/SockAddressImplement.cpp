@@ -14,6 +14,7 @@
     #ifndef SUN_LEN
         #define SUN_LEN(ptr) ((size_t) (((struct sockaddr_un *) 0)->sun_path) + strlen ((ptr)->sun_path) + 1)
     #endif
+
 #endif
 
 namespace mwl {
