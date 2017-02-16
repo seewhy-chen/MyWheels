@@ -76,34 +76,33 @@ namespace mwl {
         int32_t SetFamily(const sockaddr *pSockAddr, socklen_t addrLen);
 
         int32_t Resolve();
+        void Reset();
 
         const char *Host() const;
         int32_t Port() const;
         SockAddressFamily Family() const;
         const sockaddr* SockAddr() const;
+        const socklen_t SockAddrLen() const;
 
         void Swap(SockAddress &other);
 
-        struct Implement;
-        Implement *Impl();
-
     private:
+        struct Implement;
         Implement *m_pImpl;
 
     };
 
-#if 0
     class MWL_API Socket : private NonCopyable {
     public:
         Socket();
         ~Socket();
 
         int32_t Open(SockAddressFamily family, SockType type, SockProtocol protocol);
-        int32_t Shutdown(SockShutdown shutdown);
+        int32_t Shutdown(SockShutdown how);
         int32_t Close();
 
         int32_t Bind(const SockAddress &address);
-        int32_t Listen(int32_t backlog);
+        int32_t Listen(int32_t backlog = 1);
         int32_t Connect(const SockAddress &address, const TimeSpec &timeout = MWL_PERMANANT);
         SharedPtr<Socket> Accept(const TimeSpec &timeout = MWL_PERMANANT);
         uint32_t Select(uint32_t events, const TimeSpec &timeout = MWL_PERMANANT);
@@ -119,12 +118,10 @@ namespace mwl {
         int32_t RecvAllFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, const TimeSpec &timeout = MWL_PERMANANT);
 
         int32_t SetNonblock(bool nonblock);
-        int32_t IsNonblock() const;
-        int32_t SetOption();
-        int32_t GetOption() const;
-        int32_t IoCtrl();
+        bool IsNonblock() const;
+        int32_t SetOption(int32_t level, int32_t optName, const void *pOptVal, int32_t valLen);
+        int32_t GetOption(int32_t level, int32_t optName, void *pOptVal, int32_t valLen) const;
 
-        int32_t RawFd() const;
         const SockAddress &LocalAddress() const;
         const SockAddress &PeerAddress() const;
 
@@ -142,7 +139,7 @@ namespace mwl {
         int32_t RemoveSocket(const Socket *pSock);
         int32_t Select(uint32_t events, const TimeSpec &timeout = MWL_PERMANANT);
     };
-#endif
+
     void SockGetHostByName();
     void SockGetHostByAddr();
     void SockGetServByName();

@@ -35,6 +35,7 @@ MKDIR = mkdir -p
 first: all
 
 OBJECTS = \
+	$(OBJ_DIR)/SocketImplement.o\
 	$(OBJ_DIR)/ByteArray.o\
 	$(OBJ_DIR)/ByteArrayImplement.o\
 	$(OBJ_DIR)/ByteArrayIterator.o\
@@ -79,6 +80,8 @@ clean :
 
 rebuild : clean all
 
+$(OBJ_DIR)/SocketImplement.o : ../../../source/MyWheels/src/SocketImplement.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/SocketImplement.o ../../../source/MyWheels/src/SocketImplement.cpp
 $(OBJ_DIR)/ByteArray.o : ../../../source/MyWheels/src/container/ByteArray.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ByteArray.o ../../../source/MyWheels/src/container/ByteArray.cpp
 $(OBJ_DIR)/ByteArrayImplement.o : ../../../source/MyWheels/src/container/ByteArrayImplement.cpp

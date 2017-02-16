@@ -67,6 +67,10 @@ namespace mwl {
         return m_pImpl->_Resolve();
     }
 
+    void SockAddress::Reset() {
+        return m_pImpl->_Reset();
+    }
+
     const char *SockAddress::Host() const {
         return m_pImpl->_host.c_str();
     }
@@ -81,6 +85,10 @@ namespace mwl {
 
     const sockaddr *SockAddress::SockAddr() const {
         return m_pImpl->_SockAddr();
+    }
+
+    const socklen_t SockAddress::SockAddrLen() const {
+        return m_pImpl->_SockAddrLen();
     }
 
     void SockAddress::Swap(SockAddress &other) {

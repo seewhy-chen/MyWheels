@@ -524,6 +524,18 @@
 					RelativePath="..\..\..\source\MyWheels\src\network\Socket.cpp"
 					>
 				</File>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\SocketImplement.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\SocketImplement.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\SockInternalUtils.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 	</Files>

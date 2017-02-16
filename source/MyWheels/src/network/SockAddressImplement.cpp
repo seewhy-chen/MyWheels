@@ -1,21 +1,7 @@
 #include "SockAddressImplement.h"
 #include "InternalCommon.h"
+#include "SockInternalUtils.h"
 
-#ifdef __MWL_WIN__
-    #include <ws2ipdef.h> // for sockaddr_in6
-    #include <WS2tcpip.h> // for inet_ntop
-#elif defined __MWL_LINUX__
-    #include <sys/types.h>
-    #include <sys/socket.h>
-    #include <sys/un.h>     // for sockaddr_un
-    #include <netdb.h>
-    #include <arpa/inet.h> // for inet_ntop
-
-    #ifndef SUN_LEN
-        #define SUN_LEN(ptr) ((size_t) (((struct sockaddr_un *) 0)->sun_path) + strlen ((ptr)->sun_path) + 1)
-    #endif
-
-#endif
 
 namespace mwl {
 
@@ -45,16 +31,6 @@ namespace mwl {
         }
 #endif
     }
-
-    static const int32_t s_afMap[] = {
-        AF_UNSPEC,  // SOCK_AF_UNSPEC
-        AF_INET,    // SOCK_AF_INET
-        AF_INET6,   // SOCK_AF_INET6
-        AF_UNIX,    // SOCK_AF_LOCAL
-        AF_UNIX,    // SOCK_AF_ABSTRACT
-
-    };
-    MWL_STATIC_ASSERT(MWL_ARR_SIZE(s_afMap) == SockAddressFamilyCount, some_sock_family_is_missing);
 
     static int32_t _ParseSockAddr(const sockaddr *pSockAddr, socklen_t /*addrLen*/, std::string *pHost, int32_t *pPort, SockAddressFamily *pAF) {
         int32_t ret = ERR_NONE;

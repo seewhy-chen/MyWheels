@@ -2,9 +2,9 @@
 #define __MWL_SOCK_ADDR_IMPLEMENT_H__
 
 #include "inc/Socket.h"
+#include "SockInternalUtils.h"
 
 #ifdef __MWL_WIN__
-    #include <WinSock2.h>
 #endif
 
 #include <string>
