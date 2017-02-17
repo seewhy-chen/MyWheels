@@ -63,13 +63,11 @@ namespace mwl {
     };
 
     MWL_API SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry);
-    MWL_API SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag);
-    MWL_API SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag, const TimeSpec *pTimeout);
+    MWL_API SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag, const TimeSpec *pTimeout = nullptr);
 
     MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry);
     MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData);
-    MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const char *tag);
-    MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const char *tag, const TimeSpec *pTimeout);
+    MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const char *tag, const TimeSpec *pTimeout = nullptr);
 
 }
 

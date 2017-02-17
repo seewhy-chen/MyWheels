@@ -64,7 +64,7 @@ namespace mwl {
             ret = closesocket(_sock);
             if (ret < 0) {
                 ret = -sock_errno;
-                MWL_ERROR_ERRNO("close socket of fd %d failed", -ret, _sock);
+                MWL_ERROR_ERRNO("close sock failed", -ret);
             } else {
                 _isOpened = false;
             }
@@ -286,7 +286,7 @@ namespace mwl {
         int32_t ret = ERR_NONE;
         if (setsockopt(_sock, level, optName, reinterpret_cast<const char *>(pOptVal), valLen) < 0) {
             ret = -sock_errno;
-            MWL_ERROR_ERRNO("setsockopt(%d, %d, %d, %p, %d) failed", -ret, _sock, level, optName, pOptVal, valLen);
+            MWL_ERROR_ERRNO("setsockopt(%d, %d, %p, %d) failed", -ret, level, optName, pOptVal, valLen);
         }
         return ret;
     }
@@ -295,7 +295,7 @@ namespace mwl {
         int32_t ret = ERR_NONE;
         if (getsockopt(_sock, level, optName, reinterpret_cast<char *>(pOptVal), valLen) < 0) {
             ret = -sock_errno;
-            MWL_ERROR_ERRNO("getsockopt(%d, %d, %d, %p, %d) failed", -ret, _sock, level, optName, pOptVal, *valLen);
+            MWL_ERROR_ERRNO("getsockopt(%d, %d, %p, %d) failed", -ret, level, optName, pOptVal, *valLen);
         }
         return ret;
     }

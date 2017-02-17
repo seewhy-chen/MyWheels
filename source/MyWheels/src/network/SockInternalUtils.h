@@ -10,9 +10,18 @@
     #include <io.h>       // for open/close
     #define sock_errno WSAGetLastError()
 
-    #define EWOULDBLOCK             WSAEWOULDBLOCK
-    #define EINPROGRESS             WSAEINPROGRESS
-    #define EALREADY                WSAEALREADY
+    #ifndef EWOULDBLOCK 
+        #define EWOULDBLOCK             WSAEWOULDBLOCK
+    #endif
+
+    #ifndef EINPROGRESS 
+        #define EINPROGRESS             WSAEINPROGRESS
+    #endif
+
+    #ifndef EALREADY
+        #define EALREADY                WSAEALREADY
+    #endif
+
 #elif defined __MWL_LINUX__
     #include <netdb.h>
     #include <fcntl.h>

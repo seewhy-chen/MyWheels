@@ -35,7 +35,6 @@ MKDIR = mkdir -p
 first: all
 
 OBJECTS = \
-	$(OBJ_DIR)/SocketImplement.o\
 	$(OBJ_DIR)/ByteArray.o\
 	$(OBJ_DIR)/ByteArrayImplement.o\
 	$(OBJ_DIR)/ByteArrayIterator.o\
@@ -62,7 +61,8 @@ OBJECTS = \
 	$(OBJ_DIR)/ThreadImplement_Win.o\
 	$(OBJ_DIR)/SockAddress.o\
 	$(OBJ_DIR)/SockAddressImplement.o\
-	$(OBJ_DIR)/Socket.o
+	$(OBJ_DIR)/Socket.o\
+	$(OBJ_DIR)/SocketImplement.o
 
 $(OBJ_DIR) :
 	$(MKDIR) $(OBJ_DIR)
@@ -80,8 +80,6 @@ clean :
 
 rebuild : clean all
 
-$(OBJ_DIR)/SocketImplement.o : ../../../source/MyWheels/src/SocketImplement.cpp
-	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/SocketImplement.o ../../../source/MyWheels/src/SocketImplement.cpp
 $(OBJ_DIR)/ByteArray.o : ../../../source/MyWheels/src/container/ByteArray.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ByteArray.o ../../../source/MyWheels/src/container/ByteArray.cpp
 $(OBJ_DIR)/ByteArrayImplement.o : ../../../source/MyWheels/src/container/ByteArrayImplement.cpp
@@ -136,3 +134,5 @@ $(OBJ_DIR)/SockAddressImplement.o : ../../../source/MyWheels/src/network/SockAdd
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/SockAddressImplement.o ../../../source/MyWheels/src/network/SockAddressImplement.cpp
 $(OBJ_DIR)/Socket.o : ../../../source/MyWheels/src/network/Socket.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Socket.o ../../../source/MyWheels/src/network/Socket.cpp
+$(OBJ_DIR)/SocketImplement.o : ../../../source/MyWheels/src/network/SocketImplement.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/SocketImplement.o ../../../source/MyWheels/src/network/SocketImplement.cpp

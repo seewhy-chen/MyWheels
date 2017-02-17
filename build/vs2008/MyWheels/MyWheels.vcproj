@@ -525,15 +525,15 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\source\MyWheels\src\SocketImplement.cpp"
+					RelativePath="..\..\..\source\MyWheels\src\network\SocketImplement.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\source\MyWheels\src\SocketImplement.h"
+					RelativePath="..\..\..\source\MyWheels\src\network\SocketImplement.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\..\source\MyWheels\src\SockInternalUtils.h"
+					RelativePath="..\..\..\source\MyWheels\src\network\SockInternalUtils.h"
 					>
 				</File>
 			</Filter>

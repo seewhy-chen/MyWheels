@@ -39,6 +39,8 @@
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\network\SockAddressImplement.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\network\SocketImplement.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\network\SockInternalUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArray.cpp" />
@@ -65,6 +67,7 @@
     <ClCompile Include="..\..\..\source\MyWheels\src\network\SockAddress.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\network\SockAddressImplement.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\network\Socket.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\network\SocketImplement.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{40C75FB6-8F69-44B8-9AED-2177A7E65FFA}</ProjectGuid>
