@@ -13,10 +13,13 @@ namespace mwl {
 
     Condition::Implement::~Implement() {}
 
-    int32_t Condition::Implement::_Wait(Mutex &mutex, const TimeSpec &timeout) {
-        int32_t timeoutInMs = timeout.ToI32(MILLISEC);
-        if (timeoutInMs < 0) {
-            timeoutInMs = INFINITE;
+    int32_t Condition::Implement::_Wait(Mutex &mutex, const TimeSpec *pTimeout) {
+        int32_t timeoutInMs = INFINITE;
+        if (pTimeout) {
+            timeoutInMs = pTimeout->ToI32(MILLISEC);
+            if (timeoutInMs < 0) {
+                timeoutInMs = INFINITE;
+            }
         }
         if (!SleepConditionVariableCS(&cond, &mutex.Impl()->m, timeoutInMs)) {
             int32_t err = GetLastError();

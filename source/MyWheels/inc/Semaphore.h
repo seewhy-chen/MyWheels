@@ -11,7 +11,7 @@ namespace mwl {
         Semaphore();
         ~Semaphore();
         int32_t Open(const char *name, int32_t initVal);
-        int32_t Wait(const TimeSpec &timeout = MWL_PERMANANT);
+        int32_t Wait(const TimeSpec *pTimeout = nullptr);
         int32_t Post();
         int32_t Close();
 

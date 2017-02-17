@@ -8,8 +8,10 @@
 #ifdef __MWL_WIN__
     #include <WinSock2.h>
     #include <ws2tcpip.h> // for socklen_t
+    typedef SOCKET SockHandle;
 #elif defined __MWL_LINUX__
     #include <sys/socket.h> // for sockaddr
+    typedef int32_t SockHandle;
 #endif
 
 namespace mwl {
@@ -53,6 +55,12 @@ namespace mwl {
         SockShutdownCount
     };
 
+    enum SockEvent {
+        SOCK_EVT_READ       = 1L,
+        SOCK_EVT_WRITE      = 2L,
+        SOCK_EVT_EXCEPT     = 4L,
+    };
+
     class MWL_API SockAddress {
     public:
         explicit SockAddress(const char *host = nullptr, const char *service = nullptr, SockAddressFamily af = SOCK_AF_UNSPEC);
@@ -82,7 +90,7 @@ namespace mwl {
         int32_t Port() const;
         SockAddressFamily Family() const;
         const sockaddr* SockAddr() const;
-        const socklen_t SockAddrLen() const;
+        socklen_t SockAddrLen() const;
 
         void Swap(SockAddress &other);
 
@@ -95,32 +103,37 @@ namespace mwl {
     class MWL_API Socket : private NonCopyable {
     public:
         Socket();
+        explicit Socket(SockHandle handle);
+        Socket(SockAddressFamily family, SockType type, SockProtocol protocol = SOCK_PROTO_DEFAULT);
         ~Socket();
 
         int32_t Open(SockAddressFamily family, SockType type, SockProtocol protocol);
         int32_t Shutdown(SockShutdown how);
         int32_t Close();
 
+        int32_t SetHandle(SockHandle handle);
+        SockHandle Handle() const;
+
         int32_t Bind(const SockAddress &address);
         int32_t Listen(int32_t backlog = 1);
-        int32_t Connect(const SockAddress &address, const TimeSpec &timeout = MWL_PERMANANT);
-        SharedPtr<Socket> Accept(const TimeSpec &timeout = MWL_PERMANANT);
-        uint32_t Select(uint32_t events, const TimeSpec &timeout = MWL_PERMANANT);
+        int32_t Connect(const SockAddress &address, const TimeSpec *pTimeout = nullptr);
+        SharedPtr<Socket> Accept(const TimeSpec *pTimeout = nullptr);
+        int32_t Select(uint32_t events, const TimeSpec *pTimeout = nullptr);
 
-        int32_t Send(const void *pData, int32_t dataLen, const TimeSpec &timeout = MWL_PERMANANT);
-        int32_t SendAll(const void *pData, int32_t dataLen, const TimeSpec &timeout = MWL_PERMANANT);
-        int32_t SendTo(const void *pData, int32_t dataLen, const SockAddress &dstAddr, const TimeSpec &timeout = MWL_PERMANANT);
-        int32_t SendAllTo(const void *pData, int32_t dataLen, const SockAddress &dstAddr, const TimeSpec &timeout = MWL_PERMANANT);
+        int32_t Send(const void *pData, int32_t dataLen, const TimeSpec *pTimeout = nullptr);
+        int32_t SendAll(const void *pData, int32_t dataLen, const TimeSpec *pTimeout = nullptr);
+        int32_t SendTo(const void *pData, int32_t dataLen, const SockAddress &dstAddr, const TimeSpec *pTimeout = nullptr);
+        int32_t SendAllTo(const void *pData, int32_t dataLen, const SockAddress &dstAddr, const TimeSpec *pTimeout = nullptr);
 
-        int32_t Recv(void *pData, int32_t dataLen, const TimeSpec &timeout = MWL_PERMANANT);
-        int32_t RecvAll(void *pData, int32_t dataLen, const TimeSpec &timeout = MWL_PERMANANT);
-        int32_t RecvFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, const TimeSpec &timeout = MWL_PERMANANT);
-        int32_t RecvAllFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, const TimeSpec &timeout = MWL_PERMANANT);
+        int32_t Recv(void *pData, int32_t dataLen, const TimeSpec *pTimeout = nullptr);
+        int32_t RecvAll(void *pData, int32_t dataLen, const TimeSpec *pTimeout = nullptr);
+        int32_t RecvFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, const TimeSpec *pTimeout = nullptr);
+        int32_t RecvAllFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, const TimeSpec *pTimeout = nullptr);
 
-        int32_t SetNonblock(bool nonblock);
-        bool IsNonblock() const;
-        int32_t SetOption(int32_t level, int32_t optName, const void *pOptVal, int32_t valLen);
-        int32_t GetOption(int32_t level, int32_t optName, void *pOptVal, int32_t valLen) const;
+        int32_t SetNonblocking(bool nonblocking);
+        bool IsNonblocking() const;
+        int32_t SetOption(int32_t level, int32_t optName, const void *pOptVal, socklen_t valLen);
+        int32_t GetOption(int32_t level, int32_t optName, void *pOptVal, socklen_t *valLen) const;
 
         const SockAddress &LocalAddress() const;
         const SockAddress &PeerAddress() const;
@@ -130,20 +143,20 @@ namespace mwl {
         Implement *m_pImpl;
     };
 
-    typedef void (*SockEventHandler)(Socket *pSock, uint32_t event, void *pData);
-    class MWL_API SockSelector : private NonCopyable {
-    public:
-        SockSelector();
-        ~SockSelector();
-        int32_t AddSocket(Socket *pSock, uint32_t events, SockEventHandler evtHandler, void *pData);
-        int32_t RemoveSocket(const Socket *pSock);
-        int32_t Select(uint32_t events, const TimeSpec &timeout = MWL_PERMANANT);
-    };
+    //typedef void (*SockEventHandler)(Socket *pSock, uint32_t event, void *pData);
+    //class MWL_API SockSelector : private NonCopyable {
+    //public:
+    //    SockSelector();
+    //    ~SockSelector();
+    //    int32_t AddSocket(Socket *pSock, uint32_t events, SockEventHandler evtHandler, void *pData);
+    //    int32_t RemoveSocket(const Socket *pSock);
+    //    int32_t Select(uint32_t events, const TimeSpec *pTimeout = nullptr);
+    //};
 
-    void SockGetHostByName();
-    void SockGetHostByAddr();
-    void SockGetServByName();
-    void SockGetAddrInfo();
+    //void SockGetHostByName();
+    //void SockGetHostByAddr();
+    //void SockGetServByName();
+    //void SockGetAddrInfo();
 }
 
 #endif // __MWL_SOCKET_H__

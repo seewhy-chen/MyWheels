@@ -28,13 +28,16 @@ namespace mwl {
         return s ? ERR_NONE : -err;
     }
 
-    int32_t Semaphore::Implement::_Wait(const TimeSpec &timeout) {
+    int32_t Semaphore::Implement::_Wait(const TimeSpec *pTimeout) {
         if (!s) {
             return ERR_INVAL_PARAM;
         }
-        int32_t timeoutInMs = timeout.ToI32(MILLISEC);
-        if (timeoutInMs < 0) {
-            timeoutInMs = INFINITE;
+        int32_t timeoutInMs = INFINITE;
+        if (pTimeout) {
+            timeoutInMs = pTimeout->ToI32(MILLISEC);
+            if (timeoutInMs < 0) {
+                timeoutInMs = INFINITE;
+            }
         }
 
         int32_t ret = WaitForSingleObject(s, timeoutInMs);

@@ -12,7 +12,7 @@ namespace mwl {
     public:
         Condition();
         ~Condition();
-        int32_t Wait(Mutex &mutex, const TimeSpec &timeout = MWL_PERMANANT);
+        int32_t Wait(Mutex &mutex, const TimeSpec *pTimeout = nullptr);
         int32_t Signal();
         int32_t Broadcast();
 

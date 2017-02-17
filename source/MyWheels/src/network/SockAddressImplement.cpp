@@ -2,35 +2,7 @@
 #include "InternalCommon.h"
 #include "SockInternalUtils.h"
 
-
 namespace mwl {
-
-    static void inline _initializeSock() {
-#ifdef __MWL_WIN__
-#define WS_VERSION_CHOICE1 0x202    /*MAKEWORD(2,2)*/
-#define WS_VERSION_CHOICE2 0x101    /*MAKEWORD(1,1)*/
-        static bool _winSockInitialized = false;
-        WSADATA wsadata;
-        if (!_winSockInitialized) {
-            int32_t ret = WSAStartup(WS_VERSION_CHOICE1, &wsadata);
-            if (ret != 0) {
-                MWL_WARN("WSAStartup failed, ret = %d", ret);
-                ret = WSAStartup(WS_VERSION_CHOICE2, &wsadata);
-                if (ret != 0) {
-                    MWL_WARN("WSAStartup2 failed, ret = %d", ret);
-                }
-                return;
-            }
-            if ((wsadata.wVersion != WS_VERSION_CHOICE1)
-                    && (wsadata.wVersion != WS_VERSION_CHOICE2)) {
-                WSACleanup();
-                MWL_WARN("invalid winsock version: 0x%x(%d)", wsadata.wVersion, wsadata.wVersion);
-            } else {
-                _winSockInitialized = true;
-            }
-        }
-#endif
-    }
 
     static int32_t _ParseSockAddr(const sockaddr *pSockAddr, socklen_t /*addrLen*/, std::string *pHost, int32_t *pPort, SockAddressFamily *pAF) {
         int32_t ret = ERR_NONE;
@@ -54,9 +26,8 @@ namespace mwl {
                         af = SOCK_AF_INET6;
                     }
                     if (!inet_ntop(pSockAddr->sa_family, const_cast<void *>(src), host, sizeof(host))) {
-                        int32_t err = errno;
-                        MWL_WARN_ERRNO("inet_ntop failed", err);
-                        ret = -err;
+                        ret = -sock_errno;
+                        MWL_WARN_ERRNO("inet_ntop failed", -ret);
                     }
                 }
                 break;
@@ -119,11 +90,15 @@ namespace mwl {
     }
 
     int32_t SockAddress::Implement::_SetAddress(const sockaddr *pSockAddr, socklen_t addrLen) {
-        _Reset();
         int32_t port = 0;
         int32_t ret = _ParseSockAddr(pSockAddr, addrLen, &_host, &port, &_af);
-        _SetPort(port);
-        return ret;
+        if (ret < 0) {
+            return ret;
+        }
+        char service[64];
+        snprintf(service, sizeof(service), "%d", port);
+        _service = service;
+        return _Resolve();
     }
 
     int32_t SockAddress::Implement::_SetAddress(const char *host, int32_t port, SockAddressFamily af) {
@@ -133,35 +108,36 @@ namespace mwl {
     }
 
     int32_t SockAddress::Implement::_SetAddress(const char *host, const char *service, SockAddressFamily af) {
-        _Reset();
         if (af < 0 || af >= SockAddressFamilyCount) {
             return ERR_INVAL_PARAM;
         }
+        _host.clear();
         if (host) {
             _host = host;
         }
+        _service.clear();
         if (service) {
             _service = service;
         }
         _af = af;
-        return ERR_NONE;
+        return _Resolve();
     }
 
     int32_t SockAddress::Implement::_SetHost(const char *host) {
         _host.clear();
-        _sockAddr = nullptr;
-        _sockAddrLen = 0;
         if (host) {
             _host = host;
         }
-        return ERR_NONE;
+        return _Resolve();
     }
 
     int32_t SockAddress::Implement::_SetHost(const sockaddr *pSockAddr, socklen_t addrLen) {
         _host.clear();
-        _sockAddr = nullptr;
-        _sockAddrLen = 0;
-        return _ParseSockAddr(pSockAddr, addrLen, &_host, nullptr, nullptr);
+        int32_t ret = _ParseSockAddr(pSockAddr, addrLen, &_host, nullptr, nullptr);
+        if (ret < 0) {
+            return ret;
+        }
+        return _Resolve();
     }
 
     int32_t SockAddress::Implement::_SetPort(int32_t port) {
@@ -169,20 +145,16 @@ namespace mwl {
         snprintf(service, sizeof(service), "%d", port);
         _service = service;
         _port = port;
-        _sockAddr = nullptr;
-        _sockAddrLen = 0;
-        return ERR_NONE;
+        return _Resolve();
     }
 
     int32_t SockAddress::Implement::_SetPort(const sockaddr *pSockAddr, socklen_t addrLen) {
         int32_t port = 0;
         int32_t ret = _ParseSockAddr(pSockAddr, addrLen, nullptr, &port, nullptr);
-        if (ERR_NONE == ret) {
-            _SetPort(port);
+        if (ret < 0) {
+            return ret;
         }
-        _sockAddr = nullptr;
-        _sockAddrLen = 0;
-        return ret;
+        return _SetPort(port);
     }
 
     int32_t SockAddress::Implement::_SetFamily(SockAddressFamily af) {
@@ -190,15 +162,15 @@ namespace mwl {
             return ERR_INVAL_PARAM;
         }
         _af = af;
-        _sockAddr = nullptr;
-        _sockAddrLen = 0;
-        return ERR_NONE;
+        return _Resolve();
     }
 
     int32_t SockAddress::Implement::_SetFamily(const sockaddr *pSockAddr, socklen_t addrLen) {
-        _sockAddr = nullptr;
-        _sockAddrLen = 0;
-        return _ParseSockAddr(pSockAddr, addrLen, nullptr, nullptr, &_af);
+        int32_t ret = _ParseSockAddr(pSockAddr, addrLen, nullptr, nullptr, &_af);
+        if (ret < 0) {
+            return ret;
+        }
+        return _Resolve();
     }
 
     int32_t SockAddress::Implement::_Resolve() {
@@ -256,7 +228,16 @@ namespace mwl {
         }
 
         if (_sockAddr) {
-            _SetAddress(_sockAddr, _sockAddrLen);
+            int32_t port = 0;
+            ret = _ParseSockAddr(_sockAddr, _sockAddrLen, &_host, &_port, &_af);
+            if (ret < 0) {
+                return ret;
+            }
+            char service[64];
+            snprintf(service, sizeof(service), "%d", port);
+            _service = service;
+        } else {
+            _Reset();
         }
         return -ret;
     }
@@ -269,6 +250,9 @@ namespace mwl {
     }
 
     int32_t SockAddress::Implement::_SockAddrLen() {
+        if (!_sockAddr) {
+            _Resolve();
+        }
         return _sockAddrLen;
     }
 

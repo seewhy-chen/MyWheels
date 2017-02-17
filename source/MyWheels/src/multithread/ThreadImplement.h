@@ -21,7 +21,7 @@ namespace mwl {
         }
 
         ~Implement() {
-            _Stop(-1);
+            _Stop(nullptr);
         }
 
         inline int32_t _SetTag(const char* tag) {
@@ -33,12 +33,12 @@ namespace mwl {
             return ERR_NONE;
         }
 
-        int32_t _Stop(const TimeSpec &timeout) {
+        int32_t _Stop(const TimeSpec *pTimeout) {
             if (!_IsRunning()) {
                 return 0;
             }
             _QueryToStop();
-            return _Join(timeout);
+            return _Join(pTimeout);
         }
 
         inline void _QueryToStop() {
@@ -75,8 +75,8 @@ namespace mwl {
             }
         }
 
-        int32_t _Start(ThreadEntry entry, void *pSharedData, const TimeSpec &timeout);
-        int32_t _Join(const TimeSpec &timeout);
+        int32_t _Start(ThreadEntry entry, void *pSharedData, const TimeSpec *pTimeout);
+        int32_t _Join(const TimeSpec *pTimeout);
 
         ThreadContext context;
         ThreadEntry entry;

@@ -13,7 +13,7 @@ int32_t SemaphoreTester() {
     Semaphore sem;
     sem.Open("test", 0);
     MWL_INFO("(%lu, %lu) started", threadID.pid, threadID.tid);
-    if (sem.Wait(1000) == ERR_TIMEOUT) {
+    if (sem.Wait(&TimeSpec(1000)) == ERR_TIMEOUT) {
         MWL_INFO("(%lu, %lu) wait semaphore timeout", threadID.pid, threadID.tid);
     } else {
         MWL_INFO("(%lu, %lu) got semaphore, hold it 400ms then post it", threadID.pid, threadID.tid);

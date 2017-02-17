@@ -8,18 +8,27 @@
     #include <ws2ipdef.h> // for sockaddr_in6
     #include <WS2tcpip.h> // for inet_ntop
     #include <io.h>       // for open/close
+    #define sock_errno WSAGetLastError()
+
+    #define EWOULDBLOCK             WSAEWOULDBLOCK
+    #define EINPROGRESS             WSAEINPROGRESS
+    #define EALREADY                WSAEALREADY
 #elif defined __MWL_LINUX__
+    #include <netdb.h>
+    #include <fcntl.h>
+    #include <unistd.h>
+    #include <arpa/inet.h> // for inet_ntop
     #include <sys/types.h>
     #include <sys/socket.h>
-    #include <sys/un.h>     // for sockaddr_un
-    #include <netdb.h>
-    #include <arpa/inet.h> // for inet_ntop
+    #include <sys/un.h>    // for sockaddr_un
 
     #ifndef SUN_LEN
         #define SUN_LEN(ptr) ((size_t) (((struct sockaddr_un *) 0)->sun_path) + strlen ((ptr)->sun_path) + 1)
     #endif
 
     #define closesocket close
+    #define INVALID_SOCKET (-1)
+    #define sock_errno errno
 
 #endif
 
@@ -59,10 +68,37 @@ namespace mwl {
 #else
         SHUT_RD,        // SOCK_SHUT_RD
         SHUT_WR,        // SOCK_SHUT_RD
-        SHUT_RDW,       // SOCK_SHUT_RDWRR,
+        SHUT_RDWR,      // SOCK_SHUT_RDWR,
 #endif
     };
     MWL_STATIC_ASSERT(MWL_ARR_SIZE(s_shutdownMap) == SockShutdownCount, some_sock_shut_is_missing);
+
+    static void inline _initializeSock() {
+#ifdef __MWL_WIN__
+#define WS_VERSION_CHOICE1 0x202    /*MAKEWORD(2,2)*/
+#define WS_VERSION_CHOICE2 0x101    /*MAKEWORD(1,1)*/
+        static bool _winSockInitialized = false;
+        WSADATA wsadata;
+        if (!_winSockInitialized) {
+            int32_t ret = WSAStartup(WS_VERSION_CHOICE1, &wsadata);
+            if (ret != 0) {
+                MWL_WARN("WSAStartup failed, ret = %d", ret);
+                ret = WSAStartup(WS_VERSION_CHOICE2, &wsadata);
+                if (ret != 0) {
+                    MWL_WARN("WSAStartup2 failed, ret = %d", ret);
+                }
+                return;
+            }
+            if ((wsadata.wVersion != WS_VERSION_CHOICE1)
+                    && (wsadata.wVersion != WS_VERSION_CHOICE2)) {
+                WSACleanup();
+                MWL_WARN("invalid winsock version: 0x%x(%d)", wsadata.wVersion, wsadata.wVersion);
+            } else {
+                _winSockInitialized = true;
+            }
+        }
+#endif
+    }
 
 }
 

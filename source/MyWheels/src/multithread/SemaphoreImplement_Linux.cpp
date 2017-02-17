@@ -40,12 +40,12 @@ namespace mwl {
         return s ? ERR_NONE : -err;
     }
 
-    int32_t Semaphore::Implement::_Wait(const TimeSpec &timeout) {
+    int32_t Semaphore::Implement::_Wait(const TimeSpec *pTimeout) {
         if (!s) {
             return ERR_INVAL_PARAM;
         }
         int32_t ret = 0;
-        int32_t timeoutInUs = timeout.ToI32(MICROSEC); 
+        int32_t timeoutInUs = pTimeout ? pTimeout->ToI32(MICROSEC) : -1;
         if (timeoutInUs < 0) {
             ret = sem_wait(s);
         } else {

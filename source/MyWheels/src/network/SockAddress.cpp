@@ -87,7 +87,7 @@ namespace mwl {
         return m_pImpl->_SockAddr();
     }
 
-    const socklen_t SockAddress::SockAddrLen() const {
+    socklen_t SockAddress::SockAddrLen() const {
         return m_pImpl->_SockAddrLen();
     }
 
