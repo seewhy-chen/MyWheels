@@ -1,4 +1,5 @@
 #include "inc/Socket.h"
+#include "inc/TimeDefines.h"
 #include "InternalCommon.h"
 using namespace mwl;
 
@@ -29,13 +30,23 @@ void TestSocket() {
     addr.SetAddress("@abstract_sock");
     MWL_INFO("@abstract_sock is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
 
-    addr.SetAddress("localhost", 3141);
+    //addr.SetAddress("localhost", 3140);
     Socket s1(addr.Family(), SOCK_TYPE_STREAM);
-    s1.Bind(addr);
+    int32_t reuseAddr = 1;
+    s1.SetOption(SOL_SOCKET, SO_REUSEADDR, &reuseAddr, sizeof(reuseAddr));
+    if (ERR_NONE == s1.Bind(addr)) {
+        MWL_INFO("s1 is bound to %s@%d", s1.LocalAddress().Host(), s1.LocalAddress().Port());
+    }
     s1.Listen();
+    MWL_INFO("s1 is listening at %s@%d", s1.LocalAddress().Host(), s1.LocalAddress().Port());
 
+    addr.SetPort(3141);
     Socket s2(addr.Family(), SOCK_TYPE_STREAM);
-    s2.Connect(addr);
+    s2.SetOption(SOL_SOCKET, SO_REUSEADDR, &reuseAddr, sizeof(reuseAddr));
+    if (ERR_NONE == s2.Bind(addr)) {
+        MWL_INFO("s2 is bound to %s@%d", s2.LocalAddress().Host(), s2.LocalAddress().Port());
+    }
+    s2.Connect(s1.LocalAddress());
 
     SharedPtr<Socket> s3 = s1.Accept();
     MWL_INFO("s2 at %s:%d is connected to %s:%d", 
@@ -46,5 +57,6 @@ void TestSocket() {
         s3->LocalAddress().Host(), s3->LocalAddress().Port(),
         s3->PeerAddress().Host(), s3->PeerAddress().Port());
 
+    //TimeSleep(10000);
     MWL_INFO("TestSocket done\n");
 }

@@ -134,12 +134,11 @@ namespace mwl {
     }
 
     int32_t Socket::Implement::_Connect(const SockAddress &address, const TimeSpec *pTimeout) {
-        if (pTimeout) {
-            // TODO: call select
-        }
         bool origNonblocking = _nonblocking;
         int32_t ret = ERR_NONE;
-        _SetNonblocking(true);
+        if (pTimeout) {
+            _SetNonblocking(true);
+        }
         if (connect(_sock, address.SockAddr(), address.SockAddrLen()) < 0) {
             ret = -errno;
             if (pTimeout && (EINPROGRESS == -ret || EWOULDBLOCK == -ret || EALREADY == -ret)) {
@@ -154,7 +153,9 @@ namespace mwl {
                 }
             }
         }
-        _SetNonblocking(origNonblocking);
+        if (pTimeout) {
+            _SetNonblocking(origNonblocking);
+        }
 
         if (ERR_NONE == ret) {
             _UpdateLocalAddr();

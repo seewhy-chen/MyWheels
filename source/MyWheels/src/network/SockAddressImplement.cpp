@@ -4,7 +4,8 @@
 
 namespace mwl {
 
-    static int32_t _ParseSockAddr(const sockaddr *pSockAddr, socklen_t /*addrLen*/, std::string *pHost, int32_t *pPort, SockAddressFamily *pAF) {
+    static int32_t _ParseSockAddr(const sockaddr *pSockAddr, socklen_t addrLen, 
+                                  std::string *pHost, int32_t *pPort, SockAddressFamily *pAF) {
         int32_t ret = ERR_NONE;
         char host[256] = {0};
         uint16_t port = 0;
@@ -90,6 +91,9 @@ namespace mwl {
     }
 
     int32_t SockAddress::Implement::_SetAddress(const sockaddr *pSockAddr, socklen_t addrLen) {
+        if (!pSockAddr || addrLen <= 0) {
+            _Reset();
+        }
         int32_t port = 0;
         int32_t ret = _ParseSockAddr(pSockAddr, addrLen, &_host, &port, &_af);
         if (ret < 0) {
@@ -207,7 +211,7 @@ namespace mwl {
             pAddrUn->sun_family = AF_UNIX;
             _sockAddr = reinterpret_cast<sockaddr *>(&_ss);
 #endif
-        } else {
+        } else if (!_host.empty()) {
             addrinfo hint;
             memset(&hint, 0, sizeof(hint));
             hint.ai_family = s_afMap[_af];
@@ -236,8 +240,6 @@ namespace mwl {
             char service[64];
             snprintf(service, sizeof(service), "%d", port);
             _service = service;
-        } else {
-            _Reset();
         }
         return -ret;
     }
