@@ -4,23 +4,29 @@
 
 namespace mwl {
 
-    static int32_t _ParseSockAddr(const sockaddr *pSockAddr, socklen_t addrLen, 
+    static int32_t _ParseSockAddr(const sockaddr *pSockAddr, socklen_t addrLen,
                                   std::string *pHost, int32_t *pPort, SockAddressFamily *pAF) {
         int32_t ret = ERR_NONE;
-        char host[256] = {0};
+        char host[256] = { 0 };
         uint16_t port = 0;
         SockAddressFamily af = SOCK_AF_INVALID;
         if (pSockAddr) {
             switch (pSockAddr->sa_family) {
-            case AF_INET:
-            case AF_INET6: {
+                case AF_INET:
+                case AF_INET6: {
                     const void *src = nullptr;
                     if (AF_INET == pSockAddr->sa_family) {
+                        if (addrLen != 16) {
+                            MWL_WARN("adddrLen of AF_INET should be 16, not %d", addrLen);
+                        }
                         const sockaddr_in *pAddrIn = reinterpret_cast<const sockaddr_in *>(pSockAddr);
                         src = &pAddrIn->sin_addr;
                         port = ntohs(pAddrIn->sin_port);
                         af = SOCK_AF_INET;
                     } else {
+                        if (addrLen != 28) {
+                            MWL_WARN("adddrLen of AF_INET6 should be 16, not %d", addrLen);
+                        }
                         const sockaddr_in6 *pAddrIn6 = reinterpret_cast<const sockaddr_in6 *>(pSockAddr);
                         src = &pAddrIn6->sin6_addr;
                         port = ntohs(pAddrIn6->sin6_port);
@@ -32,22 +38,38 @@ namespace mwl {
                     }
                 }
                 break;
-            case AF_UNIX: {
-#ifdef __MWL_LINUX__
+                case AF_UNIX: {
+    #ifdef __MWL_LINUX__
                     const sockaddr_un *pAddrUn = reinterpret_cast<const sockaddr_un *>(pSockAddr);
-                    if (pAddrUn->sun_path[0]) {
-                        strncpy(host, pAddrUn->sun_path, sizeof(host) - 1);
-                        af = SOCK_AF_LOCAL;
-                    } else if (pAddrUn->sun_path[1]) {
-                        strncpy(host, pAddrUn->sun_path + 1, sizeof(host) - 1);
-                        af = SOCK_AF_ABSTRACT;
+                    if (addrLen < sizeof(pAddrUn->sun_family)) {
+                        MWL_WARN("adddrLen of AF_UNIX should be at least 2, not %d", addrLen);
+                    } else {
+                        size_t pathLen = addrLen - sizeof(pAddrUn->sun_family);
+                        if (pathLen > sizeof(host) - 1) {
+                            pathLen = sizeof(host) - 1;
+                        }
+                        if (pathLen > 0) {
+                            if (pAddrUn->sun_path[0]) {
+                                strncpy(host, pAddrUn->sun_path, pathLen);
+                                af = SOCK_AF_LOCAL;
+                            } else if (pAddrUn->sun_path[1]) {
+                                strncpy(host, pAddrUn->sun_path + 1, pathLen);
+                                af = SOCK_AF_ABSTRACT;
+                            } else {
+                                MWL_WARN("invalid sun_path: 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x...",
+                                         pAddrUn->sun_path[0], pAddrUn->sun_path[1],
+                                         pAddrUn->sun_path[2], pAddrUn->sun_path[3],
+                                         pAddrUn->sun_path[4], pAddrUn->sun_path[5]);
+                            }
+                            host[pathLen] = '\0';
+                            MWL_INFO("host = %s, addrLen = %d", host, addrLen);
+                        }
                     }
-                    host[sizeof(host) - 1] = '\0';
-#endif
+    #endif
                     port = 0;
                 }
                 break;
-            default: {
+                default: {
                     MWL_WARN("un-support sa_family: 0x%x(%d)", pSockAddr->sa_family, pSockAddr->sa_family);
                     ret = ERR_INVAL_PARAM;
                 }
@@ -87,8 +109,7 @@ namespace mwl {
         _SetAddress(src._host.c_str(), src._service.c_str(), src._af);
     }
 
-    SockAddress::Implement::~Implement() {
-    }
+    SockAddress::Implement::~Implement() {}
 
     int32_t SockAddress::Implement::_SetAddress(const sockaddr *pSockAddr, socklen_t addrLen) {
         if (!pSockAddr || addrLen <= 0) {
@@ -106,7 +127,7 @@ namespace mwl {
     }
 
     int32_t SockAddress::Implement::_SetAddress(const char *host, int32_t port, SockAddressFamily af) {
-        char service[64] = {0};
+        char service[64] = { 0 };
         snprintf(service, sizeof(service), "%d", port);
         return _SetAddress(host, service, af);
     }
@@ -206,7 +227,9 @@ namespace mwl {
             }
             pAddrUn->sun_path[0] = 0;
             snprintf(pAddrUn->sun_path + 1, sizeof(pAddrUn->sun_path) - 2, "%s", _host.c_str());
-            _sockAddrLen = SUN_LEN(pAddrUn) + 1 + strlen(pAddrUn->sun_path + 1);
+            MWL_INFO("SUN_LEN(pAddrUn) = %zd, strlen(pAddrUn->sun_path + 1) = %zd", SUN_LEN(pAddrUn), strlen(pAddrUn->sun_path + 1));
+            _sockAddrLen = SUN_LEN(pAddrUn) + 0 + strlen(pAddrUn->sun_path + 1);
+            MWL_INFO("_sockAddrLen = %d", _sockAddrLen);
             pAddrUn->sun_path[sizeof(pAddrUn->sun_path) - 1] = '\0';
             pAddrUn->sun_family = AF_UNIX;
             _sockAddr = reinterpret_cast<sockaddr *>(&_ss);

@@ -177,8 +177,6 @@ namespace mwl {
                 MWL_ERROR_ERRNO("accept failed", sock_errno);
             } else {
                 acptSock.reset(new Socket(sock));
-                acptSock->m_pImpl->_UpdateLocalAddr();
-                acptSock->m_pImpl->_UpdatePeerAddr();
             }
         }
         return acptSock;
@@ -308,7 +306,14 @@ namespace mwl {
         if (getsockname(_sock, reinterpret_cast<sockaddr *>(&ss), &addrLen) < 0) {
             ret = -sock_errno;
             MWL_ERROR_ERRNO("getsockname failed", -ret);
+            _localAddr.Reset();
         } else {
+            MWL_INFO("after getsockname:");
+            const uint8_t *pAddr = reinterpret_cast<uint8_t*>(&ss);
+            for (socklen_t i = 0; i < addrLen; ++i) {
+                fprintf(stdout, "0x%x,", pAddr[i]);
+            }
+            fprintf(stdout, "\n");
             _localAddr.SetAddress(reinterpret_cast<sockaddr *>(&ss), addrLen);
         }
         return ret;
@@ -321,7 +326,14 @@ namespace mwl {
         if (getpeername(_sock, reinterpret_cast<sockaddr *>(&ss), &addrLen) < 0) {
             ret = -sock_errno;
             MWL_ERROR_ERRNO("getpeername failed", -ret);
+            _peerAddr.Reset();
         } else {
+            MWL_INFO("after getpeername:");
+            const uint8_t *pAddr = reinterpret_cast<uint8_t*>(&ss);
+            for (socklen_t i = 0; i < addrLen; ++i) {
+                fprintf(stdout, "0x%x,", pAddr[i]);
+            }
+            fprintf(stdout, "\n");
             _peerAddr.SetAddress(reinterpret_cast<sockaddr *>(&ss), addrLen);
         }
         return ret;
