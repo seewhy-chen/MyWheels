@@ -27,7 +27,7 @@ void TestSocket() {
     //addr.SetAddress("/unix_sock");
     //MWL_INFO("/unix_sock is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
 
-    addr.SetAddress("@a");
+    addr.SetAddress("/tmp/a");
     MWL_INFO("@abstract_sock is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
 
     //addr.SetAddress("localhost", 3140);
@@ -40,6 +40,7 @@ void TestSocket() {
     s1.Listen();
     MWL_INFO("s1 is listening at %s@%d", s1.LocalAddress().Host(), s1.LocalAddress().Port());
 
+    addr.SetAddress("/tmp/b");
     addr.SetPort(3141);
     Socket s2(addr.Family(), SOCK_TYPE_STREAM);
     s2.SetOption(SOL_SOCKET, SO_REUSEADDR, &reuseAddr, sizeof(reuseAddr));
@@ -49,13 +50,15 @@ void TestSocket() {
     s2.Connect(s1.LocalAddress());
 
     SharedPtr<Socket> s3 = s1.Accept();
-    MWL_INFO("s2 at %s:%d is connected to %s:%d", 
-        s2.LocalAddress().Host(), s2.LocalAddress().Port(),
-        s2.PeerAddress().Host(), s2.PeerAddress().Port());
+    if (s3 != nullptr) {
+        MWL_INFO("s2 at %s:%d is connected to %s:%d",
+                 s2.LocalAddress().Host(), s2.LocalAddress().Port(),
+                 s2.PeerAddress().Host(), s2.PeerAddress().Port());
 
-    MWL_INFO("s3 at %s:%d is connected to %s:%d", 
-        s3->LocalAddress().Host(), s3->LocalAddress().Port(),
-        s3->PeerAddress().Host(), s3->PeerAddress().Port());
+        MWL_INFO("s3 at %s:%d is connected to %s:%d",
+                 s3->LocalAddress().Host(), s3->LocalAddress().Port(),
+                 s3->PeerAddress().Host(), s3->PeerAddress().Port());
+    }
 
     MWL_INFO("TestSocket done\n");
 }

@@ -53,6 +53,7 @@ namespace mwl {
                                 strncpy(host, pAddrUn->sun_path, pathLen);
                                 af = SOCK_AF_LOCAL;
                             } else if (pAddrUn->sun_path[1]) {
+                                --pathLen;
                                 strncpy(host, pAddrUn->sun_path + 1, pathLen);
                                 af = SOCK_AF_ABSTRACT;
                             } else {
@@ -62,7 +63,6 @@ namespace mwl {
                                          pAddrUn->sun_path[4], pAddrUn->sun_path[5]);
                             }
                             host[pathLen] = '\0';
-                            MWL_INFO("host = %s, addrLen = %d", host, addrLen);
                         }
                     }
     #endif
@@ -213,7 +213,7 @@ namespace mwl {
         if (SOCK_AF_LOCAL == _af) {
 #ifdef __MWL_LINUX__
             sockaddr_un *pAddrUn = reinterpret_cast<sockaddr_un *>(&_ss);
-            snprintf(pAddrUn->sun_path, sizeof(pAddrUn->sun_path) - 1, "%s", _host.c_str());
+            strncpy(pAddrUn->sun_path, _host.c_str(), sizeof(pAddrUn->sun_path) - 1);
             _sockAddrLen = SUN_LEN(pAddrUn);
             pAddrUn->sun_path[sizeof(pAddrUn->sun_path) - 1] = '\0';
             pAddrUn->sun_family = AF_UNIX;
@@ -226,10 +226,8 @@ namespace mwl {
                 _host = _host.substr(1);
             }
             pAddrUn->sun_path[0] = 0;
-            snprintf(pAddrUn->sun_path + 1, sizeof(pAddrUn->sun_path) - 2, "%s", _host.c_str());
-            MWL_INFO("SUN_LEN(pAddrUn) = %zd, strlen(pAddrUn->sun_path + 1) = %zd", SUN_LEN(pAddrUn), strlen(pAddrUn->sun_path + 1));
-            _sockAddrLen = SUN_LEN(pAddrUn) + 0 + strlen(pAddrUn->sun_path + 1);
-            MWL_INFO("_sockAddrLen = %d", _sockAddrLen);
+            strncpy(pAddrUn->sun_path + 1, _host.c_str(), sizeof(pAddrUn->sun_path) - 2);
+            _sockAddrLen = SUN_LEN(pAddrUn) + 1 + strlen(pAddrUn->sun_path + 1);
             pAddrUn->sun_path[sizeof(pAddrUn->sun_path) - 1] = '\0';
             pAddrUn->sun_family = AF_UNIX;
             _sockAddr = reinterpret_cast<sockaddr *>(&_ss);

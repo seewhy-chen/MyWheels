@@ -12,7 +12,9 @@ namespace mwl {
         _isOpened = false;
     }
 
-    Socket::Implement::~Implement() {}
+    Socket::Implement::~Implement() {
+        _Close();
+    }
 
     int32_t Socket::Implement::_Open(int32_t af, int32_t type, int32_t protocol) {
         if (af < 0 || af >= SockAddressFamilyCount) {
@@ -66,6 +68,11 @@ namespace mwl {
                 ret = -sock_errno;
                 MWL_ERROR_ERRNO("close sock failed", -ret);
             } else {
+#ifdef __MWL_LINUX__
+                if (_af == SOCK_AF_LOCAL) {
+                    unlink(_localAddr.Host());
+                }
+#endif
                 _isOpened = false;
             }
             _af = SOCK_AF_INVALID;
@@ -183,6 +190,10 @@ namespace mwl {
     }
 
     int32_t Socket::Implement::_Select(uint32_t events, const TimeSpec *pTimeout) {
+        if (_sock < 0) {
+            MWL_WARN("can't select on sock %d", _sock);
+            return EINVAL;
+        }
         fd_set *pReadfds = NULL, *pWritefds = NULL, *pExceptfds = NULL;
         fd_set readfds, writefds, exceptfds;
         if (events & SOCK_EVT_READ) {
@@ -308,12 +319,6 @@ namespace mwl {
             MWL_ERROR_ERRNO("getsockname failed", -ret);
             _localAddr.Reset();
         } else {
-            MWL_INFO("after getsockname:");
-            const uint8_t *pAddr = reinterpret_cast<uint8_t*>(&ss);
-            for (socklen_t i = 0; i < addrLen; ++i) {
-                fprintf(stdout, "0x%x,", pAddr[i]);
-            }
-            fprintf(stdout, "\n");
             _localAddr.SetAddress(reinterpret_cast<sockaddr *>(&ss), addrLen);
         }
         return ret;
@@ -328,12 +333,6 @@ namespace mwl {
             MWL_ERROR_ERRNO("getpeername failed", -ret);
             _peerAddr.Reset();
         } else {
-            MWL_INFO("after getpeername:");
-            const uint8_t *pAddr = reinterpret_cast<uint8_t*>(&ss);
-            for (socklen_t i = 0; i < addrLen; ++i) {
-                fprintf(stdout, "0x%x,", pAddr[i]);
-            }
-            fprintf(stdout, "\n");
             _peerAddr.SetAddress(reinterpret_cast<sockaddr *>(&ss), addrLen);
         }
         return ret;
