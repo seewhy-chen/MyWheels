@@ -39,8 +39,9 @@
 #define ZD "lu"
 #define JD "llu"
 
+#include <ws2tcpip.h>
 inline static char *strerror_r(int32_t err, char *buf, int32_t buflen) {
-    strerror_s(buf, buflen, err);
+    strcpy_s(buf, buflen, gai_strerror(err));
     return buf;
 }
 
@@ -117,18 +118,18 @@ namespace mwl {
 #define MWL_WARN_ERRNO(fmt, err, ...) \
     do { \
         char errMsg[256] = {0}; \
-        fprintf(stdout, "[Warn] " fmt": %s (%d)\n", ##__VA_ARGS__, strerror_r(err, errMsg, sizeof(errMsg)), err); \
+        fprintf(stdout, "[Warn] " fmt": %d -- %s\n", ##__VA_ARGS__, err, strerror_r(err, errMsg, sizeof(errMsg))); \
     } while (0)
 
-#define MWL_ERROR(fmt, ...) \
+#define MWL_ERR(fmt, ...) \
     do { \
         fprintf(stdout, "[Error] " fmt"\n", ##__VA_ARGS__); \
     } while (0)
 
-#define MWL_ERROR_ERRNO(fmt, err, ...) \
+#define MWL_ERR_ERRNO(fmt, err, ...) \
     do { \
         char errMsg[256] = {0}; \
-        fprintf(stdout, "[Error] " fmt": %s (%d)\n", ##__VA_ARGS__, strerror_r(err, errMsg, sizeof(errMsg)), err); \
+        fprintf(stdout, "[Error] " fmt": %d -- %s\n", ##__VA_ARGS__, err, strerror_r(err, errMsg, sizeof(errMsg))); \
     } while (0)
 
 #define MWL_ARR_SIZE(arr) (static_cast<int32_t>(sizeof((arr))/sizeof((arr)[0])))

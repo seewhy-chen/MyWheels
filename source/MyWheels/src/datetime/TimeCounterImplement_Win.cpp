@@ -53,7 +53,7 @@ namespace mwl {
         case SECOND:
             return ticks / _freq.QuadPart;
         default:
-            MWL_ERROR("unknown time unit %d", unit);
+            MWL_WARN("unknown time unit %d", unit);
             // fall through
         case MILLISEC:
             return ticks * 1000 / _freq.QuadPart;
