@@ -124,15 +124,15 @@ namespace mwl {
         SharedPtr<Socket> Accept(const TimeSpec *pTimeout = nullptr);
         int32_t Select(uint32_t events, const TimeSpec *pTimeout = nullptr);
 
-        int32_t Send(const void *pData, int32_t dataLen, const TimeSpec *pTimeout = nullptr);
-        int32_t SendAll(const void *pData, int32_t dataLen, const TimeSpec *pTimeout = nullptr);
-        int32_t SendTo(const void *pData, int32_t dataLen, const SockAddress &dstAddr, const TimeSpec *pTimeout = nullptr);
-        int32_t SendAllTo(const void *pData, int32_t dataLen, const SockAddress &dstAddr, const TimeSpec *pTimeout = nullptr);
+        int32_t Send(const void *pData, int32_t dataLen, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
+        int32_t SendAll(const void *pData, int32_t dataLen, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
+        int32_t SendTo(const void *pData, int32_t dataLen, const SockAddress &dstAddr, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
+        int32_t SendAllTo(const void *pData, int32_t dataLen, const SockAddress &dstAddr, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
 
-        int32_t Recv(void *pData, int32_t dataLen, const TimeSpec *pTimeout = nullptr);
-        int32_t RecvAll(void *pData, int32_t dataLen, const TimeSpec *pTimeout = nullptr);
-        int32_t RecvFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, const TimeSpec *pTimeout = nullptr);
-        int32_t RecvAllFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, const TimeSpec *pTimeout = nullptr);
+        int32_t Recv(void *pData, int32_t dataLen, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
+        int32_t RecvAll(void *pData, int32_t dataLen, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
+        int32_t RecvFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
+        int32_t RecvAllFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
 
         int32_t SetNonblocking(bool nonblocking);
         bool IsNonblocking() const;

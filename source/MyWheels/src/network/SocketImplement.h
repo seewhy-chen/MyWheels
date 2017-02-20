@@ -21,8 +21,8 @@ namespace mwl {
         SharedPtr<Socket> _Accept(const TimeSpec *pTimeout);
         int32_t _Select(uint32_t events, const TimeSpec *pTimeout);
 
-        int32_t _SendTo(const void *pData, int32_t dataLen, const SockAddress *pDstAddr, const TimeSpec *pTimeout, bool sendAll);
-        int32_t _RecvFrom(void *pData, int32_t dataLen, SockAddress *pSrcAddr, const TimeSpec *pTimeout, bool recvAll);
+        int32_t _SendTo(const void *pData, int32_t dataLen, int32_t flags, const SockAddress *pDstAddr, const TimeSpec *pTimeout, bool sendAll);
+        int32_t _RecvFrom(void *pData, int32_t dataLen, int32_t flags, SockAddress *pSrcAddr, const TimeSpec *pTimeout, bool recvAll);
 
         int32_t _SetNonblocking(bool nonblocking);
         bool _IsNonblocking();

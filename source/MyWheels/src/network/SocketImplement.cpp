@@ -34,7 +34,7 @@ namespace mwl {
             _sock = socket(s_afMap[af], s_typeMap[type], s_protoMap[protocol]);
             if (INVALID_SOCKET == _sock) {
                 ret = -sock_errno;
-                MWL_ERROR_ERRNO("open socket(%d, %d, %d) failed", -ret, af, type, protocol);
+                MWL_ERR_ERRNO("open socket(%d, %d, %d) failed", -ret, af, type, protocol);
             } else {
                 _af = static_cast<SockAddressFamily>(af);
                 _type = static_cast<SockType>(type);
@@ -53,18 +53,18 @@ namespace mwl {
         int32_t ret = ERR_NONE;
         if (shutdown(_sock, s_shutdownMap[how]) < 0) {
             ret = -sock_errno;
-            MWL_ERROR_ERRNO("shutdown failed", -ret);
+            MWL_ERR_ERRNO("shutdown failed", -ret);
         }
         return ret;
     }
 
     int32_t Socket::Implement::_Close() {
         int32_t ret = ERR_NONE;
-        if (_sock >= 0) {
+        if (_sock != INVALID_SOCKET && _sock >= 0) {
             ret = closesocket(_sock);
             if (ret < 0) {
                 ret = -sock_errno;
-                MWL_ERROR_ERRNO("close sock failed", -ret);
+                MWL_ERR_ERRNO("close sock failed", -ret);
             } else {
 #ifdef __MWL_LINUX__
                 if (_af == SOCK_AF_LOCAL) {
@@ -120,7 +120,7 @@ namespace mwl {
         int32_t ret = ERR_NONE;
         if (bind(_sock, address.SockAddr(), address.SockAddrLen()) < 0) {
             ret = -sock_errno;
-            MWL_ERROR_ERRNO("bind to %s at port %d as af %d failed", -ret, address.Host(), address.Port(), address.Family());
+            MWL_ERR_ERRNO("bind to %s at port %d as af %d failed", -ret, address.Host(), address.Port(), address.Family());
             ret = -sock_errno;
         } else {
             _UpdateLocalAddr();
@@ -132,8 +132,8 @@ namespace mwl {
         int32_t ret = ERR_NONE;
         if (listen(_sock, backlog) < 0) {
             ret = -sock_errno;
-            MWL_ERROR_ERRNO("listen on %s at port %d as af %d failed",
-                            -ret, _localAddr.Host(), _localAddr.Port(), _localAddr.Family());
+            MWL_ERR_ERRNO("listen on %s at port %d as af %d failed",
+                          -ret, _localAddr.Host(), _localAddr.Port(), _localAddr.Family());
         }
         return ret;
     }
@@ -145,7 +145,7 @@ namespace mwl {
             _SetNonblocking(true);
         }
         if (connect(_sock, address.SockAddr(), address.SockAddrLen()) < 0) {
-            ret = -errno;
+            ret = -sock_errno;
             if (pTimeout && (EINPROGRESS == -ret || EWOULDBLOCK == -ret || EALREADY == -ret)) {
                 int32_t evts = _Select(SOCK_EVT_READ | SOCK_EVT_WRITE, pTimeout);
                 if ((evts & SOCK_EVT_WRITE) || (evts & SOCK_EVT_READ)) {
@@ -166,7 +166,7 @@ namespace mwl {
             _UpdateLocalAddr();
             _UpdatePeerAddr();
         } else {
-            MWL_ERROR_ERRNO("connect to %s at port %d as af %d failed", -ret, address.Host(), address.Port(), address.Family());
+            MWL_ERR_ERRNO("connect to %s at port %d as af %d failed", -ret, address.Host(), address.Port(), address.Family());
         }
         return ret;
     }
@@ -179,7 +179,7 @@ namespace mwl {
             sockaddr *pSockAddr = reinterpret_cast<sockaddr *>(&ss);
             SockHandle sock = accept(_sock, pSockAddr, &addrLen);
             if (INVALID_SOCKET == sock) {
-                MWL_ERROR_ERRNO("accept failed", sock_errno);
+                MWL_ERR_ERRNO("accept failed", sock_errno);
             } else {
                 acptSock.reset(new Socket(sock));
             }
@@ -239,21 +239,80 @@ namespace mwl {
     }
 
     int32_t Socket::Implement::_SendTo(
-        const void * /*pData*/,
-        int32_t /*dataLen*/,
-        const SockAddress * /*pDstAddr*/,
-        const TimeSpec * /*pTimeout*/,
-        bool /*sendAll*/) {
-        return -1;
+            const void *pData, int32_t dataLen, int32_t flags,
+            const SockAddress *pDstAddr, const TimeSpec *pTimeout, bool sendAll) {
+        const sockaddr *dstAddr = pDstAddr ? pDstAddr->SockAddr() : nullptr;
+        socklen_t dstAddrLen = pDstAddr ? pDstAddr->SockAddrLen() : 0;
+        const char *pBuf = reinterpret_cast<const char *>(pData);
+        int32_t totalBytesSent = 0;
+        if (pTimeout) {
+            if (_Select(SOCK_EVT_WRITE, pTimeout) <= 0) {
+                return -ETIMEDOUT;
+            }
+        }
+#ifdef __MWL_LINUX__
+        if (0 == flags) {
+            flags = MSG_NOSIGNAL;
+        }
+#endif
+        do {
+            int32_t n = sendto(_sock, pBuf + totalBytesSent, dataLen, flags, dstAddr, dstAddrLen);
+            if (n > 0) {
+                totalBytesSent += n;
+                dataLen -= n;
+            } else {
+                if (n < 0) {
+                    int32_t err = sock_errno;
+                    MWL_WARN_ERRNO("sendto failed", err);
+                    if (0 == totalBytesSent) {
+                        totalBytesSent = -err;
+                    }
+                }
+                break;
+            }
+        } while (sendAll && dataLen > 0);
+        return totalBytesSent;
     }
 
     int32_t Socket::Implement::_RecvFrom(
-        void * /*pData*/,
-        int32_t /*dataLen*/,
-        SockAddress * /*pSrcAddr*/,
-        const TimeSpec * /*pTimeout*/,
-        bool /*recvAll*/) {
-        return -1;
+            void *pData, int32_t dataLen, int32_t flags,
+            SockAddress *pSrcAddr, const TimeSpec *pTimeout, bool recvAll) {
+        char *pBuf = reinterpret_cast<char *>(pData);
+        int32_t totalBytesRecv = 0;
+        if (pTimeout) {
+            if (_Select(SOCK_EVT_READ, pTimeout) <= 0) {
+                return -ETIMEDOUT;
+            }
+        }
+        sockaddr_storage ss;
+        sockaddr *srcAddr = nullptr;
+        socklen_t srcAddrLen = 0;
+        if (pSrcAddr) {
+            memset(&ss, 0, sizeof(ss));
+            srcAddr = reinterpret_cast<sockaddr *>(&ss);
+            srcAddrLen = sizeof(ss);
+        }
+        do {
+            int32_t n = recvfrom(_sock, pBuf + totalBytesRecv, dataLen, flags, srcAddr, &srcAddrLen);
+            if (n > 0) {
+                MWL_INFO("srcAddrLen = %d", srcAddrLen);
+                totalBytesRecv += n;
+                dataLen -= n;
+            } else {
+                if (n < 0) {
+                    int32_t err = sock_errno;
+                    MWL_WARN_ERRNO("recvfrom failed", err);
+                    if (0 == totalBytesRecv) {
+                        totalBytesRecv = -err;
+                    }
+                }
+                break;
+            }
+        } while (recvAll && dataLen > 0);
+        if (pSrcAddr) {
+            pSrcAddr->SetAddress(srcAddr, srcAddrLen);
+        }
+        return totalBytesRecv;
     }
 
     int32_t Socket::Implement::_SetNonblocking(bool nonblocking) {
@@ -295,7 +354,7 @@ namespace mwl {
         int32_t ret = ERR_NONE;
         if (setsockopt(_sock, level, optName, reinterpret_cast<const char *>(pOptVal), valLen) < 0) {
             ret = -sock_errno;
-            MWL_ERROR_ERRNO("setsockopt(%d, %d, %p, %d) failed", -ret, level, optName, pOptVal, valLen);
+            MWL_ERR_ERRNO("setsockopt(%d, %d, %p, %d) failed", -ret, level, optName, pOptVal, valLen);
         }
         return ret;
     }
@@ -304,7 +363,7 @@ namespace mwl {
         int32_t ret = ERR_NONE;
         if (getsockopt(_sock, level, optName, reinterpret_cast<char *>(pOptVal), valLen) < 0) {
             ret = -sock_errno;
-            MWL_ERROR_ERRNO("getsockopt(%d, %d, %p, %d) failed", -ret, level, optName, pOptVal, *valLen);
+            MWL_ERR_ERRNO("getsockopt(%d, %d, %p, %d) failed", -ret, level, optName, pOptVal, *valLen);
         }
         return ret;
     }
@@ -315,7 +374,7 @@ namespace mwl {
         int32_t ret = ERR_NONE;
         if (getsockname(_sock, reinterpret_cast<sockaddr *>(&ss), &addrLen) < 0) {
             ret = -sock_errno;
-            MWL_ERROR_ERRNO("getsockname failed", -ret);
+            MWL_ERR_ERRNO("getsockname failed", -ret);
             _localAddr.Reset();
         } else {
             _localAddr.SetAddress(reinterpret_cast<sockaddr *>(&ss), addrLen);
@@ -329,7 +388,7 @@ namespace mwl {
         int32_t ret = ERR_NONE;
         if (getpeername(_sock, reinterpret_cast<sockaddr *>(&ss), &addrLen) < 0) {
             ret = -sock_errno;
-            MWL_ERROR_ERRNO("getpeername failed", -ret);
+            MWL_ERR_ERRNO("getpeername failed", -ret);
             _peerAddr.Reset();
         } else {
             _peerAddr.SetAddress(reinterpret_cast<sockaddr *>(&ss), addrLen);
