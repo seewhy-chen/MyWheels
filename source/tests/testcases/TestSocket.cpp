@@ -31,10 +31,10 @@ void TestSocket() {
     MWL_INFO("@abstract_sock is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
 
     //addr.SetAddress("localhost", 3140);
-    Socket s1(addr.Family(), SOCK_TYPE_STREAM);
+    Socket s1(SOCK_AF_INET, SOCK_TYPE_STREAM);
     int32_t reuseAddr = 1;
     s1.SetOption(SOL_SOCKET, SO_REUSEADDR, &reuseAddr, sizeof(reuseAddr));
-    if (ERR_NONE == s1.Bind(addr)) {
+    if (ERR_NONE == s1.Bind("localhost")) {
         MWL_INFO("s1 is bound to %s@%d", s1.LocalAddress().Host(), s1.LocalAddress().Port());
     }
     s1.Listen();
@@ -42,9 +42,9 @@ void TestSocket() {
 
     addr.SetAddress("/tmp/b");
     addr.SetPort(3141);
-    Socket s2(addr.Family(), SOCK_TYPE_STREAM);
+    Socket s2(SOCK_AF_INET, SOCK_TYPE_STREAM);
     s2.SetOption(SOL_SOCKET, SO_REUSEADDR, &reuseAddr, sizeof(reuseAddr));
-    if (ERR_NONE == s2.Bind(addr)) {
+    if (ERR_NONE == s2.Bind("localhost")) {
         MWL_INFO("s2 is bound to %s@%d", s2.LocalAddress().Host(), s2.LocalAddress().Port());
     }
     s2.Connect(s1.LocalAddress());

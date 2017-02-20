@@ -60,7 +60,7 @@ namespace mwl {
 
     int32_t Socket::Implement::_Close() {
         int32_t ret = ERR_NONE;
-        if (_isOpened) {
+        if (_sock >= 0) {
             ret = closesocket(_sock);
             if (ret < 0) {
                 ret = -sock_errno;
@@ -71,15 +71,11 @@ namespace mwl {
                     unlink(_localAddr.Host());
                 }
 #endif
-                _isOpened = false;
                 _sock = INVALID_SOCKET;
                 _af = SOCK_AF_INVALID;
                 _type = SOCK_TYPE_INVALID;
                 _proto = SOCK_PROTO_INVALID;
             }
-            _af = SOCK_AF_INVALID;
-            _type = SOCK_TYPE_INVALID;
-            _proto = SOCK_TYPE_INVALID;
         }
         return ret;
     }
@@ -192,8 +188,9 @@ namespace mwl {
     }
 
     int32_t Socket::Implement::_Select(uint32_t events, const TimeSpec *pTimeout) {
-        if (_sock < 0) {
-            MWL_WARN("can't select on sock %d", _sock);
+        SockHandle sock = _sock;
+        if (sock < 0) {
+            MWL_WARN("can't select on sock %d", sock);
             return EINVAL;
         }
         fd_set *pReadfds = NULL, *pWritefds = NULL, *pExceptfds = NULL;
@@ -201,17 +198,17 @@ namespace mwl {
         if (events & SOCK_EVT_READ) {
             FD_ZERO(&readfds);
             pReadfds = &readfds;
-            FD_SET(_sock, &readfds);
+            FD_SET(sock, &readfds);
         }
         if (events & SOCK_EVT_WRITE) {
             FD_ZERO(&writefds);
             pWritefds = &writefds;
-            FD_SET(_sock, &writefds);
+            FD_SET(sock, &writefds);
         }
         if (events & SOCK_EVT_EXCEPT) {
             FD_ZERO(&exceptfds);
             pExceptfds = &exceptfds;
-            FD_SET(_sock, &exceptfds);
+            FD_SET(sock, &exceptfds);
         }
 
         timeval *pTV = nullptr;
@@ -223,18 +220,18 @@ namespace mwl {
         }
 
         int32_t resultEvts = 0;
-        int32_t ret = select(static_cast<int32_t>(_sock) + 1, pReadfds, pWritefds, pExceptfds, pTV);
+        int32_t ret = select(static_cast<int32_t>(sock) + 1, pReadfds, pWritefds, pExceptfds, pTV);
         if (ret < 0) {
             resultEvts = -sock_errno;
             MWL_WARN_ERRNO("select failed", -resultEvts);
         } else if (ret > 0) {
-            if (pReadfds && FD_ISSET(_sock, pReadfds)) {
+            if (pReadfds && FD_ISSET(sock, pReadfds)) {
                 resultEvts |= SOCK_EVT_READ;
             }
-            if (pWritefds && FD_ISSET(_sock, pWritefds)) {
+            if (pWritefds && FD_ISSET(sock, pWritefds)) {
                 resultEvts |= SOCK_EVT_WRITE;
             }
-            if (pExceptfds && FD_ISSET(_sock, pExceptfds)) {
+            if (pExceptfds && FD_ISSET(sock, pExceptfds)) {
                 resultEvts |= SOCK_EVT_EXCEPT;
             }
         }
