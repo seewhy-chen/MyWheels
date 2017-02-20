@@ -42,12 +42,28 @@ namespace mwl {
         return m_pImpl->_Bind(address);
     }
 
+    int32_t Socket::Bind(const char *host, int32_t port) {
+        return m_pImpl->_Bind(SockAddress(host, port, static_cast<SockAddressFamily>(m_pImpl->_af)));
+    }
+
+    int32_t Socket::Bind(const char *host, const char *service) {
+        return m_pImpl->_Bind(SockAddress(host, service, static_cast<SockAddressFamily>(m_pImpl->_af)));
+    }
+
     int32_t Socket::Listen(int32_t backlog) {
         return m_pImpl->_Listen(backlog);
     }
 
     int32_t Socket::Connect(const SockAddress &address, const TimeSpec *pTimeout) {
         return m_pImpl->_Connect(address, pTimeout);
+    }
+
+    int32_t Socket::Connect(const char *host, int32_t port, const TimeSpec *pTimeout) {
+        return m_pImpl->_Connect(SockAddress(host, port, m_pImpl->_af), pTimeout);
+    }
+
+    int32_t Socket::Connect(const char *host, const char *service, const TimeSpec *pTimeout) {
+        return m_pImpl->_Connect(SockAddress(host, service, m_pImpl->_af), pTimeout);
     }
 
     SharedPtr<Socket> Socket::Accept(const TimeSpec *pTimeout) {

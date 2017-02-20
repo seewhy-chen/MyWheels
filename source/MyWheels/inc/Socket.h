@@ -115,8 +115,12 @@ namespace mwl {
         SockHandle Handle() const;
 
         int32_t Bind(const SockAddress &address);
+        int32_t Bind(const char *host, int32_t port = 0);
+        int32_t Bind(const char *host, const char *service);
         int32_t Listen(int32_t backlog = 1);
         int32_t Connect(const SockAddress &address, const TimeSpec *pTimeout = nullptr);
+        int32_t Connect(const char *host, int32_t port = 0, const TimeSpec *pTimeout = nullptr);
+        int32_t Connect(const char *host, const char *service, const TimeSpec *pTimeout = nullptr);
         SharedPtr<Socket> Accept(const TimeSpec *pTimeout = nullptr);
         int32_t Select(uint32_t events, const TimeSpec *pTimeout = nullptr);
 
