@@ -6,10 +6,9 @@ namespace mwl {
     Socket::Implement::Implement() {
         _initializeSock();
         _sock = INVALID_SOCKET;
-        _af = -1;
-        _type = -1;
-        _proto = -1;
-        _isOpened = false;
+        _af = SOCK_AF_INVALID;
+        _type = SOCK_TYPE_INVALID;
+        _proto = SOCK_PROTO_INVALID;
     }
 
     Socket::Implement::~Implement() {
@@ -37,10 +36,9 @@ namespace mwl {
                 ret = -sock_errno;
                 MWL_ERROR_ERRNO("open socket(%d, %d, %d) failed", -ret, af, type, protocol);
             } else {
-                _af = af;
-                _type = type;
-                _proto = protocol;
-                _isOpened = true;
+                _af = static_cast<SockAddressFamily>(af);
+                _type = static_cast<SockType>(type);
+                _proto = static_cast<SockProtocol>(protocol);
             }
         }
         return ret;
@@ -74,6 +72,10 @@ namespace mwl {
                 }
 #endif
                 _isOpened = false;
+                _sock = INVALID_SOCKET;
+                _af = SOCK_AF_INVALID;
+                _type = SOCK_TYPE_INVALID;
+                _proto = SOCK_PROTO_INVALID;
             }
             _af = SOCK_AF_INVALID;
             _type = SOCK_TYPE_INVALID;

@@ -35,10 +35,9 @@ namespace mwl {
         const SockAddress &_PeerAddress();
 
         SockHandle _sock;
-        bool _isOpened;
-        int32_t _af;
-        int32_t _type;
-        int32_t _proto;
+        SockAddressFamily _af;
+        SockType _type;
+        SockProtocol _proto;
         bool _nonblocking;
         SockAddress _localAddr;
         SockAddress _peerAddr;
