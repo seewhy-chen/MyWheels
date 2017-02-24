@@ -118,7 +118,8 @@ namespace mwl {
 #define MWL_WARN_ERRNO(fmt, err, ...) \
     do { \
         char errMsg[256] = {0}; \
-        fprintf(stdout, "[Warn] " fmt": %d -- %s\n", ##__VA_ARGS__, err, strerror_r(err, errMsg, sizeof(errMsg))); \
+        strerror_r(err, errMsg, sizeof(errMsg);) \
+        fprintf(stdout, "[Warn] " fmt": %d -- %s\n", ##__VA_ARGS__, err, errMsg); \
     } while (0)
 
 #define MWL_ERR(fmt, ...) \
@@ -129,7 +130,8 @@ namespace mwl {
 #define MWL_ERR_ERRNO(fmt, err, ...) \
     do { \
         char errMsg[256] = {0}; \
-        fprintf(stdout, "[Error] " fmt": %d -- %s\n", ##__VA_ARGS__, err, strerror_r(err, errMsg, sizeof(errMsg))); \
+        strerror_r(err, errMsg, sizeof(errMsg)); \
+        fprintf(stdout, "[Error] " fmt": %d -- %s\n", ##__VA_ARGS__, err, errMsg); \
     } while (0)
 
 #define MWL_ARR_SIZE(arr) (static_cast<int32_t>(sizeof((arr))/sizeof((arr)[0])))

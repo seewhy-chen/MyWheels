@@ -7,7 +7,6 @@
     #include <WinSock2.h>
     #include <ws2ipdef.h> // for sockaddr_in6
     #include <WS2tcpip.h> // for inet_ntop
-    #include <io.h>       // for open/close
     #define sock_errno WSAGetLastError()
 
     #ifndef EWOULDBLOCK 

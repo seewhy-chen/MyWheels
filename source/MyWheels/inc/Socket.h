@@ -107,7 +107,7 @@ namespace mwl {
         Socket(SockAddressFamily family, SockType type, SockProtocol protocol = SOCK_PROTO_DEFAULT);
         ~Socket();
 
-        int32_t Open(SockAddressFamily family, SockType type, SockProtocol protocol);
+        int32_t Open(SockAddressFamily family, SockType type, SockProtocol protocol = SOCK_PROTO_DEFAULT);
         int32_t Shutdown(SockShutdown how);
         int32_t Close();
 

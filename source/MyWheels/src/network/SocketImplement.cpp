@@ -295,7 +295,6 @@ namespace mwl {
         do {
             int32_t n = recvfrom(_sock, pBuf + totalBytesRecv, dataLen, flags, srcAddr, &srcAddrLen);
             if (n > 0) {
-                MWL_INFO("srcAddrLen = %d", srcAddrLen);
                 totalBytesRecv += n;
                 dataLen -= n;
             } else {
