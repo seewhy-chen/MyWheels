@@ -5,11 +5,6 @@ namespace mwl {
 
     Socket::Socket() : m_pImpl(new Implement()) {}
 
-    Socket::Socket(SockHandle handle, SockAddressFamily af, SockType type, SockProtocol protocol)
-    : m_pImpl(new Implement()) {
-        m_pImpl->_SetHandle(handle, af, type, protocol);
-    }
-
     Socket::Socket(SockAddressFamily af, SockType type, SockProtocol protocol) 
     : m_pImpl(new Implement()) {
         m_pImpl->_Open(af, type, protocol);
@@ -33,14 +28,6 @@ namespace mwl {
 
     int32_t Socket::Close() {
         return m_pImpl->_Close();
-    }
-
-    int32_t Socket::SetHandle(SockHandle handle, SockAddressFamily af, SockType type, SockProtocol protocol) {
-        return m_pImpl->_SetHandle(handle, af, type, protocol);
-    }
-
-    SockHandle Socket::Handle() const {
-        return m_pImpl->_Handle();
     }
 
     int32_t Socket::Bind(const SockAddress &address) {
@@ -71,10 +58,10 @@ namespace mwl {
         return m_pImpl->_Connect(SockAddress(host, service, m_pImpl->_af), pTimeout);
     }
 
-    SharedPtr<Socket> Socket::Accept(const TimeSpec *pTimeout) {
-        return m_pImpl->_Accept(pTimeout);
+    int32_t Socket::Accept(Socket &acceptee, const TimeSpec *pTimeout) {
+        return m_pImpl->_Accept(acceptee, pTimeout);
     }
-
+    
     int32_t Socket::Select(uint32_t events, const TimeSpec *pTimeout) {
         return m_pImpl->_Select(events, pTimeout);
     }
@@ -134,35 +121,5 @@ namespace mwl {
     const SockAddress &Socket::PeerAddress() const {
         return m_pImpl->_PeerAddress();
     }
-
-    //void SockGetHostByName() {
-    //}
-
-    //void SockGetHostByAddr() {
-    //}
-
-    //void SockGetServByName() {
-    //}
-
-    //void SockGetAddrInfo() {
-    //}
-
-    //SockSelector::SockSelector() {
-    //}
-
-    //SockSelector::~SockSelector() {
-    //}
-
-    //int32_t SockSelector::AddSocket(Socket *pSock, uint32_t events, SockEventHandler evtHandler, void *pData) {
-    //    return -1;
-    //}
-
-    //int32_t SockSelector::RemoveSocket(const Socket *pSock) {
-    //    return -1;
-    //}
-
-    //int32_t SockSelector::Select(uint32_t events, const TimeSpec *pTimeout) {
-    //    return -1;
-    //}
 
 }

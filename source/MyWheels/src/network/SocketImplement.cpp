@@ -163,9 +163,9 @@ namespace mwl {
         }
         if (connect(_sock, address.SockAddr(), address.SockAddrLen()) < 0) {
             ret = -sock_errno;
-            if (pTimeout && (EINPROGRESS == -ret || EWOULDBLOCK == -ret || EALREADY == -ret)) {
+            if ((pTimeout || origNonblocking) && (EINPROGRESS == -ret || EWOULDBLOCK == -ret || EALREADY == -ret)) {
                 int32_t evts = _Select(SOCK_EVT_READ | SOCK_EVT_WRITE, pTimeout);
-                if ((evts & SOCK_EVT_WRITE) || (evts & SOCK_EVT_READ)) {
+                if (evts > 0 && ((evts & SOCK_EVT_WRITE) || (evts & SOCK_EVT_READ))) {
                     int32_t err = 0;
                     socklen_t errLen = sizeof(err);
                     ret = _GetOption(SOL_SOCKET, SO_ERROR, &err, &errLen);
@@ -188,20 +188,27 @@ namespace mwl {
         return ret;
     }
 
-    SharedPtr<Socket> Socket::Implement::_Accept(const TimeSpec *pTimeout) {
-        SharedPtr<Socket> acptSock;
-        if (_Select(SOCK_EVT_READ, pTimeout) & SOCK_EVT_READ) {
-            sockaddr_storage ss;
-            socklen_t addrLen = sizeof(ss);
-            sockaddr *pSockAddr = reinterpret_cast<sockaddr *>(&ss);
-            SockHandle sock = accept(_sock, pSockAddr, &addrLen);
-            if (INVALID_SOCKET == sock) {
-                MWL_ERR_ERRNO("accept failed", sock_errno);
-            } else {
-                acptSock.reset(new Socket(sock, _af, _type, _proto));
+    int32_t Socket::Implement::_Accept(Socket &acceptee, const TimeSpec *pTimeout) {
+        int32_t ret = ERR_NONE;
+        if (pTimeout) {
+            int32_t evt = _Select(SOCK_EVT_READ, pTimeout);
+            if (evt < 0) {
+                return evt;
+            } else if (0 == evt) {
+                return -ETIMEDOUT;
             }
         }
-        return acptSock;
+        sockaddr_storage ss;
+        socklen_t addrLen = sizeof(ss);
+        sockaddr *pSockAddr = reinterpret_cast<sockaddr *>(&ss);
+        SockHandle sock = accept(_sock, pSockAddr, &addrLen);
+        if (INVALID_SOCKET == sock) {
+            ret = -sock_errno;
+            MWL_ERR_ERRNO("accept failed", -ret);
+        } else {
+            acceptee.m_pImpl->_SetHandle(sock, _af, _type, _proto);
+        }
+        return ret;
     }
 
     int32_t Socket::Implement::_Select(uint32_t events, const TimeSpec *pTimeout) {
@@ -263,7 +270,10 @@ namespace mwl {
         const char *pBuf = reinterpret_cast<const char *>(pData);
         int32_t totalBytesSent = 0;
         if (pTimeout) {
-            if (_Select(SOCK_EVT_WRITE, pTimeout) <= 0) {
+            int32_t evt = _Select(SOCK_EVT_WRITE, pTimeout);
+            if (evt < 0) {
+                return evt;
+            } else if (0 == evt) {
                 return -ETIMEDOUT;
             }
         }
@@ -297,7 +307,10 @@ namespace mwl {
         char *pBuf = reinterpret_cast<char *>(pData);
         int32_t totalBytesRecv = 0;
         if (pTimeout) {
-            if (_Select(SOCK_EVT_READ, pTimeout) <= 0) {
+            int32_t evt = _Select(SOCK_EVT_READ, pTimeout);
+            if (evt < 0) {
+                return evt;
+            } else if (0 == evt) {
                 return -ETIMEDOUT;
             }
         }
@@ -326,7 +339,11 @@ namespace mwl {
             }
         } while (recvAll && dataLen > 0);
         if (pSrcAddr) {
-            pSrcAddr->SetAddress(srcAddr, srcAddrLen);
+            if (srcAddr->sa_family != 0) {
+                pSrcAddr->SetAddress(srcAddr, srcAddrLen);
+            } else {
+                *pSrcAddr = _peerAddr;
+            }
         }
         return totalBytesRecv;
     }

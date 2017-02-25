@@ -89,7 +89,7 @@ namespace mwl {
         const char *Host() const;
         int32_t Port() const;
         SockAddressFamily Family() const;
-        const sockaddr* SockAddr() const;
+        const sockaddr *SockAddr() const;
         socklen_t SockAddrLen() const;
 
         void Swap(SockAddress &other);
@@ -100,10 +100,9 @@ namespace mwl {
 
     };
 
-    class MWL_API Socket : private NonCopyable {
+    class MWL_API Socket : NonCopyable {
     public:
         Socket();
-        Socket(SockHandle handle, SockAddressFamily af, SockType type, SockProtocol protocol = SOCK_PROTO_DEFAULT);
         Socket(SockAddressFamily af, SockType type, SockProtocol protocol = SOCK_PROTO_DEFAULT);
         ~Socket();
 
@@ -112,9 +111,6 @@ namespace mwl {
         int32_t Shutdown(SockShutdown how);
         int32_t Close();
 
-        int32_t SetHandle(SockHandle handle, SockAddressFamily af, SockType type, SockProtocol protocol = SOCK_PROTO_DEFAULT);
-        SockHandle Handle() const;
-
         int32_t Bind(const SockAddress &address);
         int32_t Bind(const char *host, int32_t port = 0);
         int32_t Bind(const char *host, const char *service);
@@ -122,7 +118,7 @@ namespace mwl {
         int32_t Connect(const SockAddress &address, const TimeSpec *pTimeout = nullptr);
         int32_t Connect(const char *host, int32_t port = 0, const TimeSpec *pTimeout = nullptr);
         int32_t Connect(const char *host, const char *service, const TimeSpec *pTimeout = nullptr);
-        SharedPtr<Socket> Accept(const TimeSpec *pTimeout = nullptr);
+        int32_t Accept(Socket &acceptee, const TimeSpec *pTimeout = nullptr);
         int32_t Select(uint32_t events, const TimeSpec *pTimeout = nullptr);
 
         int32_t Send(const void *pData, int32_t dataLen, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
@@ -159,20 +155,6 @@ namespace mwl {
         Implement *m_pImpl;
     };
 
-    //typedef void (*SockEventHandler)(Socket *pSock, uint32_t event, void *pData);
-    //class MWL_API SockSelector : private NonCopyable {
-    //public:
-    //    SockSelector();
-    //    ~SockSelector();
-    //    int32_t AddSocket(Socket *pSock, uint32_t events, SockEventHandler evtHandler, void *pData);
-    //    int32_t RemoveSocket(const Socket *pSock);
-    //    int32_t Select(uint32_t events, const TimeSpec *pTimeout = nullptr);
-    //};
-
-    //void SockGetHostByName();
-    //void SockGetHostByAddr();
-    //void SockGetServByName();
-    //void SockGetAddrInfo();
 }
 
 #endif // __MWL_SOCKET_H__

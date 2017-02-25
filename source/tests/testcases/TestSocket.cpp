@@ -1,16 +1,18 @@
 #include "inc/Socket.h"
 #include "inc/TimeDefines.h"
 #include "inc/Thread.h"
+#include "inc/Mutex.h"
+#include "inc/Condition.h"
 #include "InternalCommon.h"
 using namespace mwl;
+
+#include <time.h>
 
 static void _TestSockAddress();
 static void _TestTCPSocket();
 static void _TestUDPSocket();
 
-#ifdef __MWL_LINUX__
 static int32_t TestSysServices(ThreadContext *);
-#endif
 
 void TestSocket() {
     MWL_INFO("TestSocket started");
@@ -19,14 +21,11 @@ void TestSocket() {
     _TestTCPSocket();
     _TestUDPSocket();
 
-#ifdef __MWL_LINUX__
     SharedPtr<Thread> t = StartThread(TestSysServices);
     t->Join();
-#endif
 
-    MWL_INFO("press Enter to continue...");
+    MWL_INFO("TestSocket done, press Enter to continue...\n");
     getc(stdin);
-    MWL_INFO("TestSocket done\n");
 }
 
 void _TestSockAddress() {
@@ -71,21 +70,21 @@ static void _TestTCPSocket() {
     }
 
     if (ERR_NONE == s2.Connect(s1.LocalAddress())) {
-        SharedPtr<Socket> s3 = s1.Accept();
-        if (s3 != nullptr) {
+        Socket s3;
+        if (ERR_NONE == s1.Accept(s3)) {
             MWL_INFO("s2 at %s:%d is connected to %s:%d",
                 s2.LocalAddress().Host(), s2.LocalAddress().Port(),
                 s2.PeerAddress().Host(), s2.PeerAddress().Port());
 
             MWL_INFO("s3 at %s:%d is connected to %s:%d",
-                s3->LocalAddress().Host(), s3->LocalAddress().Port(),
-                s3->PeerAddress().Host(), s3->PeerAddress().Port());
+                s3.LocalAddress().Host(), s3.LocalAddress().Port(),
+                s3.PeerAddress().Host(), s3.PeerAddress().Port());
             char buf[256] = {0};
             int32_t n = s2.SendAll("hello there", strlen("hello there") + 1);
             if (n > 0) {
                 MWL_INFO("%d bytes has been sent to", n);
                 SockAddress srcAddr;
-                s3->RecvFrom(buf, 256, srcAddr);
+                s3.RecvFrom(buf, 256, srcAddr);
                 MWL_INFO("s3 received %s", buf);
             }
         }
@@ -111,23 +110,23 @@ static void _TestUDPSocket() {
     }
 }
 
-#ifdef __MWL_LINUX__
 static const int32_t PORT_DAYTIME = 13;
 static int32_t servicePort = PORT_DAYTIME;
 
 static int32_t MySysServer(ThreadContext *pCtx) {
     Socket svrSock(SOCK_AF_INET, SOCK_TYPE_STREAM);
     svrSock.SetOption(SOL_SOCKET, SO_REUSEADDR, 1);
-    svrSock.Bind("localhost", servicePort + 3000);
+    svrSock.Bind("0.0.0.0", servicePort + 3000);
     svrSock.Listen();
+    MWL_INFO("my daytime server is running at: %s:%d", svrSock.LocalAddress().Host(), svrSock.LocalAddress().Port());
     TimeSpec timeout(10);
     while (!pCtx->StopQueried()) {
-        SharedPtr<Socket> s = svrSock.Accept(&timeout);
-        if (s != nullptr) {
+        Socket s;
+        if (svrSock.Accept(s, &timeout) == ERR_NONE) {
             char strTime[256];
             time_t t = time(NULL);
 			sprintf(strTime, "hello, I'm daytime server implemented by SeeWhy, now daytime is: %.24s", ctime(&t));
-            s->SendAll(strTime, strlen(strTime) + 1);
+            s.SendAll(strTime, strlen(strTime) + 1);
         }
     }
     return 0;
@@ -143,11 +142,17 @@ static int32_t TestSysServices(ThreadContext *) {
 
     SharedPtr<Thread> server = StartThread(MySysServer);
     sock.Reopen();
+    int32_t sendSize;
+    sock.GetOption(SOL_SOCKET, SO_SNDBUF, sendSize);
+    sock.SetNonblocking(true);
+    MWL_INFO("sendSize = %d", sendSize);
     if (ERR_NONE == sock.Connect("localhost", servicePort + 3000)) {
-        char buf[256] = {0};
+        char buf[256*1024] = {0};
+        int32_t n = sock.Send(buf, sizeof(buf));
+        MWL_INFO("%d bytes written", n);
         sock.Recv(buf, sizeof(buf));
         MWL_INFO("daytime received from 'localhost:%d' is:\n%s", servicePort + 3000, buf);
     }
+    getc(stdin);
     return 0;
 }
-#endif

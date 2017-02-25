@@ -19,7 +19,7 @@ namespace mwl {
         int32_t _Bind(const SockAddress &address);
         int32_t _Listen(int32_t backlog);
         int32_t _Connect(const SockAddress &address, const TimeSpec *pTimeout);
-        SharedPtr<Socket> _Accept(const TimeSpec *pTimeout);
+        int32_t _Accept(Socket &acceptee, const TimeSpec *pTimeout);
         int32_t _Select(uint32_t events, const TimeSpec *pTimeout);
 
         int32_t _SendTo(const void *pData, int32_t dataLen, int32_t flags, const SockAddress *pDstAddr, const TimeSpec *pTimeout, bool sendAll);

@@ -16,16 +16,16 @@ namespace mwl {
                 case AF_INET6: {
                     const void *src = nullptr;
                     if (AF_INET == pSockAddr->sa_family) {
-                        if (addrLen != 16) {
-                            MWL_WARN("adddrLen of AF_INET should be 16, not %d", addrLen);
+                        if (addrLen < 16) {
+                            MWL_WARN("adddrLen of AF_INET should be at least 16, not %d", addrLen);
                         }
                         const sockaddr_in *pAddrIn = reinterpret_cast<const sockaddr_in *>(pSockAddr);
                         src = &pAddrIn->sin_addr;
                         port = ntohs(pAddrIn->sin_port);
                         af = SOCK_AF_INET;
                     } else {
-                        if (addrLen != 28) {
-                            MWL_WARN("adddrLen of AF_INET6 should be 16, not %d", addrLen);
+                        if (addrLen < 28) {
+                            MWL_WARN("adddrLen of AF_INET6 should be at least 28, not %d", addrLen);
                         }
                         const sockaddr_in6 *pAddrIn6 = reinterpret_cast<const sockaddr_in6 *>(pSockAddr);
                         src = &pAddrIn6->sin6_addr;
@@ -42,7 +42,7 @@ namespace mwl {
     #ifdef __MWL_LINUX__
                     const sockaddr_un *pAddrUn = reinterpret_cast<const sockaddr_un *>(pSockAddr);
                     if (addrLen < sizeof(pAddrUn->sun_family)) {
-                        MWL_WARN("adddrLen of AF_UNIX should be at least 2, not %d", addrLen);
+                        MWL_WARN("adddrLen of AF_UNIX should be at least %d, not %d", sizeof(pAddrUn->sun_family), addrLen);
                     } else {
                         size_t pathLen = addrLen - sizeof(pAddrUn->sun_family);
                         if (pathLen > sizeof(host) - 1) {
@@ -210,6 +210,7 @@ namespace mwl {
         _sockAddr = nullptr;
         _sockAddrLen = 0;
         int32_t ret = ERR_NONE;
+        memset(&_ss, 0, sizeof(_ss));
         if (SOCK_AF_LOCAL == _af) {
 #ifdef __MWL_LINUX__
             sockaddr_un *pAddrUn = reinterpret_cast<sockaddr_un *>(&_ss);
@@ -253,13 +254,12 @@ namespace mwl {
         }
 
         if (_sockAddr) {
-            int32_t port = 0;
             ret = _ParseSockAddr(_sockAddr, _sockAddrLen, &_host, &_port, &_af);
             if (ret < 0) {
                 return ret;
             }
             char service[64];
-            snprintf(service, sizeof(service), "%d", port);
+            snprintf(service, sizeof(service), "%d", _port);
             _service = service;
         }
         return -ret;
