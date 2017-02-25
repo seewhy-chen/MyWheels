@@ -10,9 +10,10 @@ namespace mwl {
         ~Implement();
 
         int32_t _Open(int32_t af, int32_t type, int32_t protocol);
+        int32_t _Reopen();
         int32_t _Shutdown(int32_t how);
         int32_t _Close();
-        int32_t _SetHandle(SockHandle handle);
+        int32_t _SetHandle(SockHandle handle, SockAddressFamily af, SockType type, SockProtocol protocol);
         SockHandle _Handle() ;
 
         int32_t _Bind(const SockAddress &address);

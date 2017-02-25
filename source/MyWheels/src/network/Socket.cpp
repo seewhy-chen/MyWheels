@@ -5,21 +5,26 @@ namespace mwl {
 
     Socket::Socket() : m_pImpl(new Implement()) {}
 
-    Socket::Socket(SockHandle handle) : m_pImpl(new Implement()) {
-        m_pImpl->_SetHandle(handle);
+    Socket::Socket(SockHandle handle, SockAddressFamily af, SockType type, SockProtocol protocol)
+    : m_pImpl(new Implement()) {
+        m_pImpl->_SetHandle(handle, af, type, protocol);
     }
 
-    Socket::Socket(SockAddressFamily family, SockType type, SockProtocol protocol) 
+    Socket::Socket(SockAddressFamily af, SockType type, SockProtocol protocol) 
     : m_pImpl(new Implement()) {
-        m_pImpl->_Open(family, type, protocol);
+        m_pImpl->_Open(af, type, protocol);
     }
 
     Socket::~Socket() {
         delete m_pImpl;
     }
 
-    int32_t Socket::Open(SockAddressFamily family, SockType type, SockProtocol protocol) {
-        return m_pImpl->_Open(family, type, protocol);
+    int32_t Socket::Open(SockAddressFamily af, SockType type, SockProtocol protocol) {
+        return m_pImpl->_Open(af, type, protocol);
+    }
+
+    int32_t Socket::Reopen() {
+        return m_pImpl->_Reopen();
     }
 
     int32_t Socket::Shutdown(SockShutdown how) {
@@ -30,8 +35,8 @@ namespace mwl {
         return m_pImpl->_Close();
     }
 
-    int32_t Socket::SetHandle(SockHandle handle) {
-        return m_pImpl->_SetHandle(handle);
+    int32_t Socket::SetHandle(SockHandle handle, SockAddressFamily af, SockType type, SockProtocol protocol) {
+        return m_pImpl->_SetHandle(handle, af, type, protocol);
     }
 
     SockHandle Socket::Handle() const {

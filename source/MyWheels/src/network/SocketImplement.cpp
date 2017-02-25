@@ -44,6 +44,20 @@ namespace mwl {
         return ret;
     }
 
+    int32_t Socket::Implement::_Reopen() {
+        if (INVALID_SOCKET == _sock) {
+            return -EBADF;
+        }
+        SockAddressFamily af = _af;
+        SockType type = _type;
+        SockProtocol proto = _proto;
+        int32_t ret = _Close();
+        if (ERR_NONE == ret) {
+            ret = _Open(af, type, proto);
+        }
+        return ret;
+    }
+
     int32_t Socket::Implement::_Shutdown(int32_t how) {
         if (how < 0 || how >= SockShutdownCount) {
             MWL_WARN("invalid how: %d", how);
@@ -80,33 +94,36 @@ namespace mwl {
         return ret;
     }
 
-    int32_t Socket::Implement::_SetHandle(SockHandle handle) {
+    int32_t Socket::Implement::_SetHandle(SockHandle handle, SockAddressFamily af, SockType type, SockProtocol protocol) {
         _Close();
-        _sock = handle;
-        int32_t sockType;
-        socklen_t optLen = sizeof(sockType);
-        int32_t ret = _GetOption(SOL_SOCKET, SO_TYPE, &sockType, &optLen);
-        if (ret < 0) {
-            return ret;
-        }
-        switch (sockType) {
-        case SOCK_STREAM:
-            _type = SOCK_TYPE_STREAM;
-            break;
-        case SOCK_DGRAM:
-            _type = SOCK_TYPE_DGRAM;
-            break;
-        case SOCK_SEQPACKET:
-            _type = SOCK_TYPE_SEQPKT;
-            break;
-        default: {
-                MWL_WARN("un-support sock type %d", sockType);
-                return ERR_INVAL_PARAM;
+        if (SOCK_TYPE_INVALID == type) {
+            int32_t sockType = -1;
+            socklen_t optLen = sizeof(sockType);
+            int32_t ret = _GetOption(SOL_SOCKET, SO_TYPE, &sockType, &optLen);
+            if (ret < 0) {
+                return ret;
             }
-            break;
+            switch (sockType) {
+            case SOCK_STREAM:
+                type = SOCK_TYPE_STREAM;
+                break;
+            case SOCK_DGRAM:
+                type = SOCK_TYPE_DGRAM;
+                break;
+            case SOCK_SEQPACKET:
+                type = SOCK_TYPE_SEQPKT;
+                break;
+            default: {
+                    MWL_WARN("un-support sock type %d", sockType);
+                    return ERR_INVAL_PARAM;
+                }
+                break;
+            }
         }
-        _af = SOCK_AF_UNSPEC;
-        _proto = SOCK_PROTO_DEFAULT;
+        _sock = handle;
+        _af = af;
+        _type = type;
+        _proto = protocol;
         _UpdateLocalAddr();
         _UpdatePeerAddr();
         return ERR_NONE;
@@ -181,7 +198,7 @@ namespace mwl {
             if (INVALID_SOCKET == sock) {
                 MWL_ERR_ERRNO("accept failed", sock_errno);
             } else {
-                acptSock.reset(new Socket(sock));
+                acptSock.reset(new Socket(sock, _af, _type, _proto));
             }
         }
         return acptSock;
@@ -239,8 +256,8 @@ namespace mwl {
     }
 
     int32_t Socket::Implement::_SendTo(
-            const void *pData, int32_t dataLen, int32_t flags,
-            const SockAddress *pDstAddr, const TimeSpec *pTimeout, bool sendAll) {
+        const void *pData, int32_t dataLen, int32_t flags,
+        const SockAddress *pDstAddr, const TimeSpec *pTimeout, bool sendAll) {
         const sockaddr *dstAddr = pDstAddr ? pDstAddr->SockAddr() : nullptr;
         socklen_t dstAddrLen = pDstAddr ? pDstAddr->SockAddrLen() : 0;
         const char *pBuf = reinterpret_cast<const char *>(pData);
@@ -275,8 +292,8 @@ namespace mwl {
     }
 
     int32_t Socket::Implement::_RecvFrom(
-            void *pData, int32_t dataLen, int32_t flags,
-            SockAddress *pSrcAddr, const TimeSpec *pTimeout, bool recvAll) {
+        void *pData, int32_t dataLen, int32_t flags,
+        SockAddress *pSrcAddr, const TimeSpec *pTimeout, bool recvAll) {
         char *pBuf = reinterpret_cast<char *>(pData);
         int32_t totalBytesRecv = 0;
         if (pTimeout) {

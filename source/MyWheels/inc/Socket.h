@@ -103,15 +103,16 @@ namespace mwl {
     class MWL_API Socket : private NonCopyable {
     public:
         Socket();
-        explicit Socket(SockHandle handle);
-        Socket(SockAddressFamily family, SockType type, SockProtocol protocol = SOCK_PROTO_DEFAULT);
+        Socket(SockHandle handle, SockAddressFamily af, SockType type, SockProtocol protocol = SOCK_PROTO_DEFAULT);
+        Socket(SockAddressFamily af, SockType type, SockProtocol protocol = SOCK_PROTO_DEFAULT);
         ~Socket();
 
-        int32_t Open(SockAddressFamily family, SockType type, SockProtocol protocol = SOCK_PROTO_DEFAULT);
+        int32_t Open(SockAddressFamily af, SockType type, SockProtocol protocol = SOCK_PROTO_DEFAULT);
+        int32_t Reopen();
         int32_t Shutdown(SockShutdown how);
         int32_t Close();
 
-        int32_t SetHandle(SockHandle handle);
+        int32_t SetHandle(SockHandle handle, SockAddressFamily af, SockType type, SockProtocol protocol = SOCK_PROTO_DEFAULT);
         SockHandle Handle() const;
 
         int32_t Bind(const SockAddress &address);
@@ -136,8 +137,19 @@ namespace mwl {
 
         int32_t SetNonblocking(bool nonblocking);
         bool IsNonblocking() const;
+
         int32_t SetOption(int32_t level, int32_t optName, const void *pOptVal, socklen_t valLen);
+        template<typename OptionType>
+        int32_t SetOption(int32_t level, int32_t optName, const OptionType &option) {
+            return SetOption(level, optName, &option, sizeof(option));
+        }
+
         int32_t GetOption(int32_t level, int32_t optName, void *pOptVal, socklen_t *valLen) const;
+        template<typename OptionType>
+        int32_t GetOption(int32_t level, int32_t optName, OptionType &option) {
+            socklen_t optLen = sizeof(option);
+            return GetOption(level, optName, &option, &optLen);
+        }
 
         const SockAddress &LocalAddress() const;
         const SockAddress &PeerAddress() const;
