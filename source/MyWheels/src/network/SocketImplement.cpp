@@ -291,7 +291,7 @@ namespace mwl {
             if (n > 0) {
                 totalBytesSent += n;
                 dataLen -= n;
-            } else {
+            } else if (n != EINTR) {
                 if (n < 0) {
                     int32_t err = sock_errno;
                     MWL_WARN_ERRNO("sendto failed", err);
@@ -335,7 +335,7 @@ namespace mwl {
             if (n > 0) {
                 totalBytesRecv += n;
                 dataLen -= n;
-            } else {
+            } else if (n != EINTR) {
                 if (n < 0) {
                     int32_t err = sock_errno;
                     MWL_WARN_ERRNO("recvfrom failed", err);
