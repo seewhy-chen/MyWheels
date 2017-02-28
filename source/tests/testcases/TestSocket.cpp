@@ -33,8 +33,8 @@ void _TestSockAddress() {
     addr.SetAddress("www.baidu.com", "http", mwl::SOCK_AF_INET);
     MWL_INFO("service http at 'www.baidu.com' is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
 
-    addr.SetAddress("192.168.1.1", "80", mwl::SOCK_AF_INET);
-    MWL_INFO("port 80 at '192.168.1.1' is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
+    addr.SetAddress("1.2.3.4", mwl::SOCK_AF_INET);
+    MWL_INFO("port 80 at '1.2.3.4' is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
 
     addr.SetAddress("localhost", "1234", mwl::SOCK_AF_INET);
     MWL_INFO("port 1234 at 'localhost' is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
@@ -134,25 +134,26 @@ static int32_t MySysServer(ThreadContext *pCtx) {
 
 static int32_t TestSysServices(ThreadContext *) {
     Socket sock(SOCK_AF_INET, SOCK_TYPE_STREAM);
+#ifdef __MWL_LINUX__
     if (ERR_NONE == sock.Connect("localhost", servicePort)) {
         char buf[256] = {0};
         sock.Recv(buf, sizeof(buf));
         MWL_INFO("daytime received from 'localhost:%d' is:\n%s", servicePort, buf);
     }
+#endif
 
     SharedPtr<Thread> server = StartThread(MySysServer);
     sock.Reopen();
-    int32_t sendSize;
+    int32_t sendSize = 0;
     sock.GetOption(SOL_SOCKET, SO_SNDBUF, sendSize);
-    sock.SetNonblocking(true);
     MWL_INFO("sendSize = %d", sendSize);
+    int32_t recvSize = 0;
+    sock.GetOption(SOL_SOCKET, SO_RCVBUF, recvSize);
+    MWL_INFO("recvSize = %d", recvSize);
     if (ERR_NONE == sock.Connect("localhost", servicePort + 3000)) {
         char buf[256*1024] = {0};
-        int32_t n = sock.Send(buf, sizeof(buf));
-        MWL_INFO("%d bytes written", n);
         sock.Recv(buf, sizeof(buf));
         MWL_INFO("daytime received from 'localhost:%d' is:\n%s", servicePort + 3000, buf);
     }
-    getc(stdin);
     return 0;
 }
