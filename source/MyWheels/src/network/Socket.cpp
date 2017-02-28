@@ -66,35 +66,35 @@ namespace mwl {
         return m_pImpl->_Select(events, pTimeout);
     }
 
-    int32_t Socket::Send(const void *pData, int32_t dataLen, const TimeSpec *pTimeout, int32_t flags) {
+    int32_t Socket::Send(const void *pData, size_t dataLen, const TimeSpec *pTimeout, int32_t flags) {
         return m_pImpl->_SendTo(pData, dataLen, flags, NULL, pTimeout, false);
     }
 
-    int32_t Socket::SendAll(const void *pData, int32_t dataLen, const TimeSpec *pTimeout, int32_t flags) {
+    int32_t Socket::SendAll(const void *pData, size_t dataLen, const TimeSpec *pTimeout, int32_t flags) {
         return m_pImpl->_SendTo(pData, dataLen, flags, NULL, pTimeout, true);
     }
 
-    int32_t Socket::SendTo(const void *pData, int32_t dataLen, const SockAddress &dstAddr, const TimeSpec *pTimeout, int32_t flags) {
+    int32_t Socket::SendTo(const void *pData, size_t dataLen, const SockAddress &dstAddr, const TimeSpec *pTimeout, int32_t flags) {
         return m_pImpl->_SendTo(pData, dataLen, flags, &dstAddr, pTimeout, false);
     }
 
-    int32_t Socket::SendAllTo(const void *pData, int32_t dataLen, const SockAddress &dstAddr, const TimeSpec *pTimeout, int32_t flags) {
+    int32_t Socket::SendAllTo(const void *pData, size_t dataLen, const SockAddress &dstAddr, const TimeSpec *pTimeout, int32_t flags) {
         return m_pImpl->_SendTo(pData, dataLen, flags, &dstAddr, pTimeout, true);
     }
 
-    int32_t Socket::Recv(void *pData, int32_t dataLen, const TimeSpec *pTimeout, int32_t flags) {
+    int32_t Socket::Recv(void *pData, size_t dataLen, const TimeSpec *pTimeout, int32_t flags) {
         return m_pImpl->_RecvFrom(pData, dataLen, flags, NULL, pTimeout, false);
     }
 
-    int32_t Socket::RecvAll(void *pData, int32_t dataLen, const TimeSpec *pTimeout, int32_t flags) {
+    int32_t Socket::RecvAll(void *pData, size_t dataLen, const TimeSpec *pTimeout, int32_t flags) {
         return m_pImpl->_RecvFrom(pData, dataLen, flags, NULL, pTimeout, true);
     }
 
-    int32_t Socket::RecvFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, const TimeSpec *pTimeout, int32_t flags) {
+    int32_t Socket::RecvFrom(void *pData, size_t dataLen, SockAddress &srcAddr, const TimeSpec *pTimeout, int32_t flags) {
         return m_pImpl->_RecvFrom(pData, dataLen, flags, &srcAddr, pTimeout, false);
     }
 
-    int32_t Socket::RecvAllFrom(void *pData, int32_t dataLen, SockAddress &srcAddr, const TimeSpec *pTimeout, int32_t flags) {
+    int32_t Socket::RecvAllFrom(void *pData, size_t dataLen, SockAddress &srcAddr, const TimeSpec *pTimeout, int32_t flags) {
         return m_pImpl->_RecvFrom(pData, dataLen, flags, &srcAddr, pTimeout, true);
     }
 

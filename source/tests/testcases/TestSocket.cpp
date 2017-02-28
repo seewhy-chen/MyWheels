@@ -125,7 +125,7 @@ static int32_t MySysServer(ThreadContext *pCtx) {
         if (svrSock.Accept(s, &timeout) == ERR_NONE) {
             char strTime[256];
             time_t t = time(NULL);
-			sprintf(strTime, "hello, I'm daytime server implemented by SeeWhy, now daytime is: %.24s", ctime(&t));
+            sprintf(strTime, "hello, I'm daytime server implemented by SeeWhy, now daytime is: %.24s", ctime(&t));
             s.SendAll(strTime, strlen(strTime) + 1);
         }
     }

@@ -214,7 +214,7 @@ namespace mwl {
     int32_t Socket::Implement::_Select(uint32_t events, const TimeSpec *pTimeout) {
         SockHandle sock = _sock;
         if (sock < 0) {
-            MWL_WARN("can't select on sock %d", sock);
+            MWL_WARN("can't select on sock %d", static_cast<int32_t>(sock));
             return EINVAL;
         }
         fd_set *pReadfds = NULL, *pWritefds = NULL, *pExceptfds = NULL;
@@ -263,7 +263,7 @@ namespace mwl {
     }
 
     int32_t Socket::Implement::_SendTo(
-        const void *pData, int32_t dataLen, int32_t flags,
+        const void *pData, size_t dataLen, int32_t flags,
         const SockAddress *pDstAddr, const TimeSpec *pTimeout, bool sendAll) {
         const sockaddr *dstAddr = pDstAddr ? pDstAddr->SockAddr() : nullptr;
         socklen_t dstAddrLen = pDstAddr ? pDstAddr->SockAddrLen() : 0;
@@ -283,7 +283,11 @@ namespace mwl {
         }
 #endif
         do {
+#ifdef __MWL_WIN__
+            int32_t n = sendto(_sock, pBuf + totalBytesSent, static_cast<int>(dataLen), flags, dstAddr, dstAddrLen);
+#else
             int32_t n = sendto(_sock, pBuf + totalBytesSent, dataLen, flags, dstAddr, dstAddrLen);
+#endif
             if (n > 0) {
                 totalBytesSent += n;
                 dataLen -= n;
@@ -302,7 +306,7 @@ namespace mwl {
     }
 
     int32_t Socket::Implement::_RecvFrom(
-        void *pData, int32_t dataLen, int32_t flags,
+        void *pData, size_t dataLen, int32_t flags,
         SockAddress *pSrcAddr, const TimeSpec *pTimeout, bool recvAll) {
         char *pBuf = reinterpret_cast<char *>(pData);
         int32_t totalBytesRecv = 0;
@@ -323,7 +327,11 @@ namespace mwl {
             srcAddrLen = sizeof(ss);
         }
         do {
+#ifdef __MWL_WIN__
+            int32_t n = recvfrom(_sock, pBuf + totalBytesRecv, static_cast<int>(dataLen), flags, srcAddr, &srcAddrLen);
+#else
             int32_t n = recvfrom(_sock, pBuf + totalBytesRecv, dataLen, flags, srcAddr, &srcAddrLen);
+#endif
             if (n > 0) {
                 totalBytesRecv += n;
                 dataLen -= n;

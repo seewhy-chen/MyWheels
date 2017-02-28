@@ -42,7 +42,7 @@ namespace mwl {
     #ifdef __MWL_LINUX__
                     const sockaddr_un *pAddrUn = reinterpret_cast<const sockaddr_un *>(pSockAddr);
                     if (addrLen < sizeof(pAddrUn->sun_family)) {
-                        MWL_WARN("adddrLen of AF_UNIX should be at least %d, not %d", sizeof(pAddrUn->sun_family), addrLen);
+                        MWL_WARN("adddrLen of AF_UNIX should be at least %zd, not %d", sizeof(pAddrUn->sun_family), addrLen);
                     } else {
                         size_t pathLen = addrLen - sizeof(pAddrUn->sun_family);
                         if (pathLen > sizeof(host) - 1) {
