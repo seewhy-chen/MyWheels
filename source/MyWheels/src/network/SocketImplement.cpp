@@ -151,6 +151,8 @@ namespace mwl {
             ret = -sock_errno;
             MWL_ERR_ERRNO("listen on %s at port %d as af %d failed",
                           -ret, _localAddr.Host(), _localAddr.Port(), _localAddr.Family());
+        } else {
+            _UpdateLocalAddr();
         }
         return ret;
     }

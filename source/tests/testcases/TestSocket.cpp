@@ -57,9 +57,9 @@ static void _TestTCPSocket() {
     Socket s1(SOCK_AF_INET, SOCK_TYPE_STREAM);
     int32_t reuseAddr = 1;
     s1.SetOption(SOL_SOCKET, SO_REUSEADDR, &reuseAddr, sizeof(reuseAddr));
-    if (ERR_NONE == s1.Bind("localhost")) {
-        MWL_INFO("s1 is bound to %s@%d", s1.LocalAddress().Host(), s1.LocalAddress().Port());
-    }
+    //if (ERR_NONE == s1.Bind("localhost")) {
+    //    MWL_INFO("s1 is bound to %s@%d", s1.LocalAddress().Host(), s1.LocalAddress().Port());
+    //}
     s1.Listen();
     MWL_INFO("s1 is listening at %s@%d", s1.LocalAddress().Host(), s1.LocalAddress().Port());
 
