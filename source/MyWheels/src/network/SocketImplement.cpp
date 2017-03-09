@@ -421,6 +421,7 @@ namespace mwl {
             _localAddr.Reset();
         } else {
             _localAddr.SetAddress(reinterpret_cast<sockaddr *>(&ss), addrLen);
+            _localAddr.SetFamily(_af);
         }
         return ret;
     }
@@ -435,6 +436,7 @@ namespace mwl {
             _peerAddr.Reset();
         } else {
             _peerAddr.SetAddress(reinterpret_cast<sockaddr *>(&ss), addrLen);
+            _peerAddr.SetFamily(_af);
         }
         return ret;
     }

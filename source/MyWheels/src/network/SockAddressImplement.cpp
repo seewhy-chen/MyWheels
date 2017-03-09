@@ -39,6 +39,8 @@ namespace mwl {
                 }
                 break;
                 case AF_UNIX: {
+                    port = 0;
+                    af = SOCK_AF_ABSTRACT;
     #ifdef __MWL_LINUX__
                     const sockaddr_un *pAddrUn = reinterpret_cast<const sockaddr_un *>(pSockAddr);
                     if (addrLen < sizeof(pAddrUn->sun_family)) {
@@ -56,8 +58,9 @@ namespace mwl {
                                 --pathLen;
                                 strncpy(host, pAddrUn->sun_path + 1, pathLen);
                                 af = SOCK_AF_ABSTRACT;
-                            } else {
-                                MWL_WARN("invalid sun_path: 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x...",
+                            } else if (pathLen > 1) {
+                                MWL_WARN("invalid sun_path with pathLen = %zd: 0x%x, 0x%x, 0x%x, 0x%x, 0x%x, 0x%x...",
+                                         pathLen,
                                          pAddrUn->sun_path[0], pAddrUn->sun_path[1],
                                          pAddrUn->sun_path[2], pAddrUn->sun_path[3],
                                          pAddrUn->sun_path[4], pAddrUn->sun_path[5]);
@@ -66,7 +69,6 @@ namespace mwl {
                         }
                     }
     #endif
-                    port = 0;
                 }
                 break;
                 default: {
