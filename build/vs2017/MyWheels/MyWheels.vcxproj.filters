@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="inc">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="src\common">
+      <UniqueIdentifier>{ef17fb16-1f2c-4245-8840-bd6e1e776a24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\multithread">
+      <UniqueIdentifier>{db549dae-b0f6-49c5-920e-7b13934ce9c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\datetime">
+      <UniqueIdentifier>{e7c99edf-ceb2-4774-8716-8b952b0977c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\multithread\cond">
+      <UniqueIdentifier>{d277cf8a-d437-4edd-93bc-60e986d6a0eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\multithread\mutex">
+      <UniqueIdentifier>{44735452-945d-40cb-9c63-b0b4575bded3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\multithread\thread">
+      <UniqueIdentifier>{007e8e60-df2d-4dc0-82ce-ec302f9165e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\multithread\semaphore">
+      <UniqueIdentifier>{35fd8314-0b6f-4283-9100-6a482f149550}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\container">
+      <UniqueIdentifier>{4bc086ef-38d0-4df1-b5f6-a155b46d5c76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\network">
+      <UniqueIdentifier>{f52dfa4b-a280-48e0-bf5c-139400ee7228}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\BasicDefines.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Mutex.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\StaticAssert.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\InternalCommon.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\TimeCounter.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\TimeDefines.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement.h">
+      <Filter>src\datetime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Condition.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Thread.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement.h">
+      <Filter>src\multithread\cond</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\MutexImplement.h">
+      <Filter>src\multithread\mutex</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement.h">
+      <Filter>src\multithread\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Semaphore.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.h">
+      <Filter>src\multithread\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement.h">
+      <Filter>src\multithread\semaphore</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\SmartPointer.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\ByteArray.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\container\ByteArrayImplement.h">
+      <Filter>src\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Socket.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\network\SockAddressImplement.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\network\SocketImplement.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\network\SockInternalUtils.h">
+      <Filter>src\network</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp">
+      <Filter>src\datetime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Linux.cpp">
+      <Filter>src\datetime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Win.cpp">
+      <Filter>src\datetime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeUtils.cpp">
+      <Filter>src\datetime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Condition.cpp">
+      <Filter>src\multithread\cond</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement_Linux.cpp">
+      <Filter>src\multithread\cond</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement_Win.cpp">
+      <Filter>src\multithread\cond</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Mutex.cpp">
+      <Filter>src\multithread\mutex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Linux.cpp">
+      <Filter>src\multithread\mutex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Win.cpp">
+      <Filter>src\multithread\mutex</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Thread.cpp">
+      <Filter>src\multithread\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Linux.cpp">
+      <Filter>src\multithread\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Win.cpp">
+      <Filter>src\multithread\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadContext.cpp">
+      <Filter>src\multithread\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.cpp">
+      <Filter>src\multithread\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Semaphore.cpp">
+      <Filter>src\multithread\semaphore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement_Linux.cpp">
+      <Filter>src\multithread\semaphore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement_Win.cpp">
+      <Filter>src\multithread\semaphore</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArray.cpp">
+      <Filter>src\container</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArrayImplement.cpp">
+      <Filter>src\container</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArrayIterator.cpp">
+      <Filter>src\container</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\network\Socket.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\network\SockAddress.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\network\SockAddressImplement.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\network\SocketImplement.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
