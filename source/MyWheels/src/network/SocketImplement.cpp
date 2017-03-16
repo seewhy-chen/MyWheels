@@ -165,7 +165,8 @@ namespace mwl {
         }
         if (connect(_sock, address.SockAddr(), address.SockAddrLen()) < 0) {
             ret = -sock_errno;
-            if ((pTimeout || origNonblocking) && (EINPROGRESS == -ret || EWOULDBLOCK == -ret || EALREADY == -ret)) {
+            if (EINTR == -ret ||
+                ((pTimeout || origNonblocking) && (EINPROGRESS == -ret || EWOULDBLOCK == -ret || EALREADY == -ret))) {
                 int32_t evts = _Select(SOCK_EVT_READ | SOCK_EVT_WRITE, pTimeout);
                 if (evts > 0 && ((evts & SOCK_EVT_WRITE) || (evts & SOCK_EVT_READ))) {
                     int32_t err = 0;
@@ -203,7 +204,10 @@ namespace mwl {
         sockaddr_storage ss;
         socklen_t addrLen = sizeof(ss);
         sockaddr *pSockAddr = reinterpret_cast<sockaddr *>(&ss);
-        SockHandle sock = accept(_sock, pSockAddr, &addrLen);
+        SockHandle sock = INVALID_SOCKET;
+        do {
+            sock = accept(_sock, pSockAddr, &addrLen);
+        } while (sock == INVALID_SOCKET && sock_errno == EINTR);
         if (INVALID_SOCKET == sock) {
             ret = -sock_errno;
             MWL_ERR_ERRNO("accept failed", -ret);
