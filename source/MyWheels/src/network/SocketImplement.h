@@ -15,6 +15,7 @@ namespace mwl {
         int32_t _Close();
         int32_t _SetHandle(SockHandle handle, SockAddressFamily af, SockType type, SockProtocol protocol);
         SockHandle _Handle() ;
+        void _Reset();
 
         int32_t _Bind(const SockAddress &address);
         int32_t _Listen(int32_t backlog);
@@ -40,6 +41,7 @@ namespace mwl {
         SockType _type;
         SockProtocol _proto;
         bool _nonblocking;
+        bool _blkStB4Listening;
         SockAddress _localAddr;
         SockAddress _peerAddr;
     };

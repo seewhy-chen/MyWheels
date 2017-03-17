@@ -21,6 +21,14 @@
         #define EALREADY                WSAEALREADY
     #endif
 
+    #ifndef ECONNABORTED
+        #define ECONNABORTED            WSAECONNABORTED
+    #endif
+    
+    #ifndef EPROTO
+        #define EPROTO (71)
+    #endif
+
 #elif defined __MWL_LINUX__
     #include <netdb.h>
     #include <fcntl.h>
