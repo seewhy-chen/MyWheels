@@ -4,17 +4,17 @@
 
 namespace mwl {
 
-    SockAddress::SockAddress(const char *host, const char *service, SockAddressFamily af) 
-    : m_pImpl(new Implement(host, service, af)) {}
+    SockAddress::SockAddress(const char *host, const char *service, SockAddressFamily af)
+        : m_pImpl(new Implement(host, service, af)) {}
 
-    SockAddress::SockAddress(const char *host, int32_t port, SockAddressFamily af) 
-    : m_pImpl(new Implement(host, port, af)) {}
+    SockAddress::SockAddress(const char *host, int32_t port, SockAddressFamily af)
+        : m_pImpl(new Implement(host, port, af)) {}
 
     SockAddress::SockAddress(const sockaddr *pSockAddr, socklen_t addrLen)
-    : m_pImpl(new Implement(pSockAddr, addrLen)) {}
+        : m_pImpl(new Implement(pSockAddr, addrLen)) {}
 
     SockAddress::SockAddress(const SockAddress &src)
-    : m_pImpl(new Implement(*src.m_pImpl)) {}
+        : m_pImpl(new Implement(*src.m_pImpl)) {}
 
     SockAddress::~SockAddress() {
         delete m_pImpl;
@@ -81,6 +81,29 @@ namespace mwl {
 
     SockAddressFamily SockAddress::Family() const {
         return m_pImpl->_af;
+    }
+
+    const char *SockAddress::FamilyName() const {
+        switch (m_pImpl->_af) {
+        case SOCK_AF_UNSPEC:
+            return "unspecified";
+            break;
+        case SOCK_AF_INET:
+            return "inet4";
+            break;
+        case SOCK_AF_INET6:
+            return "inet6";
+            break;
+        case SOCK_AF_LOCAL:
+            return "unix-local-fs";
+            break;
+        case SOCK_AF_ABSTRACT:
+            return "unix-abstract";
+            break;
+        default:
+            return "unknown";
+            break;
+        }
     }
 
     const sockaddr *SockAddress::SockAddr() const {

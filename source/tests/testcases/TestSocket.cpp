@@ -31,25 +31,25 @@ void TestSocket() {
 void _TestSockAddress() {
     mwl::SockAddress addr;
     addr.SetAddress("www.baidu.com", "http", mwl::SOCK_AF_INET);
-    MWL_INFO("service http at 'www.baidu.com' is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
+    MWL_INFO("service http at 'www.baidu.com' is resolved as: %s@%d in af %s", addr.Host(), addr.Port(), addr.FamilyName());
 
     addr.SetAddress("1.2.3.4", mwl::SOCK_AF_INET);
-    MWL_INFO("port 80 at '1.2.3.4' is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
+    MWL_INFO("port 80 at '1.2.3.4' is resolved as: %s@%d in af %s", addr.Host(), addr.Port(), addr.FamilyName());
 
     addr.SetAddress("localhost", "1234", mwl::SOCK_AF_INET);
-    MWL_INFO("port 1234 at 'localhost' is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
+    MWL_INFO("port 1234 at 'localhost' is resolved as: %s@%d in af %s", addr.Host(), addr.Port(), addr.FamilyName());
 
     addr.SetAddress("localhost", 1234, mwl::SOCK_AF_INET6);
-    MWL_INFO("IPv6 of port 1234 at 'localhost' is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
+    MWL_INFO("IPv6 of port 1234 at 'localhost' is resolved as: %s@%d in af %s", addr.Host(), addr.Port(), addr.FamilyName());
 
     addr.SetAddress("0:0:0:0:0:0:0:1", "1234", mwl::SOCK_AF_INET6);
-    MWL_INFO("0:0:0:0:0:0:0:1 at port 1234 is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
+    MWL_INFO("0:0:0:0:0:0:0:1 at port 1234 is resolved as: %s@%d in af %s", addr.Host(), addr.Port(), addr.FamilyName());
 
     addr.SetAddress("/unix_sock");
-    MWL_INFO("/unix_sock is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
+    MWL_INFO("/unix_sock is resolved as: %s@%d in af %s", addr.Host(), addr.Port(), addr.FamilyName());
 
     addr.SetAddress("@abstract_sock");
-    MWL_INFO("@abstract_sock is resolved as: %s@%d in family %d", addr.Host(), addr.Port(), addr.Family());
+    MWL_INFO("@abstract_sock is resolved as: %s@%d in af %s", addr.Host(), addr.Port(), addr.FamilyName());
 }
 
 

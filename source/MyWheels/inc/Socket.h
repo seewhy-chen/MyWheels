@@ -89,6 +89,7 @@ namespace mwl {
         const char *Host() const;
         int32_t Port() const;
         SockAddressFamily Family() const;
+        const char *FamilyName() const;
         const sockaddr *SockAddr() const;
         socklen_t SockAddrLen() const;
 
