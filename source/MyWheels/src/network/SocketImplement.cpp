@@ -295,6 +295,7 @@ namespace mwl {
         socklen_t dstAddrLen = pDstAddr ? pDstAddr->SockAddrLen() : 0;
         const char *pBuf = reinterpret_cast<const char *>(pData);
         int32_t totalBytesSent = 0;
+        bool origNonBlock = _nonblocking;
         if (pTimeout) {
             int32_t evt = _Select(SOCK_EVT_WRITE, pTimeout);
             if (evt < 0) {
@@ -302,13 +303,14 @@ namespace mwl {
             } else if (0 == evt) {
                 return -ETIMEDOUT;
             }
+            _SetNonblocking(true);
         }
 #ifdef __MWL_LINUX__
         if (0 == flags) {
             flags = MSG_NOSIGNAL;
         }
 #endif
-        do {
+        while(1) {
 #ifdef __MWL_WIN__
             int32_t n = sendto(_sock, pBuf + totalBytesSent, static_cast<int>(dataLen), flags, dstAddr, dstAddrLen);
 #else
@@ -327,7 +329,14 @@ namespace mwl {
                 }
                 break;
             }
-        } while (sendAll && dataLen > 0);
+            if (!sendAll || dataLen <= 0) {
+                break;
+            }
+            if (pTimeout && _Select(SOCK_EVT_WRITE, pTimeout) <= 0) {
+                break;
+            }
+        }
+        _SetNonblocking(origNonBlock);
         return totalBytesSent;
     }
 
