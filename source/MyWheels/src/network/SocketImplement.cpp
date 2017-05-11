@@ -462,17 +462,15 @@ namespace mwl {
 
     int32_t Socket::Implement::_UpdatePeerAddr() {
         int32_t ret = ERR_NONE;
-        if (SOCK_AF_INET == _af || SOCK_AF_INET6 == _af) {
-            sockaddr_storage ss;
-            socklen_t addrLen = sizeof(ss);
-            if (getpeername(_sock, reinterpret_cast<sockaddr *>(&ss), &addrLen) < 0) {
-                ret = -sock_errno;
-                MWL_ERR_ERRNO("getpeername failed", -ret);
-                _peerAddr.Reset();
-            } else {
-                _peerAddr.SetAddress(reinterpret_cast<sockaddr *>(&ss), addrLen);
-                _peerAddr.SetFamily(_af);
-            }
+        sockaddr_storage ss;
+        socklen_t addrLen = sizeof(ss);
+        if (getpeername(_sock, reinterpret_cast<sockaddr *>(&ss), &addrLen) < 0) {
+            ret = -sock_errno;
+            MWL_ERR_ERRNO("getpeername failed", -ret);
+            _peerAddr.Reset();
+        } else {
+            _peerAddr.SetAddress(reinterpret_cast<sockaddr *>(&ss), addrLen);
+            _peerAddr.SetFamily(_af);
         }
         return ret;
     }
