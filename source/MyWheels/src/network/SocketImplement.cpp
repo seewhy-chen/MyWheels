@@ -446,17 +446,16 @@ namespace mwl {
 
     int32_t Socket::Implement::_UpdateLocalAddr() {
         int32_t ret = ERR_NONE;
-        if (SOCK_AF_INET == _af || SOCK_AF_INET6 == _af) {
-            sockaddr_storage ss;
-            socklen_t addrLen = sizeof(ss);
-            if (getsockname(_sock, reinterpret_cast<sockaddr *>(&ss), &addrLen) < 0) {
-                ret = -sock_errno;
-                MWL_ERR_ERRNO("getsockname failed", -ret);
-                _localAddr.Reset();
-            } else {
-                _localAddr.SetAddress(reinterpret_cast<sockaddr *>(&ss), addrLen);
-                _localAddr.SetFamily(_af);
-            }
+        sockaddr_storage ss;
+        socklen_t addrLen = sizeof(ss);
+        if (getsockname(_sock, reinterpret_cast<sockaddr *>(&ss), &addrLen) < 0) {
+            ret = -sock_errno;
+            MWL_ERR_ERRNO("getsockname failed", -ret);
+            _localAddr.Reset();
+        }
+        else {
+            _localAddr.SetAddress(reinterpret_cast<sockaddr *>(&ss), addrLen);
+            _localAddr.SetFamily(_af);
         }
         return ret;
     }
