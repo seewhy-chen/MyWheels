@@ -42,6 +42,7 @@ OBJECTS = \
 	$(OBJ_DIR)/TimeCounterImplement_Linux.o\
 	$(OBJ_DIR)/TimeCounterImplement_Win.o\
 	$(OBJ_DIR)/TimeUtils.o\
+	$(OBJ_DIR)/Randomizer.o\
 	$(OBJ_DIR)/Condition.o\
 	$(OBJ_DIR)/ConditionImplement_Linux.o\
 	$(OBJ_DIR)/ConditionImplement_Win.o\
@@ -94,6 +95,8 @@ $(OBJ_DIR)/TimeCounterImplement_Win.o : ../../../source/MyWheels/src/datetime/Ti
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounterImplement_Win.o ../../../source/MyWheels/src/datetime/TimeCounterImplement_Win.cpp
 $(OBJ_DIR)/TimeUtils.o : ../../../source/MyWheels/src/datetime/TimeUtils.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeUtils.o ../../../source/MyWheels/src/datetime/TimeUtils.cpp
+$(OBJ_DIR)/Randomizer.o : ../../../source/MyWheels/src/misc/Randomizer.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Randomizer.o ../../../source/MyWheels/src/misc/Randomizer.cpp
 $(OBJ_DIR)/Condition.o : ../../../source/MyWheels/src/multithread/Condition.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Condition.o ../../../source/MyWheels/src/multithread/Condition.cpp
 $(OBJ_DIR)/ConditionImplement_Linux.o : ../../../source/MyWheels/src/multithread/ConditionImplement_Linux.cpp

@@ -12,7 +12,7 @@ namespace mwl {
         ~Semaphore();
         int32_t Open(const char *name, int32_t initVal);
         int32_t Wait(const TimeSpec *pTimeout = nullptr);
-        int32_t Post();
+        int32_t Post(int32_t n = 1);
         int32_t Close();
 
     private:

@@ -326,6 +326,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\source\MyWheels\inc\Randomizer.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\source\MyWheels\inc\Semaphore.h"
 				>
 			</File>
@@ -362,8 +366,12 @@
 				>
 			</File>
 			<Filter
-				Name="common"
+				Name="misc"
 				>
+				<File
+					RelativePath="..\..\..\source\MyWheels\src\misc\Randomizer.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="multithread"

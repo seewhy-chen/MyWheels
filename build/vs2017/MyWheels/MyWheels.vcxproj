@@ -23,6 +23,7 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\ByteArray.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Condition.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Mutex.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Randomizer.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Semaphore.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\SmartPointer.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Socket.h" />
@@ -50,6 +51,7 @@
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Linux.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Win.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeUtils.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\misc\Randomizer.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Condition.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement_Linux.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement_Win.cpp" />
@@ -82,7 +84,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -95,7 +97,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -126,6 +128,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)..\..\output\vs2017\$(Platform)\$(Configuration)\</OutDir>
     <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)..\..\output\vs2017\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)..\..\output\vs2017\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -160,10 +169,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\source\MyWheels;$(SolutionDir)..\..\source\MyWheels\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>MWL_MAKE_SHARED_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -173,10 +185,13 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\source\MyWheels;$(SolutionDir)..\..\source\MyWheels\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>MWL_MAKE_SHARED_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

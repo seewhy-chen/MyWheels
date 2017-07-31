@@ -30,6 +30,7 @@ namespace mwl {
 
     int32_t Semaphore::Implement::_Wait(const TimeSpec *pTimeout) {
         if (!s) {
+            MWL_WARN("semaphore not opend when waiting");
             return ERR_INVAL_PARAM;
         }
         int32_t timeoutInMs = INFINITE;
@@ -74,14 +75,15 @@ namespace mwl {
         return ret;
     }
 
-    int32_t Semaphore::Implement::_Post() {
+    int32_t Semaphore::Implement::_Post(int32_t n) {
         if (!s) {
+            MWL_WARN("semaphore not opend when posting");
             return ERR_INVAL_PARAM;
         }
 
-        if (!ReleaseSemaphore(s, 1, nullptr)) {
+        if (!ReleaseSemaphore(s, n, nullptr)) {
             int32_t err = GetLastError();
-            MWL_WARN_ERRNO("release semaphore %s failed", err, name.c_str());
+            MWL_WARN_ERRNO("release semaphore %s with n = %d failed", err, name.c_str(), n);
             return -err;
         }
         return ERR_NONE;

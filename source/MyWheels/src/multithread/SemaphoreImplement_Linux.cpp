@@ -42,6 +42,7 @@ namespace mwl {
 
     int32_t Semaphore::Implement::_Wait(const TimeSpec *pTimeout) {
         if (!s) {
+            MWL_WARN("semaphore not opend when waiting");
             return ERR_INVAL_PARAM;
         }
         int32_t ret = 0;
@@ -67,18 +68,26 @@ namespace mwl {
         return ret;
     }
 
-    int32_t Semaphore::Implement::_Post() {
+    int32_t Semaphore::Implement::_Post(int32_t n) {
         if (!s) {
+            MWL_WARN("semaphore not opend when posting");
             return ERR_INVAL_PARAM;
         }
 
-        int32_t ret = sem_post(s);
-        if (ret < 0) {
-            int32_t err = errno;
-            MWL_WARN_ERRNO("post semaphore %s failed", ret, name.c_str());
-            ret = -err;
+        if (n <= 0) {
+            MWL_WARN("semaphore can't been posted with n = %d", n);
+            return ERR_INVAL_PARAM;
         }
-        return ret;
+    
+        while (n-- > 0) {
+            int32_t ret = sem_post(s);
+            if (ret < 0) {
+                int32_t err = errno;
+                MWL_WARN_ERRNO("post semaphore %s failed", ret, name.c_str());
+                return -err;
+            }
+        }
+        return 0;
     }
     
     int32_t Semaphore::Implement::_Close() {

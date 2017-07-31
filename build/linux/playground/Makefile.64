@@ -1,0 +1,56 @@
+#!/usr/bin/make -f
+
+OUTPUT_FILENAME = playground
+PRJ_ROOT_DIR = ../../../source
+OBJ_DIR = ./Debug-64
+OUTPUT_DIR = $(PRJ_ROOT_DIR)/../output/linux/64
+
+INCLUDE_PATH = \
+	-I$(PRJ_ROOT_DIR)/MyWheels
+
+COMMON_CX_FLAGS = -c -g -pipe -fpie -fpic -ffunction-sections -funwind-tables
+COMMON_CX_FLAGS += -fstack-protector -fno-short-enums -Wall -Wextra -Werror -m64 -fdiagnostics-color=auto
+COMMON_CX_FLAGS += -O2 -fomit-frame-pointer -fstrict-aliasing -funswitch-loops -finline-limit=300
+COMMON_CX_FLAGS += -fvisibility=hidden
+
+CC = gcc
+CC_FLAGS = $(COMMON_CX_FLAGS) $(DEFINES)
+
+CXX = g++
+CXX_FLAGS = $(COMMON_CX_FLAGS) -fno-exceptions -fno-rtti -Wno-psabi -std=c++11 -Wno-deprecated $(DEFINES)
+
+LINK = g++
+LINK_FLAGS = -m64 -Xlinker -rpath-link $(OUTPUT_DIR)
+
+LIBS = -ldl -lm -lpthread
+LIBS += \
+	-L$(OUTPUT_DIR)/ -lMyWheels\
+
+TARGET = $(OUTPUT_DIR)/$(OUTPUT_FILENAME)
+
+DEL_FILE = rm -f
+MKDIR = mkdir -p
+
+first: all
+
+OBJECTS = \
+	$(OBJ_DIR)/main.o
+
+$(OBJ_DIR) :
+	$(MKDIR) $(OBJ_DIR)
+
+$(OUTPUT_DIR) :
+	$(MKDIR) $(OUTPUT_DIR)
+
+all : $(OBJ_DIR) $(OUTPUT_DIR) $(TARGET)
+$(TARGET) : $(OBJECTS)
+	$(LINK) $(LINK_FLAGS) -o $(TARGET) $(OBJECTS) $(LIBS)
+
+clean : 
+	-$(DEL_FILE) $(OBJECTS)
+	-$(DEL_FILE) $(TARGET)
+
+rebuild : clean all
+
+$(OBJ_DIR)/main.o : ../../../source/playground/main.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/main.o ../../../source/playground/main.cpp

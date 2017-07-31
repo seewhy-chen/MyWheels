@@ -19,66 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\source\MyWheels\inc\BasicDefines.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\inc\ByteArray.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\inc\Condition.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\inc\Mutex.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\inc\Randomizer.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\inc\Semaphore.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\inc\SmartPointer.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\inc\Socket.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\inc\StaticAssert.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\inc\Thread.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\inc\TimeCounter.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\inc\TimeDefines.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\src\container\ByteArrayImplement.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\src\InternalCommon.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\MutexImplement.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\src\network\SockAddressImplement.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\src\network\SocketImplement.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\src\network\SockInternalUtils.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArray.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArrayImplement.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArrayIterator.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Linux.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Win.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeUtils.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\misc\Randomizer.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Condition.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement_Linux.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement_Win.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Mutex.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Linux.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Win.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Semaphore.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement_Linux.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement_Win.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Thread.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadContext.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Linux.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Win.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\network\SockAddress.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\network\SockAddressImplement.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\network\Socket.cpp" />
-    <ClCompile Include="..\..\..\source\MyWheels\src\network\SocketImplement.cpp" />
+    <ClCompile Include="..\..\..\source\playground\main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{40C75FB6-8F69-44B8-9AED-2177A7E65FFA}</ProjectGuid>
-    <RootNamespace>MyWheels</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectGuid>{CFB8B42D-4909-49FA-8709-0DC786C817AC}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -91,7 +40,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -121,25 +70,24 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)..\..\output\vs2015\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)..\..\output\vs2015\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)..\..\output\vs2015\$(Platform)\$(Configuration)\</OutDir>
-    <TargetExt>.dll</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\source\MyWheels;$(SolutionDir)..\..\source\MyWheels\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>MWL_MAKE_SHARED_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\source\MyWheels;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(OutDir)MyWheels.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -147,12 +95,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\source\MyWheels;$(SolutionDir)..\..\source\MyWheels\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>MWL_MAKE_SHARED_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\source\MyWheels;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(OutDir)MyWheels.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -162,6 +110,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -175,6 +124,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

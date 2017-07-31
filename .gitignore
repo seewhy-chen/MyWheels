@@ -31,3 +31,8 @@
 
 output/
 .vs/
+*.log
+*.tlog
+*.idb
+*.pdb
+

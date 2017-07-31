@@ -17,8 +17,8 @@ namespace mwl {
         return m_pImpl->_Wait(pTimeout);
     }
 
-    int32_t Semaphore::Post() {
-        return m_pImpl->_Post();
+    int32_t Semaphore::Post(int32_t n) {
+        return m_pImpl->_Post(n);
     }
 
     int32_t Semaphore::Close() {
