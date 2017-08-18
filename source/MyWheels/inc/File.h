@@ -2,6 +2,7 @@
 #define __MWL_FILE_H__
 
 #include "inc/FileDefines.h"
+#include "inc/String.h"
 #include "inc/ByteArray.h"
 
 namespace mwl {
@@ -10,7 +11,7 @@ namespace mwl {
     public:
         File();
         ~File();
-        int32_t Open(const char *path, uint32_t flags, uint32_t mode);
+        int32_t Open(const String &path, uint32_t flags, uint32_t mode);
         int32_t Close();
         int32_t Read(ByteArray &data, int32_t len);
         int32_t Read(void *pData, int32_t len);

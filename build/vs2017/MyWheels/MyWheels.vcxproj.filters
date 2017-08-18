@@ -113,10 +113,19 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\File.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\MyWheels\inc\FileStream.h">
+    <ClInclude Include="..\..\..\source\MyWheels\inc\FileSystem.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\MyWheels\inc\FileSystem.h">
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Array.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\FileDefines.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\DateTime.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\String.h">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>

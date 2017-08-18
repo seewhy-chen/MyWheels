@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Array.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\BasicDefines.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\ByteArray.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Condition.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\DateTime.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\File.h" />
-    <ClInclude Include="..\..\..\source\MyWheels\inc\FileStream.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\FileDefines.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\FileSystem.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Mutex.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Randomizer.h" />
@@ -31,6 +33,7 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\SmartPointer.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Socket.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\StaticAssert.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\String.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Thread.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\TimeCounter.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\TimeDefines.h" />
