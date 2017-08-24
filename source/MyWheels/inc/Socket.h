@@ -2,8 +2,8 @@
 #define __MWL_SOCKET_H__
 
 #include "inc/BasicDefines.h"
-#include "inc/TimeDefines.h"
-#include "inc/SmartPointer.h"
+#include "inc/TimeSpan.h"
+#include "inc/String.h"
 
 #ifdef __MWL_WIN__
     #include <WinSock2.h>
@@ -63,18 +63,18 @@ namespace mwl {
 
     class MWL_API SockAddress {
     public:
-        explicit SockAddress(const char *host = nullptr, const char *service = nullptr, SockAddressFamily af = SOCK_AF_UNSPEC);
-        explicit SockAddress(const char *host, int32_t port, SockAddressFamily af = SOCK_AF_UNSPEC);
+        explicit SockAddress(const String &host = nullptr, const String &service = nullptr, SockAddressFamily af = SOCK_AF_UNSPEC);
+        explicit SockAddress(const String &host, int32_t port, SockAddressFamily af = SOCK_AF_UNSPEC);
         explicit SockAddress(const sockaddr *pSockAddr, socklen_t addrLen);
         SockAddress(const SockAddress &src);
         ~SockAddress();
         SockAddress &operator=(const SockAddress &rhs);
 
-        int32_t SetAddress(const char *host, const char *service = nullptr, SockAddressFamily af = SOCK_AF_UNSPEC);
-        int32_t SetAddress(const char *host, int32_t port, SockAddressFamily af = SOCK_AF_UNSPEC);
+        int32_t SetAddress(const String &host, const String &service = nullptr, SockAddressFamily af = SOCK_AF_UNSPEC);
+        int32_t SetAddress(const String &host, int32_t port, SockAddressFamily af = SOCK_AF_UNSPEC);
         int32_t SetAddress(const sockaddr *pSockAddr, socklen_t addrLen);
 
-        int32_t SetHost(const char *host);
+        int32_t SetHost(const String &host);
         int32_t SetHost(const sockaddr *pSockAddr, socklen_t addrLen);
 
         int32_t SetPort(int32_t port);
@@ -86,10 +86,10 @@ namespace mwl {
         int32_t Resolve();
         void Reset();
 
-        const char *Host() const;
+        const String &Host() const;
         int32_t Port() const;
         SockAddressFamily Family() const;
-        const char *FamilyName() const;
+        const char* FamilyName() const;
         const sockaddr *SockAddr() const;
         socklen_t SockAddrLen() const;
 
@@ -113,24 +113,24 @@ namespace mwl {
         int32_t Close();
 
         int32_t Bind(const SockAddress &address);
-        int32_t Bind(const char *host, int32_t port = 0);
-        int32_t Bind(const char *host, const char *service);
+        int32_t Bind(const String &host, int32_t port = 0);
+        int32_t Bind(const String &host, const String &service);
         int32_t Listen(int32_t backlog = 1);
-        int32_t Connect(const SockAddress &address, const TimeSpec *pTimeout = nullptr);
-        int32_t Connect(const char *host, int32_t port = 0, const TimeSpec *pTimeout = nullptr);
-        int32_t Connect(const char *host, const char *service, const TimeSpec *pTimeout = nullptr);
-        int32_t Accept(Socket &acceptee, const TimeSpec *pTimeout = nullptr);
-        int32_t Select(uint32_t events, const TimeSpec *pTimeout = nullptr);
+        int32_t Connect(const SockAddress &address, const TimeSpan *pTimeout = nullptr);
+        int32_t Connect(const String &host, int32_t port = 0, const TimeSpan *pTimeout = nullptr);
+        int32_t Connect(const String &host, const String &service, const TimeSpan *pTimeout = nullptr);
+        int32_t Accept(Socket &acceptee, const TimeSpan *pTimeout = nullptr);
+        int32_t Select(uint32_t events, const TimeSpan *pTimeout = nullptr);
 
-        int32_t Send(const void *pData, size_t dataLen, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
-        int32_t SendAll(const void *pData, size_t dataLen, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
-        int32_t SendTo(const void *pData, size_t dataLen, const SockAddress &dstAddr, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
-        int32_t SendAllTo(const void *pData, size_t dataLen, const SockAddress &dstAddr, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
+        int32_t Send(const void *pData, size_t dataLen, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
+        int32_t SendAll(const void *pData, size_t dataLen, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
+        int32_t SendTo(const void *pData, size_t dataLen, const SockAddress &dstAddr, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
+        int32_t SendAllTo(const void *pData, size_t dataLen, const SockAddress &dstAddr, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
 
-        int32_t Recv(void *pData, size_t dataLen, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
-        int32_t RecvAll(void *pData, size_t dataLen, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
-        int32_t RecvFrom(void *pData, size_t dataLen, SockAddress &srcAddr, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
-        int32_t RecvAllFrom(void *pData, size_t dataLen, SockAddress &srcAddr, const TimeSpec *pTimeout = nullptr, int32_t flags = 0);
+        int32_t Recv(void *pData, size_t dataLen, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
+        int32_t RecvAll(void *pData, size_t dataLen, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
+        int32_t RecvFrom(void *pData, size_t dataLen, SockAddress &srcAddr, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
+        int32_t RecvAllFrom(void *pData, size_t dataLen, SockAddress &srcAddr, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
 
         int32_t SetNonblocking(bool nonblocking);
         bool IsNonblocking() const;

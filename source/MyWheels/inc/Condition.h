@@ -2,7 +2,7 @@
 #define __MWL_CONDITION_H__
 
 #include "inc/BasicDefines.h"
-#include "inc/TimeDefines.h"
+#include "inc/TimeSpan.h"
 
 namespace mwl {
 
@@ -12,7 +12,7 @@ namespace mwl {
     public:
         Condition();
         ~Condition();
-        int32_t Wait(Mutex &mutex, const TimeSpec *pTimeout = nullptr);
+        int32_t Wait(Mutex &mutex, const TimeSpan *pTimeout = nullptr);
         int32_t Signal();
         int32_t Broadcast();
 

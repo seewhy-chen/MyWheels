@@ -78,15 +78,16 @@ namespace mwl {
         const char *pContent;
 #endif
     };
-}
 
-MWL_API mwl::String operator+(const mwl::String &lhs, const mwl::String &rhs);
-MWL_API bool operator==(const mwl::String &lhs, const mwl::String &rhs);
-MWL_API bool operator!=(const mwl::String &lhs, const mwl::String &rhs);
-MWL_API bool operator<(const mwl::String &lhs, const mwl::String &rhs);
-MWL_API bool operator<=(const mwl::String &lhs, const mwl::String &rhs);
-MWL_API bool operator>(const mwl::String &lhs, const mwl::String &rhs);
-MWL_API bool operator>=(const mwl::String &lhs, const mwl::String &rhs);
+    MWL_API mwl::String operator+(const mwl::String &lhs, const mwl::String &rhs);
+    MWL_API bool operator==(const mwl::String &lhs, const mwl::String &rhs);
+    MWL_API bool operator!=(const mwl::String &lhs, const mwl::String &rhs);
+    MWL_API bool operator<(const mwl::String &lhs, const mwl::String &rhs);
+    MWL_API bool operator<=(const mwl::String &lhs, const mwl::String &rhs);
+    MWL_API bool operator>(const mwl::String &lhs, const mwl::String &rhs);
+    MWL_API bool operator>=(const mwl::String &lhs, const mwl::String &rhs);
+
+}
 
 namespace std {
     inline void swap(mwl::String &s1, mwl::String &s2) {

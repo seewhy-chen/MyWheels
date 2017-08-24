@@ -62,8 +62,8 @@ namespace mwl {
 
 namespace std {
     template <typename ElementType>
-    inline void swap(mwl::Array<ElementType> &s1, mwl::Array<ElementType> &s2) {
-        s1.Swap(s2);
+    inline void swap(mwl::Array<ElementType> &a1, mwl::Array<ElementType> &a2) {
+        a1.Swap(a2);
     }
 }
 

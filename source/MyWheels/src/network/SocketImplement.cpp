@@ -79,7 +79,7 @@ namespace mwl {
             } else {
 #ifdef __MWL_LINUX__
                 if (_af == SOCK_AF_LOCAL) {
-                    unlink(_localAddr.Host());
+                    unlink(_localAddr.Host().C_Str());
                 }
 #endif
             }
@@ -153,7 +153,8 @@ namespace mwl {
         int32_t ret = ERR_NONE;
         if (bind(_sock, address.SockAddr(), address.SockAddrLen()) < 0) {
             ret = -sock_errno;
-            MWL_ERR_ERRNO("bind to %s at port %d as af %s failed", -ret, address.Host(), address.Port(), address.FamilyName());
+            MWL_ERR_ERRNO("bind to %s at port %d as af %s failed", 
+                -ret, address.Host().C_Str(), address.Port(), address.FamilyName());
             ret = -sock_errno;
         } else {
             _UpdateLocalAddr();
@@ -168,14 +169,14 @@ namespace mwl {
         if (listen(_sock, backlog) < 0) {
             ret = -sock_errno;
             MWL_ERR_ERRNO("listen on %s at port %d as af %s failed",
-                          -ret, _localAddr.Host(), _localAddr.Port(), _localAddr.FamilyName());
+                          -ret, _localAddr.Host().C_Str(), _localAddr.Port(), _localAddr.FamilyName());
         } else {
             _UpdateLocalAddr();
         }
         return ret;
     }
 
-    int32_t Socket::Implement::_Connect(const SockAddress &address, const TimeSpec *pTimeout) {
+    int32_t Socket::Implement::_Connect(const SockAddress &address, const TimeSpan *pTimeout) {
         bool origNonblocking = _nonblocking;
         int32_t ret = ERR_NONE;
         if (pTimeout) {
@@ -204,12 +205,13 @@ namespace mwl {
             _UpdateLocalAddr();
             _UpdatePeerAddr();
         } else {
-            MWL_ERR_ERRNO("connect to %s at port %d as af %s failed", -ret, address.Host(), address.Port(), address.FamilyName());
+            MWL_ERR_ERRNO("connect to %s at port %d as af %s failed", 
+                -ret, address.Host().C_Str(), address.Port(), address.FamilyName());
         }
         return ret;
     }
 
-    int32_t Socket::Implement::_Accept(Socket &acceptee, const TimeSpec *pTimeout) {
+    int32_t Socket::Implement::_Accept(Socket &acceptee, const TimeSpan *pTimeout) {
         int32_t ret = ERR_NONE;
         if (pTimeout) {
             int32_t evt = _Select(SOCK_EVT_READ, pTimeout);
@@ -237,7 +239,7 @@ namespace mwl {
         return ret;
     }
 
-    int32_t Socket::Implement::_Select(uint32_t events, const TimeSpec *pTimeout) {
+    int32_t Socket::Implement::_Select(uint32_t events, const TimeSpan *pTimeout) {
         SockHandle sock = _sock;
         if (sock < 0) {
             MWL_WARN("can't select on sock %d", static_cast<int32_t>(sock));
@@ -290,7 +292,7 @@ namespace mwl {
 
     int32_t Socket::Implement::_SendTo(
         const void *pData, size_t dataLen, int32_t flags,
-        const SockAddress *pDstAddr, const TimeSpec *pTimeout, bool sendAll) {
+        const SockAddress *pDstAddr, const TimeSpan *pTimeout, bool sendAll) {
         const sockaddr *dstAddr = pDstAddr ? pDstAddr->SockAddr() : nullptr;
         socklen_t dstAddrLen = pDstAddr ? pDstAddr->SockAddrLen() : 0;
         const char *pBuf = reinterpret_cast<const char *>(pData);
@@ -342,7 +344,7 @@ namespace mwl {
 
     int32_t Socket::Implement::_RecvFrom(
         void *pData, size_t dataLen, int32_t flags,
-        SockAddress *pSrcAddr, const TimeSpec *pTimeout, bool recvAll) {
+        SockAddress *pSrcAddr, const TimeSpan *pTimeout, bool recvAll) {
         char *pBuf = reinterpret_cast<char *>(pData);
         int32_t totalBytesRecv = 0;
         if (pTimeout) {

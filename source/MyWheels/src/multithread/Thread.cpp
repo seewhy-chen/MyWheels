@@ -24,7 +24,7 @@ namespace mwl {
         return this == &rhs || (pid == rhs.pid && tid == rhs.tid);
     }
 
-    Thread::Thread(const char *tag) : m_pImpl(new Implement()) {
+    Thread::Thread(const String &tag) : m_pImpl(new Implement()) {
         SetTag(tag);
     }
 
@@ -32,7 +32,7 @@ namespace mwl {
         delete m_pImpl;
     }
 
-    int32_t Thread::SetTag(const char *tag) {
+    int32_t Thread::SetTag(const String &tag) {
         return m_pImpl->_SetTag(tag);
     }
 
@@ -41,7 +41,7 @@ namespace mwl {
         return (*entry)();
     }
 
-    int32_t Thread::Start(SimpleThreadEntry simpleEntry, const TimeSpec *pTimeout) {
+    int32_t Thread::Start(SimpleThreadEntry simpleEntry, const TimeSpan *pTimeout) {
         return m_pImpl->_Start(_SimpleThreadWrapper, &simpleEntry, pTimeout);
     }
 
@@ -49,15 +49,15 @@ namespace mwl {
         return m_pImpl->_Start(entry, nullptr, nullptr);
     }
 
-    int32_t Thread::Start(ThreadEntry entry, void *pSharedData, const TimeSpec *pTimeout) {
+    int32_t Thread::Start(ThreadEntry entry, void *pSharedData, const TimeSpan *pTimeout) {
         return m_pImpl->_Start(entry, pSharedData, pTimeout);
     }
 
-    int32_t Thread::Stop(const TimeSpec *pTimeout) {
+    int32_t Thread::Stop(const TimeSpan *pTimeout) {
         return m_pImpl->_Stop(pTimeout);
     }
 
-    int32_t Thread::Join(const TimeSpec *pTimeout) {
+    int32_t Thread::Join(const TimeSpan *pTimeout) {
         return m_pImpl->_Join(pTimeout);
     }
 
@@ -77,7 +77,7 @@ namespace mwl {
         return m_pImpl->_SelfID();
     }
 
-    const char *Thread::Tag() const {
+    const String& Thread::Tag() const {
         return m_pImpl->_Tag();
     }
 
@@ -93,11 +93,11 @@ namespace mwl {
         return StartThread(simpleEntry, nullptr, nullptr);
     }
 
-    SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag) {
+    SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const String &tag) {
         return StartThread(simpleEntry, tag, nullptr);
     }
 
-    SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const char *tag, const TimeSpec *pTimeout) {
+    SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const String &tag, const TimeSpan *pTimeout) {
         SharedPtr<Thread> pThread(new Thread(tag));
         int32_t ret = pThread->Start(simpleEntry, pTimeout);
         if (ret != ERR_NONE) {
@@ -114,7 +114,7 @@ namespace mwl {
         return StartThread(entry, pSharedData, nullptr, nullptr);
     }
 
-    SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const char *tag, const TimeSpec *pTimeout) {
+    SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const String &tag, const TimeSpan *pTimeout) {
         SharedPtr<Thread> pThread(new Thread(tag));
         int32_t ret = pThread->Start(entry, pSharedData, pTimeout);
         if (ret != ERR_NONE) {

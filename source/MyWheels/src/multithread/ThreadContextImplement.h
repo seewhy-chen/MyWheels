@@ -12,7 +12,7 @@ namespace mwl {
     struct ThreadContext::Implement {
         ThreadID parentID;
         ThreadID selfID;
-        std::string tag;
+        String tag;
 
         Mutex lock;
         Condition cond;
@@ -28,7 +28,7 @@ namespace mwl {
         bool _StopQueried();
         const ThreadID& _ParentID();
         const ThreadID& _SelfID();
-        const char *_Tag();
+        const String& _Tag();
     };
 
 }

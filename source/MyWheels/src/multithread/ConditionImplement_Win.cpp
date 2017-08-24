@@ -13,7 +13,7 @@ namespace mwl {
 
     Condition::Implement::~Implement() {}
 
-    int32_t Condition::Implement::_Wait(Mutex &mutex, const TimeSpec *pTimeout) {
+    int32_t Condition::Implement::_Wait(Mutex &mutex, const TimeSpan *pTimeout) {
         int32_t timeoutInMs = INFINITE;
         if (pTimeout) {
             timeoutInMs = pTimeout->ToI32(MILLISEC);

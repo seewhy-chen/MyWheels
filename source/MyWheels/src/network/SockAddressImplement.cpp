@@ -5,7 +5,7 @@
 namespace mwl {
 
     static int32_t _ParseSockAddr(const sockaddr *pSockAddr, socklen_t addrLen,
-                                  std::string *pHost, int32_t *pPort, SockAddressFamily *pAF) {
+                                  String *pHost, int32_t *pPort, SockAddressFamily *pAF) {
         int32_t ret = ERR_NONE;
         char host[256] = { 0 };
         uint16_t port = 0;
@@ -91,12 +91,12 @@ namespace mwl {
         return ret;
     }
 
-    SockAddress::Implement::Implement(const char *host, const char *service, SockAddressFamily af) {
+    SockAddress::Implement::Implement(const String &host, const String &service, SockAddressFamily af) {
         _initializeSock();
         _SetAddress(host, service, af);
     }
 
-    SockAddress::Implement::Implement(const char *host, int32_t port, SockAddressFamily af) {
+    SockAddress::Implement::Implement(const String &host, int32_t port, SockAddressFamily af) {
         _initializeSock();
         _SetAddress(host, port, af);
     }
@@ -108,7 +108,7 @@ namespace mwl {
 
     SockAddress::Implement::Implement(const SockAddress::Implement &src) {
         _initializeSock();
-        _SetAddress(src._host.c_str(), src._service.c_str(), src._af);
+        _SetAddress(src._host.C_Str(), src._service.C_Str(), src._af);
     }
 
     SockAddress::Implement::~Implement() {}
@@ -122,44 +122,33 @@ namespace mwl {
         if (ret < 0) {
             return ret;
         }
-        char service[64];
-        snprintf(service, sizeof(service), "%d", port);
-        _service = service;
+        _service.Format("%d", port);
         return _Resolve();
     }
 
-    int32_t SockAddress::Implement::_SetAddress(const char *host, int32_t port, SockAddressFamily af) {
-        char service[64] = { 0 };
-        snprintf(service, sizeof(service), "%d", port);
+    int32_t SockAddress::Implement::_SetAddress(const String &host, int32_t port, SockAddressFamily af) {
+        String service;
+        service.Format("%d", port);
         return _SetAddress(host, service, af);
     }
 
-    int32_t SockAddress::Implement::_SetAddress(const char *host, const char *service, SockAddressFamily af) {
+    int32_t SockAddress::Implement::_SetAddress(const String &host, const String &service, SockAddressFamily af) {
         if (af < 0 || af >= SockAddressFamilyCount) {
             return ERR_INVAL_PARAM;
         }
-        _host.clear();
-        if (host) {
-            _host = host;
-        }
-        _service.clear();
-        if (service) {
-            _service = service;
-        }
+        _host = host;
+        _service = service;
         _af = af;
         return _Resolve();
     }
 
-    int32_t SockAddress::Implement::_SetHost(const char *host) {
-        _host.clear();
-        if (host) {
-            _host = host;
-        }
+    int32_t SockAddress::Implement::_SetHost(const String &host) {
+        _host = host;
         return _Resolve();
     }
 
     int32_t SockAddress::Implement::_SetHost(const sockaddr *pSockAddr, socklen_t addrLen) {
-        _host.clear();
+        _host.Clear();
         int32_t ret = _ParseSockAddr(pSockAddr, addrLen, &_host, nullptr, nullptr);
         if (ret < 0) {
             return ret;
@@ -168,9 +157,7 @@ namespace mwl {
     }
 
     int32_t SockAddress::Implement::_SetPort(int32_t port) {
-        char service[64];
-        snprintf(service, sizeof(service), "%d", port);
-        _service = service;
+        _service.Format("%d", port);
         _port = port;
         return _Resolve();
     }
@@ -201,10 +188,10 @@ namespace mwl {
     }
 
     int32_t SockAddress::Implement::_Resolve() {
-        if (!_host.empty() && SOCK_AF_UNSPEC == _af) {
-            if (_host[0] == '/') {
+        if (!_host.Empty() && SOCK_AF_UNSPEC == _af) {
+            if (_host.StartsWith("/")) {
                 _af = SOCK_AF_LOCAL;
-            } else if (_host[0] == '@') {
+            } else if (_host.StartsWith("@")) {
                 _af = SOCK_AF_ABSTRACT;
             }
         }
@@ -216,7 +203,7 @@ namespace mwl {
         if (SOCK_AF_LOCAL == _af) {
 #ifdef __MWL_LINUX__
             sockaddr_un *pAddrUn = reinterpret_cast<sockaddr_un *>(&_ss);
-            strncpy(pAddrUn->sun_path, _host.c_str(), sizeof(pAddrUn->sun_path) - 1);
+            strncpy(pAddrUn->sun_path, _host.C_Str(), sizeof(pAddrUn->sun_path) - 1);
             _sockAddrLen = SUN_LEN(pAddrUn);
             pAddrUn->sun_path[sizeof(pAddrUn->sun_path) - 1] = '\0';
             pAddrUn->sun_family = AF_UNIX;
@@ -225,22 +212,22 @@ namespace mwl {
         } else if (SOCK_AF_ABSTRACT == _af) {
 #ifdef __MWL_LINUX__
             sockaddr_un *pAddrUn = reinterpret_cast<sockaddr_un *>(&_ss);
-            if (_host[0] == '@') {
-                _host = _host.substr(1);
+            if (_host.StartsWith("@")) {
+                _host = _host.LStrip("@", 1);
             }
             pAddrUn->sun_path[0] = 0;
-            strncpy(pAddrUn->sun_path + 1, _host.c_str(), sizeof(pAddrUn->sun_path) - 2);
+            strncpy(pAddrUn->sun_path + 1, _host.C_Str(), sizeof(pAddrUn->sun_path) - 2);
             _sockAddrLen = SUN_LEN(pAddrUn) + 1 + strlen(pAddrUn->sun_path + 1);
             pAddrUn->sun_path[sizeof(pAddrUn->sun_path) - 1] = '\0';
             pAddrUn->sun_family = AF_UNIX;
             _sockAddr = reinterpret_cast<sockaddr *>(&_ss);
 #endif
-        } else if (!_host.empty()) {
+        } else if (!_host.Empty()) {
             addrinfo hint;
             memset(&hint, 0, sizeof(hint));
             hint.ai_family = s_afMap[_af];
             addrinfo *pAddrInfo = nullptr;
-            ret = getaddrinfo(_host.c_str(), _service.c_str(), &hint, &pAddrInfo);
+            ret = getaddrinfo(_host.C_Str(), _service.C_Str(), &hint, &pAddrInfo);
             if (pAddrInfo) {
                 memcpy(&_ss, pAddrInfo->ai_addr, pAddrInfo->ai_addrlen);
                 _sockAddrLen = static_cast<int32_t>(pAddrInfo->ai_addrlen);
@@ -248,7 +235,7 @@ namespace mwl {
                 ret = ERR_NONE;
             } else {
                 MWL_WARN("getaddrinfo for host %s and service %s failed: %s",
-                         _host.c_str(), _service.c_str(), gai_strerror(ret));
+                         _host.C_Str(), _service.C_Str(), gai_strerror(ret));
             }
             if (ERR_NONE == ret) {
                 _sockAddr = reinterpret_cast<sockaddr *>(&_ss);
@@ -260,9 +247,7 @@ namespace mwl {
             if (ret < 0) {
                 return ret;
             }
-            char service[64];
-            snprintf(service, sizeof(service), "%d", _port);
-            _service = service;
+            _service.Format("%d", _port);
         }
         return -ret;
     }
@@ -283,9 +268,9 @@ namespace mwl {
 
     void SockAddress::Implement::_Reset() {
         _af = SOCK_AF_UNSPEC;
-        _addr.clear();
-        _host.clear();
-        _service.clear();
+        _addr.Clear();
+        _host.Clear();
+        _service.Clear();
         _port = 0;
         _sockAddr = nullptr;
         _sockAddrLen = 0;

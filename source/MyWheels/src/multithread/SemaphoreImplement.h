@@ -15,8 +15,8 @@ namespace mwl {
     struct Semaphore::Implement {
         Implement();
         ~Implement();
-        int32_t _Open(const char *name, int32_t initVal);
-        int32_t _Wait(const TimeSpec *pTimeout);
+        int32_t _Open(const String &name, int32_t initVal);
+        int32_t _Wait(const TimeSpan *pTimeout);
         int32_t _Post(int32_t n);
         int32_t _Close();
 
@@ -25,7 +25,7 @@ namespace mwl {
 #else
         sem_t* s;
 #endif
-        std::string name;
+        String name;
         bool createdByMe;
 
     };

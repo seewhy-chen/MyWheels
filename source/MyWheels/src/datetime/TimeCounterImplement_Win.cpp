@@ -14,18 +14,17 @@ namespace mwl {
 
     TimeCounter::Implement::~Implement() {}
 
-    int32_t TimeCounter::Implement::_Start(const char *tag) {
-        std::string perfTag(tag ? tag : "");
-        if(QueryPerformanceCounter(&_counters[perfTag])) {
+    int32_t TimeCounter::Implement::_Start(const String &tag) {
+        if(QueryPerformanceCounter(&_counters[tag])) {
             return 0;
         } else {
             int32_t err = GetLastError();
-            MWL_WARN_ERRNO("QueryPerformanceCounter for time counter '%s' failed", err, perfTag.c_str());
+            MWL_WARN_ERRNO("QueryPerformanceCounter for time counter '%s' failed", err, tag.C_Str());
             return -err;
         }
     }
 
-    uint64_t TimeCounter::Implement::_TimeElapsed(const char *tag, TimeUnit unit) {
+    uint64_t TimeCounter::Implement::_TimeElapsed(const String &tag, TimeUnit unit) {
         if (_counters.empty()) {
             MWL_WARN("no time counter running");
             return 0;
@@ -38,12 +37,11 @@ namespace mwl {
             return 0;
         }
 
-        std::string currTag(tag ? tag : "");
-        if (_counters.end() == _counters.find(currTag)) {
-            MWL_WARN("No time counter has tag '%s'", currTag.c_str());
+        if (_counters.end() == _counters.find(tag)) {
+            MWL_WARN("No time counter has tag '%s'", tag.C_Str());
             return 0;
         }
-        LARGE_INTEGER startCount = _counters[currTag];
+        LARGE_INTEGER startCount = _counters[tag];
         LONGLONG ticks = currCount.QuadPart - startCount.QuadPart;
         switch (unit) {
         case HOUR:

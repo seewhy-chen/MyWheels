@@ -6,7 +6,6 @@
 #include "inc/Condition.h"
 
 #include "InternalCommon.h"
-#include "ThreadImplement.h"
 #include "ThreadContextImplement.h"
 
 #include <string>
@@ -24,16 +23,12 @@ namespace mwl {
             _Stop(nullptr);
         }
 
-        inline int32_t _SetTag(const char* tag) {
-            if (tag) {
-                context.m_pImpl->tag = tag;
-            } else {
-                context.m_pImpl->tag.clear();
-            }
+        inline int32_t _SetTag(const String &tag) {
+            context.m_pImpl->tag = tag;
             return ERR_NONE;
         }
 
-        int32_t _Stop(const TimeSpec *pTimeout) {
+        int32_t _Stop(const TimeSpan *pTimeout) {
             if (!_IsRunning()) {
                 return 0;
             }
@@ -57,7 +52,7 @@ namespace mwl {
             return context.SelfID();
         }
 
-        inline const char *_Tag() {
+        inline const String& _Tag() {
             return context.Tag();
         }
 
@@ -75,8 +70,8 @@ namespace mwl {
             }
         }
 
-        int32_t _Start(ThreadEntry entry, void *pSharedData, const TimeSpec *pTimeout);
-        int32_t _Join(const TimeSpec *pTimeout);
+        int32_t _Start(ThreadEntry entry, void *pSharedData, const TimeSpan *pTimeout);
+        int32_t _Join(const TimeSpan *pTimeout);
 
         ThreadContext context;
         ThreadEntry entry;

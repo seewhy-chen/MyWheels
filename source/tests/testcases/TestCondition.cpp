@@ -1,5 +1,5 @@
 #include "inc/Thread.h"
-#include "inc/TimeDefines.h"
+#include "inc/TimeUtils.h"
 #include "inc/Condition.h"
 #include "inc/Mutex.h"
 
@@ -17,13 +17,13 @@ struct ConditionTest {
 
 int32_t Entry(ThreadContext *pCtx) {
     ConditionTest *pTest = reinterpret_cast<ConditionTest*>(pCtx->SharedData());
-    MWL_INFO("%s started", pCtx->Tag());
-    TimeSpec timeout(1000);
+    MWL_INFO("%s started", pCtx->Tag().C_Str());
+    TimeSpan timeout(1000);
     Mutex::AutoLock _l(pTest->mutex);
     if (pTest->cond.Wait(pTest->mutex, &timeout) == ERR_TIMEOUT) {
-        MWL_INFO("%s wait cond timeout", pCtx->Tag()); 
+        MWL_INFO("%s wait cond timeout", pCtx->Tag().C_Str()); 
     }
-    MWL_INFO("%s stopped", pCtx->Tag());
+    MWL_INFO("%s stopped", pCtx->Tag().C_Str());
     return 0;
 }
 

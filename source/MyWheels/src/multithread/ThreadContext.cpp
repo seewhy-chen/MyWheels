@@ -31,9 +31,8 @@ namespace mwl {
         return m_pImpl->_SelfID();
     }
 
-    const char *ThreadContext::Tag() const {
+    const String& ThreadContext::Tag() const {
         return m_pImpl->_Tag();
     }
-
 
 }

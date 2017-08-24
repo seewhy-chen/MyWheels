@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include <string>
 
 #include "inc/Semaphore.h"
 #include "inc/Mutex.h"
 #include "inc/Thread.h"
-#include "inc/TimeDefines.h"
+#include "inc/TimeUtils.h"
 #include "inc/Randomizer.h"
+#include "inc/String.h"
 using namespace mwl;
 
 struct Rendezvous {
@@ -106,17 +106,17 @@ int32_t EntryBarrior(ThreadContext *pCtx) {
     Barrior *pBarrior = reinterpret_cast<Barrior*>(pCtx->SharedData());
 
     for (int32_t i = 0; i < 5; ++i) {
-        MWL_INFO("%s arrived and waiting...", pCtx->Tag());
+        MWL_INFO("%s arrived and waiting...", pCtx->Tag().C_Str());
         pBarrior->Arrived();
 
         _m.Lock();
         int32_t sleepTime = _rand.NextS32InRange(10, 501);
         _m.Unlock();
-        MWL_INFO("%s waiting done, sleep %d ms", pCtx->Tag(), sleepTime);
+        MWL_INFO("%s waiting done, sleep %d ms", pCtx->Tag().C_Str(), sleepTime);
         TimeSleep(sleepTime);
 
         pBarrior->Passed();
-        MWL_INFO("%s passed", pCtx->Tag());
+        MWL_INFO("%s passed", pCtx->Tag().C_Str());
     }
     return 0;
 }
@@ -148,9 +148,9 @@ int32_t main() {
     Barrior b(N);
     Thread threads[N];
     for (int32_t i = 0; i < N; ++i) {
-        char tag[32] = { 0 };
-        sprintf(tag, "%03d", i);
-        threads[i].SetTag(tag);
+        String tag;
+        tag.Format("%03d", i);
+        threads[i].SetTag(tag.C_Str());
         threads[i].Start(EntryBarrior, &b);
     }
     for (int32_t i = 0; i < N; ++i) {

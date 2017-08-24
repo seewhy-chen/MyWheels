@@ -15,20 +15,20 @@ namespace mwl {
         _Close();
     }
 
-    int32_t Semaphore::Implement::_Open(const char *name, int32_t initVal) {
+    int32_t Semaphore::Implement::_Open(const String &name, int32_t initVal) {
         _Close();
-        s = CreateSemaphore(nullptr, initVal, 0x7FFFFFFFL, name);
+        s = CreateSemaphore(nullptr, initVal, 0x7FFFFFFFL, name.C_Str());
         int32_t err = GetLastError();
         if (!s) {
-            MWL_WARN_ERRNO("create semaphore %s failed", err, name);
+            MWL_WARN_ERRNO("create semaphore %s failed", err, name.C_Str());
         } else {
-            this->name = name ? name : "";
+            this->name = name;
             createdByMe = (err == ERROR_SUCCESS);
         }
         return s ? ERR_NONE : -err;
     }
 
-    int32_t Semaphore::Implement::_Wait(const TimeSpec *pTimeout) {
+    int32_t Semaphore::Implement::_Wait(const TimeSpan *pTimeout) {
         if (!s) {
             MWL_WARN("semaphore not opend when waiting");
             return ERR_INVAL_PARAM;
@@ -55,14 +55,14 @@ namespace mwl {
 
         case WAIT_FAILED: {
                 int32_t err = GetLastError();
-                MWL_WARN_ERRNO("wait semaphore %s failed", err, name.c_str());
+                MWL_WARN_ERRNO("wait semaphore %s failed", err, name.C_Str());
                 ret = -err;
             }
             break;
 
         default: {
                 int32_t err = GetLastError();
-                MWL_WARN_ERRNO("wait semaphore %s got wait result %d", err, name.c_str(), ret);
+                MWL_WARN_ERRNO("wait semaphore %s got wait result %d", err, name.C_Str(), ret);
                 if (err != 0) {
                     ret = -err;
                 } else {
@@ -83,7 +83,7 @@ namespace mwl {
 
         if (!ReleaseSemaphore(s, n, nullptr)) {
             int32_t err = GetLastError();
-            MWL_WARN_ERRNO("release semaphore %s with n = %d failed", err, name.c_str(), n);
+            MWL_WARN_ERRNO("release semaphore %s with n = %d failed", err, name.C_Str(), n);
             return -err;
         }
         return ERR_NONE;
@@ -94,7 +94,7 @@ namespace mwl {
             CloseHandle(s);
         }
         s = nullptr;
-        name.clear();
+        name.Clear();
         return ERR_NONE;
     }
 }

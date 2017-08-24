@@ -38,8 +38,11 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\Thread.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\TimeCounter.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\TimeDefines.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\TimeSpan.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\TimeUtils.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\container\ByteArrayImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\container\StringImplement.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\datetime\DateTimeImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\InternalCommon.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement.h" />
@@ -57,9 +60,12 @@
     <ClCompile Include="..\..\..\source\MyWheels\src\container\ByteArrayIterator.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\container\String.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\container\StringImplement.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\DateTime.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\DateTimeImplement.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Linux.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Win.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeSpan.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeUtils.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\misc\Randomizer.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Condition.cpp" />

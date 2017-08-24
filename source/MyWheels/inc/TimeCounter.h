@@ -2,6 +2,7 @@
 #define __MWL_TIME_COUNTER_H__
 
 #include "inc/BasicDefines.h"
+#include "inc/String.h"
 #include "TimeDefines.h"
 
 namespace mwl {
@@ -10,9 +11,9 @@ namespace mwl {
     public:
         TimeCounter();
         ~TimeCounter();
-        int32_t Start(const char *tag = "");
+        int32_t Start(const String &tag = String::Null());
         uint64_t TimeElapsed(TimeUnit unit = MILLISEC);
-        uint64_t TimeElapsed(const char *tag, TimeUnit unit = MILLISEC);
+        uint64_t TimeElapsed(const String &tag, TimeUnit unit = MILLISEC);
     private:
         struct Implement;
         Implement *m_pImpl;

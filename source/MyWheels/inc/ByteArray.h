@@ -132,8 +132,8 @@ namespace mwl {
 }
 
 namespace std {
-    inline void swap(mwl::ByteArray &s1, mwl::ByteArray &s2) {
-        s1.Swap(s2);
+    inline void swap(mwl::ByteArray &b1, mwl::ByteArray &b2) {
+        b1.Swap(b2);
     }
 }
 

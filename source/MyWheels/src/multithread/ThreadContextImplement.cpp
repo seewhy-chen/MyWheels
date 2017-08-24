@@ -32,8 +32,8 @@ namespace mwl {
         return selfID;
     }
 
-    const char* ThreadContext::Implement::_Tag() {
-        return tag.c_str();
+    const String& ThreadContext::Implement::_Tag() {
+        return tag;
     }
 
 }

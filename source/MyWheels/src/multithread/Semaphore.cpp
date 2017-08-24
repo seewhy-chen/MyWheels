@@ -9,11 +9,11 @@ namespace mwl {
         delete m_pImpl;
     }
 
-    int32_t Semaphore::Open(const char *name, int32_t initVal) {
+    int32_t Semaphore::Open(const String &name, int32_t initVal) {
         return m_pImpl->_Open(name, initVal);
     }
 
-    int32_t Semaphore::Wait(const TimeSpec *pTimeout) {
+    int32_t Semaphore::Wait(const TimeSpan *pTimeout) {
         return m_pImpl->_Wait(pTimeout);
     }
 

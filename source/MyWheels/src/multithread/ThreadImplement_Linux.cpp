@@ -17,7 +17,7 @@ namespace mwl {
 
     static void *_ThreadBody(void *data);
 
-    int32_t Thread::Implement::_Start(ThreadEntry entry, void *pSharedData, const TimeSpec *pTimeout) {
+    int32_t Thread::Implement::_Start(ThreadEntry entry, void *pSharedData, const TimeSpan *pTimeout) {
         Mutex::AutoLock _l(context.m_pImpl->lock);
         if (context.m_pImpl->isRunning) {
             return ERR_NONE;
@@ -41,7 +41,7 @@ namespace mwl {
         return context.m_pImpl->isRunning ? ERR_NONE : ret;
     }
 
-    int32_t Thread::Implement::_Join(const TimeSpec *pTimeout) {
+    int32_t Thread::Implement::_Join(const TimeSpan *pTimeout) {
         int32_t ret = ERR_TIMEOUT;
         Mutex::AutoLock _l(context.m_pImpl->lock);
         while (context.m_pImpl->isRunning && ERR_TIMEOUT == ret) {

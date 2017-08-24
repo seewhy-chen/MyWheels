@@ -26,7 +26,7 @@ namespace mwl {
         pImpl->_len = 0;
         pImpl->_pContent = reinterpret_cast<char*>(pImpl) + String::Implement::_BASE_SIZE;
         if (pContent && *pContent) {
-            int32_t len = strlen(pContent);
+            int32_t len = static_cast<int32_t>(strlen(pContent));
             if (len > pImpl->_capacity) {
                 len = pImpl->_capacity;
             }
@@ -41,7 +41,7 @@ namespace mwl {
     String::String(const char *pStr, int32_t strLen) : m_pImpl(nullptr) {
         int32_t bufSize = 0;
         if (pStr && *pStr && strLen != 0) {
-            bufSize = strlen(pStr);
+            bufSize = static_cast<int32_t>(strlen(pStr));
             if (strLen > 0 && strLen < bufSize) {
                 bufSize = strLen;
             }
@@ -154,7 +154,7 @@ namespace mwl {
             Clear();
         } else {
             int32_t res = 0;
-            ByteArray resBuf(strlen(fmt) + 64);
+            ByteArray resBuf(static_cast<int32_t>(strlen(fmt)) + 64);
             va_list va;
             do {
                 va_start(va, fmt);
@@ -227,7 +227,7 @@ namespace mwl {
         m_pImpl->_pContent[end] = 0;
         char* p = strstr(m_pImpl->_pContent + start, subStr.m_pImpl->_pContent);
         m_pImpl->_pContent[end] = tmp;
-        return p ? p - m_pImpl->_pContent : -1;
+        return static_cast<int32_t>(p ? p - m_pImpl->_pContent : -1);
     }
 
     int32_t String::RFind(const String &subStr, int32_t start, int32_t end) const {
@@ -251,7 +251,7 @@ namespace mwl {
             pos -= 1;
         }
         m_pImpl->_pContent[end] = tmp;
-        return p ? p - m_pImpl->_pContent : -1;
+        return static_cast<int32_t>(p ? p - m_pImpl->_pContent : -1);
     }
 
     bool String::StartsWith(const String& prefix) const {
@@ -419,7 +419,7 @@ namespace mwl {
                     }
                 } else {
                     char *pStr = m_pImpl->_pContent;
-                    String replaced(pStr, p - pStr);
+                    String replaced(pStr, static_cast<int32_t>(p - pStr));
                     bool done = false;
                     while (!done) {
                         replaced += replacement;
@@ -433,9 +433,11 @@ namespace mwl {
                             p = m_pImpl->_pContent + m_pImpl->_len;
                             done = true;
                         }
-                        replaced.m_pImpl = _Allocate(replaced.m_pImpl->_len + p - pStr,
+
+                        int32_t incSize = static_cast<int32_t>(p - pStr);
+                        replaced.m_pImpl = _Allocate(replaced.m_pImpl->_len + incSize,
                             replaced.m_pImpl->_pContent, replaced.m_pImpl);
-                        replaced.m_pImpl->_Cat(pStr, p - pStr);
+                        replaced.m_pImpl->_Cat(pStr, incSize);
                     }
                     Swap(replaced);
                     _SET_CNT_PTR;
@@ -455,7 +457,7 @@ namespace mwl {
             int32_t splitCnt = 0;
             for (int32_t i = 0; i < m_pImpl->_len && splitCnt < count; ++i) {
                 if (_whitespaces().Contains(m_pImpl->_pContent[i])) {
-                    splitted.Append(String(pStr, m_pImpl->_pContent + i - pStr));
+                    splitted.Append(String(pStr, static_cast<int32_t>(m_pImpl->_pContent + i - pStr)));
                     pStr = m_pImpl->_pContent + i + 1;
                     ++splitCnt;
                 }
@@ -475,7 +477,7 @@ namespace mwl {
             char *pStr = m_pImpl->_pContent;
             char *p = strstr(m_pImpl->_pContent, seperator.m_pImpl->_pContent);
             while (p && splitCnt < count) {
-                splitted.Append(String(pStr, p - pStr));
+                splitted.Append(String(pStr, static_cast<int32_t>(p - pStr)));
                 ++splitCnt;
                 pStr = p + seperator.m_pImpl->_len;
                 p = strstr(pStr, seperator.m_pImpl->_pContent);
@@ -489,7 +491,7 @@ namespace mwl {
         if (count < 0) {
             return Split(count);
         }
-        
+
         Array<String> splitted;
         if (count < 0) {
             count = Len();
@@ -500,14 +502,14 @@ namespace mwl {
             int32_t splitCnt = 0;
             while (pStr >= m_pImpl->_pContent && splitCnt < count) {
                 if (_whitespaces().Contains(*pStr)) {
-                    splitted.Append(String(pStr + 1, p - pStr - 1));
+                    splitted.Append(String(pStr + 1, static_cast<int32_t>(p - pStr) - 1));
                     ++splitCnt;
                     p = pStr;
                 }
                 --pStr;
             }
 
-            splitted.Append(String(m_pImpl->_pContent, p - m_pImpl->_pContent));
+            splitted.Append(String(m_pImpl->_pContent, static_cast<int32_t>(p - m_pImpl->_pContent)));
             int32_t cnt = splitted.Size();
             for (int32_t i = 0; i < cnt / 2; ++i) {
                 splitted[i].Swap(splitted[cnt - i - 1]);
@@ -535,12 +537,13 @@ namespace mwl {
                         pStr >= m_pImpl->_pContent) {
                         --pStr;
                     }
-                    splitted.Append(String(pStr + seperator.m_pImpl->_len, pEnd - pStr - seperator.m_pImpl->_len));
+                    splitted.Append(String(pStr + seperator.m_pImpl->_len,
+                        static_cast<int32_t>(pEnd - pStr) - seperator.m_pImpl->_len));
                     pEnd = pStr;
                     ++splitCnt;
                     --pStr;
                 }
-                splitted.Append(String(m_pImpl->_pContent, pEnd - m_pImpl->_pContent));
+                splitted.Append(String(m_pImpl->_pContent, static_cast<int32_t>(pEnd - m_pImpl->_pContent)));
                 int32_t cnt = splitted.Size();
                 for (int32_t i = 0; i < cnt / 2; ++i) {
                     splitted[i].Swap(splitted[cnt - i - 1]);
@@ -571,32 +574,33 @@ namespace mwl {
         return splitted;
     }
 
-}
 
-mwl::String operator+(const mwl::String &lhs, const mwl::String &rhs) {
-    return mwl::String(lhs).Cat(rhs);
-}
+    mwl::String operator+(const mwl::String &lhs, const mwl::String &rhs) {
+        return mwl::String(lhs).Cat(rhs);
+    }
 
-bool operator==(const mwl::String &lhs, const mwl::String &rhs) {
-    return 0 == lhs.Compare(rhs);
-}
+    bool operator==(const mwl::String &lhs, const mwl::String &rhs) {
+        return 0 == lhs.Compare(rhs);
+    }
 
-bool operator!=(const mwl::String &lhs, const mwl::String &rhs) {
-    return !(lhs == rhs);
-}
+    bool operator!=(const mwl::String &lhs, const mwl::String &rhs) {
+        return !(lhs == rhs);
+    }
 
-bool operator<(const mwl::String &lhs, const mwl::String &rhs) {
-    return lhs.Compare(rhs) < 0;
-}
+    bool operator<(const mwl::String &lhs, const mwl::String &rhs) {
+        return lhs.Compare(rhs) < 0;
+    }
 
-bool operator<=(const mwl::String &lhs, const mwl::String &rhs) {
-    return lhs.Compare(rhs) <= 0;
-}
+    bool operator<=(const mwl::String &lhs, const mwl::String &rhs) {
+        return lhs.Compare(rhs) <= 0;
+    }
 
-bool operator>(const mwl::String &lhs, const mwl::String &rhs) {
-    return lhs.Compare(rhs) > 0;
-}
+    bool operator>(const mwl::String &lhs, const mwl::String &rhs) {
+        return lhs.Compare(rhs) > 0;
+    }
 
-bool operator>=(const mwl::String &lhs, const mwl::String &rhs) {
-    return lhs.Compare(rhs) >= 0;
+    bool operator>=(const mwl::String &lhs, const mwl::String &rhs) {
+        return lhs.Compare(rhs) >= 0;
+    }
+
 }

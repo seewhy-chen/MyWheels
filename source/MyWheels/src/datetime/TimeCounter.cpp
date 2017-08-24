@@ -10,7 +10,7 @@ namespace mwl {
         delete m_pImpl;
     }
 
-    int32_t TimeCounter::Start(const char *tag) {
+    int32_t TimeCounter::Start(const String &tag) {
         return m_pImpl->_Start(tag);
     }
 
@@ -18,7 +18,7 @@ namespace mwl {
         return m_pImpl->_TimeElapsed(nullptr, unit);
     }
 
-    uint64_t TimeCounter::TimeElapsed(const char *tag, TimeUnit unit) {
+    uint64_t TimeCounter::TimeElapsed(const String &tag, TimeUnit unit) {
         return m_pImpl->_TimeElapsed(tag, unit);
     }
 

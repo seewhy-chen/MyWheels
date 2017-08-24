@@ -18,14 +18,14 @@ namespace mwl {
         _Close();
     }
 
-    int32_t Semaphore::Implement::_Open(const char *name, int32_t initVal) {
+    int32_t Semaphore::Implement::_Open(const String &name, int32_t initVal) {
         _Close();
         int32_t err = 0;
-        s = sem_open(name, O_CREAT|O_EXCL|O_RDWR, S_IRWXU, initVal);
+        s = sem_open(name.C_Str(), O_CREAT|O_EXCL|O_RDWR, S_IRWXU, initVal);
         if (!s) {
             err = errno;
             if (EEXIST == err) {
-                s = sem_open(name, O_RDWR, S_IRWXU, initVal);
+                s = sem_open(name.C_Str(), O_RDWR, S_IRWXU, initVal);
             }
         } else {
             createdByMe = true;
@@ -33,14 +33,14 @@ namespace mwl {
 
         if (!s) {
             err = errno;
-            MWL_WARN_ERRNO("create semaphore %s failed", err, name);
+            MWL_WARN_ERRNO("create semaphore %s failed", err, name.C_Str());
         } else {
             this->name = name;
         }
         return s ? ERR_NONE : -err;
     }
 
-    int32_t Semaphore::Implement::_Wait(const TimeSpec *pTimeout) {
+    int32_t Semaphore::Implement::_Wait(const TimeSpan *pTimeout) {
         if (!s) {
             MWL_WARN("semaphore not opend when waiting");
             return ERR_INVAL_PARAM;
@@ -61,7 +61,7 @@ namespace mwl {
         if (ret < 0) {
             int32_t err = errno;
             if (err != ETIMEDOUT) {
-                MWL_WARN_ERRNO("wait semaphore %s failed", ret, name.c_str());
+                MWL_WARN_ERRNO("wait semaphore %s failed", ret, name.C_Str());
             }
             ret = -err;
         }
@@ -83,7 +83,7 @@ namespace mwl {
             int32_t ret = sem_post(s);
             if (ret < 0) {
                 int32_t err = errno;
-                MWL_WARN_ERRNO("post semaphore %s failed", ret, name.c_str());
+                MWL_WARN_ERRNO("post semaphore %s failed", ret, name.C_Str());
                 return -err;
             }
         }
@@ -94,10 +94,10 @@ namespace mwl {
         if (s) {
             sem_close(s);
             if (createdByMe) {
-                sem_unlink(name.c_str());
+                sem_unlink(name.C_Str());
             }
             s = nullptr;
-            name.clear();
+            name.Clear();
         }
         return ERR_NONE;
     }

@@ -134,6 +134,15 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\ArrayImplement.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\datetime\DateTimeImplement.h">
+      <Filter>src\datetime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\TimeSpan.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\TimeUtils.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp">
@@ -219,6 +228,15 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\MyWheels\src\container\StringImplement.cpp">
       <Filter>src\container</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\DateTime.cpp">
+      <Filter>src\datetime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\DateTimeImplement.cpp">
+      <Filter>src\datetime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeSpan.cpp">
+      <Filter>src\datetime</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

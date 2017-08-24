@@ -4,25 +4,20 @@
 #include "inc/Socket.h"
 #include "SockInternalUtils.h"
 
-#ifdef __MWL_WIN__
-#endif
-
-#include <string>
-
 namespace mwl {
 
     struct SockAddress::Implement {
-        Implement(const char *host, const char *service, SockAddressFamily af);
-        Implement(const char *host, int32_t port, SockAddressFamily af);
+        Implement(const String &host, const String &service, SockAddressFamily af);
+        Implement(const String &host, int32_t port, SockAddressFamily af);
         Implement(const sockaddr *pSockAddr, socklen_t addrLen);
         Implement(const Implement &src);
         ~Implement();
 
-        int32_t _SetAddress(const char *host, int32_t port, SockAddressFamily af);
-        int32_t _SetAddress(const char *host, const char *service, SockAddressFamily af);
+        int32_t _SetAddress(const String &host, int32_t port, SockAddressFamily af);
+        int32_t _SetAddress(const String &host, const String &service, SockAddressFamily af);
         int32_t _SetAddress(const sockaddr *pSockAddr, socklen_t addrLen);
 
-        int32_t _SetHost(const char *strHost);
+        int32_t _SetHost(const String &strHost);
         int32_t _SetHost(const sockaddr *pSockAddr, socklen_t addrLen);
         int32_t _SetPort(int32_t port);
         int32_t _SetPort(const sockaddr *pSockAddr, socklen_t addrLen);
@@ -34,9 +29,9 @@ namespace mwl {
 
         void _Reset();
         SockAddressFamily _af;
-        std::string _addr;
-        std::string _host;
-        std::string _service;
+        String _addr;
+        String _host;
+        String _service;
         int32_t _port;
         sockaddr *_sockAddr;
         int32_t _sockAddrLen;

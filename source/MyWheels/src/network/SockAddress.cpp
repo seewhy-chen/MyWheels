@@ -4,10 +4,10 @@
 
 namespace mwl {
 
-    SockAddress::SockAddress(const char *host, const char *service, SockAddressFamily af)
+    SockAddress::SockAddress(const String &host, const String &service, SockAddressFamily af)
         : m_pImpl(new Implement(host, service, af)) {}
 
-    SockAddress::SockAddress(const char *host, int32_t port, SockAddressFamily af)
+    SockAddress::SockAddress(const String &host, int32_t port, SockAddressFamily af)
         : m_pImpl(new Implement(host, port, af)) {}
 
     SockAddress::SockAddress(const sockaddr *pSockAddr, socklen_t addrLen)
@@ -22,16 +22,16 @@ namespace mwl {
 
     SockAddress &SockAddress::operator=(const SockAddress &rhs) {
         if (this != &rhs) {
-            m_pImpl->_SetAddress(rhs.m_pImpl->_host.c_str(), rhs.m_pImpl->_service.c_str(), rhs.m_pImpl->_af);
+            m_pImpl->_SetAddress(rhs.m_pImpl->_host.C_Str(), rhs.m_pImpl->_service.C_Str(), rhs.m_pImpl->_af);
         }
         return *this;
     }
 
-    int32_t SockAddress::SetAddress(const char *host, const char *service, SockAddressFamily af) {
+    int32_t SockAddress::SetAddress(const String &host, const String &service, SockAddressFamily af) {
         return m_pImpl->_SetAddress(host, service, af);
     }
 
-    int32_t SockAddress::SetAddress(const char *host, int32_t port, SockAddressFamily af) {
+    int32_t SockAddress::SetAddress(const String &host, int32_t port, SockAddressFamily af) {
         return m_pImpl->_SetAddress(host, port, af);
     }
 
@@ -39,7 +39,7 @@ namespace mwl {
         return m_pImpl->_SetAddress(pSockAddr, addrLen);
     }
 
-    int32_t SockAddress::SetHost(const char *host) {
+    int32_t SockAddress::SetHost(const String &host) {
         return m_pImpl->_SetHost(host);
     }
 
@@ -71,8 +71,8 @@ namespace mwl {
         return m_pImpl->_Reset();
     }
 
-    const char *SockAddress::Host() const {
-        return m_pImpl->_host.c_str();
+    const String &SockAddress::Host() const {
+        return m_pImpl->_host;
     }
 
     int32_t SockAddress::Port() const {
@@ -83,7 +83,7 @@ namespace mwl {
         return m_pImpl->_af;
     }
 
-    const char *SockAddress::FamilyName() const {
+    const char* SockAddress::FamilyName() const {
         switch (m_pImpl->_af) {
         case SOCK_AF_UNSPEC:
             return "unspecified";

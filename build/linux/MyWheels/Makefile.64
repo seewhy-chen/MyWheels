@@ -40,9 +40,12 @@ OBJECTS = \
 	$(OBJ_DIR)/ByteArrayIterator.o\
 	$(OBJ_DIR)/String.o\
 	$(OBJ_DIR)/StringImplement.o\
+	$(OBJ_DIR)/DateTime.o\
+	$(OBJ_DIR)/DateTimeImplement.o\
 	$(OBJ_DIR)/TimeCounter.o\
 	$(OBJ_DIR)/TimeCounterImplement_Linux.o\
 	$(OBJ_DIR)/TimeCounterImplement_Win.o\
+	$(OBJ_DIR)/TimeSpan.o\
 	$(OBJ_DIR)/TimeUtils.o\
 	$(OBJ_DIR)/Randomizer.o\
 	$(OBJ_DIR)/Condition.o\
@@ -93,12 +96,18 @@ $(OBJ_DIR)/String.o : ../../../source/MyWheels/src/container/String.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/String.o ../../../source/MyWheels/src/container/String.cpp
 $(OBJ_DIR)/StringImplement.o : ../../../source/MyWheels/src/container/StringImplement.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/StringImplement.o ../../../source/MyWheels/src/container/StringImplement.cpp
+$(OBJ_DIR)/DateTime.o : ../../../source/MyWheels/src/datetime/DateTime.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/DateTime.o ../../../source/MyWheels/src/datetime/DateTime.cpp
+$(OBJ_DIR)/DateTimeImplement.o : ../../../source/MyWheels/src/datetime/DateTimeImplement.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/DateTimeImplement.o ../../../source/MyWheels/src/datetime/DateTimeImplement.cpp
 $(OBJ_DIR)/TimeCounter.o : ../../../source/MyWheels/src/datetime/TimeCounter.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounter.o ../../../source/MyWheels/src/datetime/TimeCounter.cpp
 $(OBJ_DIR)/TimeCounterImplement_Linux.o : ../../../source/MyWheels/src/datetime/TimeCounterImplement_Linux.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounterImplement_Linux.o ../../../source/MyWheels/src/datetime/TimeCounterImplement_Linux.cpp
 $(OBJ_DIR)/TimeCounterImplement_Win.o : ../../../source/MyWheels/src/datetime/TimeCounterImplement_Win.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounterImplement_Win.o ../../../source/MyWheels/src/datetime/TimeCounterImplement_Win.cpp
+$(OBJ_DIR)/TimeSpan.o : ../../../source/MyWheels/src/datetime/TimeSpan.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeSpan.o ../../../source/MyWheels/src/datetime/TimeSpan.cpp
 $(OBJ_DIR)/TimeUtils.o : ../../../source/MyWheels/src/datetime/TimeUtils.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeUtils.o ../../../source/MyWheels/src/datetime/TimeUtils.cpp
 $(OBJ_DIR)/Randomizer.o : ../../../source/MyWheels/src/misc/Randomizer.cpp

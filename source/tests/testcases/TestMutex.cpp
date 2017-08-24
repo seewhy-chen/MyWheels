@@ -1,6 +1,6 @@
 #include "inc/Thread.h"
 #include "inc/Mutex.h"
-#include "inc/TimeDefines.h"
+#include "inc/TimeUtils.h"
 
 #include "InternalCommon.h"
 using namespace mwl;
@@ -9,13 +9,13 @@ using namespace mwl;
 
 int32_t MutexTester(ThreadContext *pCtx) {
     Mutex *pMutex = reinterpret_cast<Mutex*>(pCtx->SharedData());
-    MWL_INFO("%s started", pCtx->Tag());
+    MWL_INFO("%s started", pCtx->Tag().C_Str());
     TimeSleep(500);
     pMutex->Lock();
-    MWL_INFO("%s got the mutex", pCtx->Tag());
+    MWL_INFO("%s got the mutex", pCtx->Tag().C_Str());
     TimeSleep(500);
     pMutex->Unlock();
-    MWL_INFO("%s stopped", pCtx->Tag());
+    MWL_INFO("%s stopped", pCtx->Tag().C_Str());
     return 0;
 }
 

@@ -1,5 +1,5 @@
 #include "inc/Thread.h"
-#include "inc/TimeDefines.h"
+#include "inc/TimeUtils.h"
 #include "inc/Semaphore.h"
 
 #include "InternalCommon.h"
@@ -13,7 +13,7 @@ int32_t SemaphoreTester() {
     Semaphore sem;
     sem.Open("test", 0);
     MWL_INFO("(%lu, %lu) started", threadID.pid, threadID.tid);
-    TimeSpec timeout(1000);
+    TimeSpan timeout(1000);
     if (sem.Wait(&timeout) == ERR_TIMEOUT) {
         MWL_INFO("(%lu, %lu) wait semaphore timeout", threadID.pid, threadID.tid);
     } else {

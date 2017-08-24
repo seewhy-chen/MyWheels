@@ -1,5 +1,6 @@
 #include "inc/Thread.h"
 #include "inc/TimeDefines.h"
+#include "inc/TimeUtils.h"
 #include "inc/Condition.h"
 #include "inc/Mutex.h"
 #include "inc/Semaphore.h"
@@ -13,11 +14,11 @@ int32_t ThreadTester(ThreadContext *pCtx) {
     ThreadID threadID;
     GetCurrentThreadID(threadID);
     MWL_INFO("%s started as (%lu, %lu), parent is (%lu, %lu)", 
-        pCtx->Tag(), threadID.pid, threadID.tid, pCtx->ParentID().pid, pCtx->ParentID().tid);
+        pCtx->Tag().C_Str(), threadID.pid, threadID.tid, pCtx->ParentID().pid, pCtx->ParentID().tid);
 
     TimeSleep(500); 
 
-    MWL_INFO("%s stopped", pCtx->Tag());
+    MWL_INFO("%s stopped", pCtx->Tag().C_Str());
     return 0;
 }
 
