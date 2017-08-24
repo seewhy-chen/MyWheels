@@ -36,12 +36,14 @@ first: all
 
 OBJECTS = \
 	$(OBJ_DIR)/main.o\
+	$(OBJ_DIR)/TestArray.o\
 	$(OBJ_DIR)/TestBasicTypes.o\
 	$(OBJ_DIR)/TestByteArray.o\
 	$(OBJ_DIR)/TestCondition.o\
 	$(OBJ_DIR)/TestMutex.o\
 	$(OBJ_DIR)/TestSemaphore.o\
 	$(OBJ_DIR)/TestSocket.o\
+	$(OBJ_DIR)/TestString.o\
 	$(OBJ_DIR)/TestThread.o\
 	$(OBJ_DIR)/TestTimeCounter.o
 
@@ -63,6 +65,8 @@ rebuild : clean all
 
 $(OBJ_DIR)/main.o : ../../../source/tests/main.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/main.o ../../../source/tests/main.cpp
+$(OBJ_DIR)/TestArray.o : ../../../source/tests/testcases/TestArray.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestArray.o ../../../source/tests/testcases/TestArray.cpp
 $(OBJ_DIR)/TestBasicTypes.o : ../../../source/tests/testcases/TestBasicTypes.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestBasicTypes.o ../../../source/tests/testcases/TestBasicTypes.cpp
 $(OBJ_DIR)/TestByteArray.o : ../../../source/tests/testcases/TestByteArray.cpp
@@ -75,6 +79,8 @@ $(OBJ_DIR)/TestSemaphore.o : ../../../source/tests/testcases/TestSemaphore.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestSemaphore.o ../../../source/tests/testcases/TestSemaphore.cpp
 $(OBJ_DIR)/TestSocket.o : ../../../source/tests/testcases/TestSocket.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestSocket.o ../../../source/tests/testcases/TestSocket.cpp
+$(OBJ_DIR)/TestString.o : ../../../source/tests/testcases/TestString.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestString.o ../../../source/tests/testcases/TestString.cpp
 $(OBJ_DIR)/TestThread.o : ../../../source/tests/testcases/TestThread.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestThread.o ../../../source/tests/testcases/TestThread.cpp
 $(OBJ_DIR)/TestTimeCounter.o : ../../../source/tests/testcases/TestTimeCounter.cpp

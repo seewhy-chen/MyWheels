@@ -116,6 +116,8 @@ namespace mwl {
         void Clear();
         void Reset();
 
+        int32_t Increase(int32_t incSize, uint8_t fillVal = 0);
+        int32_t Decrease(int32_t decSize, uint8_t fillVal = 0);
         int32_t Resize(int32_t newSize, uint8_t fillVal = 0);
         int32_t Size() const;
         int32_t Reserve(int32_t newCapacity);
@@ -127,6 +129,12 @@ namespace mwl {
         Implement *m_pImpl;
     };
 
+}
+
+namespace std {
+    inline void swap(mwl::ByteArray &s1, mwl::ByteArray &s2) {
+        s1.Swap(s2);
+    }
 }
 
 #endif // __MWL_BYTE_ARRAY_H__

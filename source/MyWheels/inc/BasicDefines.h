@@ -104,34 +104,37 @@ namespace mwl {
         ERR_INVAL_OP = -0x10000L,
     };
 
+#ifndef MWL_LOG_TAG
+#define MWL_LOG_TAG "MWL"
+#endif
 
 #define MWL_INFO(fmt, ...) \
     do { \
-        fprintf(stdout, "[Info] " fmt"\n", ##__VA_ARGS__); \
+        fprintf(stdout, "[I/%s] " fmt"\n", MWL_LOG_TAG, ##__VA_ARGS__); \
     } while (0)
 
 #define MWL_WARN(fmt, ...) \
     do { \
-        fprintf(stdout, "[Warn] " fmt"\n", ##__VA_ARGS__); \
+        fprintf(stdout, "[W/%s] " fmt"\n", MWL_LOG_TAG, ##__VA_ARGS__); \
     } while (0)
 
 #define MWL_WARN_ERRNO(fmt, err, ...) \
     do { \
         char errMsg[256] = {0}; \
         char *msg = strerror_r(err, errMsg, sizeof(errMsg)); \
-        fprintf(stdout, "[Warn] " fmt": %d -- %s\n", ##__VA_ARGS__, err, msg); \
+        fprintf(stdout, "[W/%s] " fmt": %d -- %s\n", MWL_LOG_TAG, ##__VA_ARGS__, err, msg); \
     } while (0)
 
 #define MWL_ERR(fmt, ...) \
     do { \
-        fprintf(stdout, "[Error] " fmt"\n", ##__VA_ARGS__); \
+        fprintf(stdout, "[E/%s] " fmt"\n", MWL_LOG_TAG, ##__VA_ARGS__); \
     } while (0)
 
 #define MWL_ERR_ERRNO(fmt, err, ...) \
     do { \
         char errMsg[256] = {0}; \
         char *msg = strerror_r(err, errMsg, sizeof(errMsg)); \
-        fprintf(stdout, "[Error] " fmt": %d -- %s\n", ##__VA_ARGS__, err, msg); \
+        fprintf(stdout, "[E/%s] " fmt": %d -- %s\n", MWL_LOG_TAG, ##__VA_ARGS__, err, msg); \
     } while (0)
 
 #define MWL_ARR_SIZE(arr) (static_cast<int32_t>(sizeof((arr))/sizeof((arr)[0])))

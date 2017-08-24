@@ -191,8 +191,9 @@ namespace mwl {
 
     int32_t ByteArray::Implement::_Reserve(int32_t newCapacity) {
         if (_Capacity() < newCapacity) {
-            rawMem.reset(new RawMemoryManager(new uint8_t[newCapacity], newCapacity));
-            memcpy(rawMem->pBuf, pArray, arrSize);
+            SharedPtr<RawMemoryManager> newMem(new RawMemoryManager(new uint8_t[newCapacity], newCapacity));
+            memcpy(newMem->pBuf, pArray, arrSize);
+            rawMem = newMem;
             arrStartPos = 0;
             pArray = rawMem->pBuf;
         }

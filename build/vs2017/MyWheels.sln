@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MyWheels", "MyWheels\MyWheels.vcxproj", "{40C75FB6-8F69-44B8-9AED-2177A7E65FFA}"
 EndProject
@@ -16,6 +16,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "playground", "playground\pl
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "filesearcher", "filesearcher\filesearcher.vcxproj", "{C1F0524E-024A-45DE-8B5C-FFA95C8241AC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{40C75FB6-8F69-44B8-9AED-2177A7E65FFA} = {40C75FB6-8F69-44B8-9AED-2177A7E65FFA}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,5 +63,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B9C44E81-06AC-4C8F-BD80-57D688560FA6}
 	EndGlobalSection
 EndGlobal

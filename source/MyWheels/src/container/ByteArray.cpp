@@ -101,6 +101,14 @@ namespace mwl {
         return &m_pImpl->_ElementAt(startIdx);
     }
 
+    int32_t ByteArray::Increase(int32_t incSize, uint8_t fillVal) {
+        return m_pImpl->_Resize(m_pImpl->_Size() + incSize, fillVal);
+    }
+
+    int32_t ByteArray::Decrease(int32_t decSize, uint8_t fillVal) {
+        return m_pImpl->_Resize(m_pImpl->_Size() - decSize, fillVal);
+    }
+
     int32_t ByteArray::Resize(int32_t newSize, uint8_t fillVal) {
         return m_pImpl->_Resize(newSize, fillVal);
     }

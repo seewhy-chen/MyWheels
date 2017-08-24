@@ -20,12 +20,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\tests\main.cpp" />
+    <ClCompile Include="..\..\..\source\tests\testcases\TestArray.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestBasicTypes.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestByteArray.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestCondition.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestMutex.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestSemaphore.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestSocket.cpp" />
+    <ClCompile Include="..\..\..\source\tests\testcases\TestString.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestThread.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestTimeCounter.cpp" />
   </ItemGroup>

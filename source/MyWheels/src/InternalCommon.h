@@ -9,6 +9,7 @@
 
 #include <utility> // for std::swap
 #include <algorithm> // for std::min
+#include <errno.h>
 
 #ifdef __MWL_WIN__
 
@@ -24,6 +25,7 @@
     #include <Windows.h>
 
     #define snprintf sprintf_s
+    #define strncasecmp _strnicmp
 
 #elif defined __MWL_LINUX__
 

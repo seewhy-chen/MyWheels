@@ -38,6 +38,8 @@ OBJECTS = \
 	$(OBJ_DIR)/ByteArray.o\
 	$(OBJ_DIR)/ByteArrayImplement.o\
 	$(OBJ_DIR)/ByteArrayIterator.o\
+	$(OBJ_DIR)/String.o\
+	$(OBJ_DIR)/StringImplement.o\
 	$(OBJ_DIR)/TimeCounter.o\
 	$(OBJ_DIR)/TimeCounterImplement_Linux.o\
 	$(OBJ_DIR)/TimeCounterImplement_Win.o\
@@ -87,6 +89,10 @@ $(OBJ_DIR)/ByteArrayImplement.o : ../../../source/MyWheels/src/container/ByteArr
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ByteArrayImplement.o ../../../source/MyWheels/src/container/ByteArrayImplement.cpp
 $(OBJ_DIR)/ByteArrayIterator.o : ../../../source/MyWheels/src/container/ByteArrayIterator.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/ByteArrayIterator.o ../../../source/MyWheels/src/container/ByteArrayIterator.cpp
+$(OBJ_DIR)/String.o : ../../../source/MyWheels/src/container/String.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/String.o ../../../source/MyWheels/src/container/String.cpp
+$(OBJ_DIR)/StringImplement.o : ../../../source/MyWheels/src/container/StringImplement.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/StringImplement.o ../../../source/MyWheels/src/container/StringImplement.cpp
 $(OBJ_DIR)/TimeCounter.o : ../../../source/MyWheels/src/datetime/TimeCounter.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounter.o ../../../source/MyWheels/src/datetime/TimeCounter.cpp
 $(OBJ_DIR)/TimeCounterImplement_Linux.o : ../../../source/MyWheels/src/datetime/TimeCounterImplement_Linux.cpp
