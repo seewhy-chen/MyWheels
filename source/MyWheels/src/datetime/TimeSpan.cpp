@@ -31,14 +31,10 @@ namespace mwl {
         }
 
         Implement(double tv, TimeUnit tu) {
-            if (tv < 0) {
-                nsVal = -1;
+            if (0 <= tu && tu < TimeUnitCount) {
+                nsVal = static_cast<int64_t>(_TimeUnitConvert(tv, tu, NANOSEC));
             } else {
-                if (0 <= tu && tu < TimeUnitCount) {
-                    nsVal = static_cast<int64_t>(_TimeUnitConvert(tv, tu, NANOSEC)); 
-                } else{
-                    nsVal = 0;
-                }
+                nsVal = 0;
             }
         }
         int64_t nsVal; // timeval in nanosecond
@@ -91,15 +87,38 @@ namespace mwl {
         return _NSTo<double>(m_pImpl->nsVal, tu);
     }
 
-#define __MWL_IMPL_COMP(cmp) \
+
+    TimeSpan TimeSpan::operator+(const TimeSpan &rhs) const {
+        return TimeSpan(*this).operator+=(rhs);
+    }
+
+    TimeSpan& TimeSpan::operator+=(const TimeSpan &rhs) {
+        m_pImpl->nsVal += rhs.m_pImpl->nsVal;
+        return *this;
+    }
+
+    TimeSpan TimeSpan::operator-() const {
+        return TimeSpan(-static_cast<double>(m_pImpl->nsVal), NANOSEC);
+    }
+
+    TimeSpan TimeSpan::operator-(const TimeSpan &rhs) const {
+        return TimeSpan(*this).operator-=(rhs);
+    }
+
+    TimeSpan& TimeSpan::operator-=(const TimeSpan &rhs) {
+        m_pImpl->nsVal -= rhs.m_pImpl->nsVal;
+        return *this;
+    }
+
+#define __IMPL_TS_COMP(cmp) \
     bool TimeSpan::operator cmp(const TimeSpan &rhs) const { \
         return m_pImpl->nsVal cmp rhs.m_pImpl->nsVal; \
     }
-    __MWL_IMPL_COMP(==)
-    __MWL_IMPL_COMP(!=)
-    __MWL_IMPL_COMP(<)
-    __MWL_IMPL_COMP(<=)
-    __MWL_IMPL_COMP(>)
-    __MWL_IMPL_COMP(>=)
+    __IMPL_TS_COMP(==)
+    __IMPL_TS_COMP(!=)
+    __IMPL_TS_COMP(<)
+    __IMPL_TS_COMP(<=)
+    __IMPL_TS_COMP(>)
+    __IMPL_TS_COMP(>=)
 
 }

@@ -27,4 +27,11 @@ namespace mwl {
 #endif
     }
 
+    DateTime LocalDateTime() {
+        return DateTime();
+    }
+
+    DateTime SystemDateTime() {
+        return DateTime();
+    }
 }

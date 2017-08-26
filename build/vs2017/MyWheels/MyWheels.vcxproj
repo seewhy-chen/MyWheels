@@ -44,6 +44,7 @@
     <ClInclude Include="..\..\..\source\MyWheels\src\container\StringImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\datetime\DateTimeImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\datetime\TimeInternalUtils.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\InternalCommon.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\MutexImplement.h" />
@@ -65,6 +66,7 @@
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Linux.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement_Win.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeInternalUtils.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeSpan.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeUtils.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\misc\Randomizer.cpp" />

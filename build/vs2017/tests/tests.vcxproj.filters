@@ -37,6 +37,9 @@
     <ClCompile Include="..\..\..\source\tests\testcases\TestArray.cpp">
       <Filter>testcases</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\tests\testcases\TestDateTime.cpp">
+      <Filter>testcases</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\tests\InternalCommon.h" />

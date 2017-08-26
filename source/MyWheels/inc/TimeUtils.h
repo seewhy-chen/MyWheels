@@ -3,10 +3,13 @@
 
 #include "inc/BasicDefines.h"
 #include "inc/TimeSpan.h"
+#include "inc/DateTime.h"
 
 namespace mwl {
 
     void MWL_API TimeSleep(const TimeSpan &sleepTime);
+    DateTime LocalDateTime();
+    DateTime SystemDateTime();
 
 }
 

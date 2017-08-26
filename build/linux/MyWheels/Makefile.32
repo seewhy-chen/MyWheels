@@ -45,6 +45,7 @@ OBJECTS = \
 	$(OBJ_DIR)/TimeCounter.o\
 	$(OBJ_DIR)/TimeCounterImplement_Linux.o\
 	$(OBJ_DIR)/TimeCounterImplement_Win.o\
+	$(OBJ_DIR)/TimeInternalUtils.o\
 	$(OBJ_DIR)/TimeSpan.o\
 	$(OBJ_DIR)/TimeUtils.o\
 	$(OBJ_DIR)/Randomizer.o\
@@ -106,6 +107,8 @@ $(OBJ_DIR)/TimeCounterImplement_Linux.o : ../../../source/MyWheels/src/datetime/
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounterImplement_Linux.o ../../../source/MyWheels/src/datetime/TimeCounterImplement_Linux.cpp
 $(OBJ_DIR)/TimeCounterImplement_Win.o : ../../../source/MyWheels/src/datetime/TimeCounterImplement_Win.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeCounterImplement_Win.o ../../../source/MyWheels/src/datetime/TimeCounterImplement_Win.cpp
+$(OBJ_DIR)/TimeInternalUtils.o : ../../../source/MyWheels/src/datetime/TimeInternalUtils.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeInternalUtils.o ../../../source/MyWheels/src/datetime/TimeInternalUtils.cpp
 $(OBJ_DIR)/TimeSpan.o : ../../../source/MyWheels/src/datetime/TimeSpan.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TimeSpan.o ../../../source/MyWheels/src/datetime/TimeSpan.cpp
 $(OBJ_DIR)/TimeUtils.o : ../../../source/MyWheels/src/datetime/TimeUtils.cpp

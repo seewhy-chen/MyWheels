@@ -6,8 +6,6 @@
 #include "InternalCommon.h"
 using namespace mwl;
 
-#include <string>
-
 struct ConditionTest {
     Condition &cond;
     Mutex &mutex;

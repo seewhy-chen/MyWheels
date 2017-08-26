@@ -143,6 +143,9 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\TimeUtils.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\datetime\TimeInternalUtils.h">
+      <Filter>src\datetime</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp">
@@ -236,6 +239,9 @@
       <Filter>src\datetime</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeSpan.cpp">
+      <Filter>src\datetime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeInternalUtils.cpp">
       <Filter>src\datetime</Filter>
     </ClCompile>
   </ItemGroup>

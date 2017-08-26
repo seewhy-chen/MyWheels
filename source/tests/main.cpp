@@ -11,6 +11,7 @@ extern void TestByteArray();
 extern void TestSocket();
 extern void TestArray();
 extern void TestString();
+extern void TestDateTime();
 
 #include <string>
 
@@ -18,6 +19,7 @@ int main(int, char *[]) {
     //TestBasicTypes();
     TestArray();
     TestString();
+    TestDateTime();
     //TestTimeCounter();
     //TestThread();
     //TestMutex();
