@@ -11,19 +11,25 @@ extern void TestSocket();
 extern void TestArray();
 extern void TestString();
 extern void TestDateTime();
+extern void TestFile();
 
-int main(int, char *[]) {
-    TestBasicTypes();
-    TestByteArray();
-    TestArray();
-    TestString();
-    TestDateTime();
-    TestTimeCounter();
-    TestThread();
-    TestMutex();
-    TestCondition();
-    TestSemaphore();
-    TestSocket();
+const char *prog = nullptr;
+
+int main(int , char *argv[]) {
+    prog = argv[0];
+
+    //TestBasicTypes();
+    //TestByteArray();
+    //TestArray();
+    //TestString();
+    //TestDateTime();
+    //TestTimeCounter();
+    //TestThread();
+    //TestMutex();
+    //TestCondition();
+    //TestSemaphore();
+    //TestSocket();
+    TestFile();
 
     fprintf(stdout, "All tests passed\n");
 #ifdef __MWL_WIN__

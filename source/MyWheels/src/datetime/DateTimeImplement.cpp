@@ -3,9 +3,9 @@
 
 namespace mwl {
 
-
+    static const char *s_defaultFmt = "%x %X";
     DateTime::Implement::Implement(bool isUTC)
-        : _utc(isUTC), _defaultFmt(s_defaultFmt) {
+        : _utc(isUTC), _strFmt(s_defaultFmt) {
         memset(&_tm, 0, sizeof(_tm));
         memset(&_tv, 0, sizeof(_tv));
     }
@@ -20,5 +20,9 @@ namespace mwl {
         } else {
             return static_cast<int32_t>(pEnd - timeString.C_Str());
         }
+    }
+    
+    void DateTime::Implement::_SetStrFmt(const String &strFmt) {
+        _strFmt = strFmt.Empty() ? s_defaultFmt : strFmt;
     }
 }

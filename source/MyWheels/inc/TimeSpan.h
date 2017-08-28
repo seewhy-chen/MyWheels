@@ -9,6 +9,10 @@ namespace mwl {
     class MWL_API TimeSpan {
     public:
         TimeSpan(double tv = 0, TimeUnit tu = MILLISEC);
+        TimeSpan(int32_t tv, TimeUnit tu = MILLISEC);
+        TimeSpan(uint32_t tv, TimeUnit tu = MILLISEC);
+        TimeSpan(int64_t tv, TimeUnit tu = MILLISEC);
+        TimeSpan(uint64_t tv, TimeUnit tu = MILLISEC);
         TimeSpan(const TimeSpan &src);
         ~TimeSpan();
 

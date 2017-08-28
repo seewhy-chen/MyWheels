@@ -18,7 +18,6 @@
     do { \
         if (!(condition)) { \
             fprintf(stdout, "%s (%d):\n  assert(%s) FAILED\n\n", __FILE__, __LINE__, #condition); \
-            exit(-1); \
         } \
     } while(0)
 

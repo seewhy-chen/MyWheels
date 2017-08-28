@@ -172,12 +172,12 @@ namespace mwl {
         return !operator<(rhs);
     }
 
-    const String& DateTime::DefaultFmt() const {
-        return m_pImpl->_defaultFmt;
+    const String& DateTime::StrFmt() const {
+        return m_pImpl->_strFmt;
     }
 
-    void DateTime::SetDefaultFmt(const String &defaultFmt) {
-        m_pImpl->_defaultFmt = defaultFmt.Empty() ? s_defaultFmt : defaultFmt;
+    void DateTime::SetStrFmt(const String &defaultFmt) {
+        m_pImpl->_SetStrFmt(defaultFmt);
     }
 
     String DateTime::ToStr(const String &fmt) const {
@@ -204,4 +204,7 @@ namespace mwl {
         std::swap(m_pImpl, other.m_pImpl);
     }
 
+    DateTime::Implement* DateTime::Impl() {
+        return m_pImpl;
+    }
 }

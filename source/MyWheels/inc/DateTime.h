@@ -59,14 +59,16 @@ namespace mwl {
         bool operator>(const DateTime &rhs) const;
         bool operator>=(const DateTime &rhs) const;
 
-        const String& DefaultFmt() const;
-        void SetDefaultFmt(const String &defaultFmt);
+        const String& StrFmt() const;
+        void SetStrFmt(const String &defaultFmt);
         String ToStr(const String &fmt = String::Null()) const;
         int32_t FromStr(const String &timeString, const String &fmt);
         void Swap(DateTime &other);
 
-    private:
         struct Implement;
+        Implement* Impl();
+
+    private:
         Implement *m_pImpl;
     };
 }

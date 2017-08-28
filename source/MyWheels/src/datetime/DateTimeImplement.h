@@ -13,14 +13,14 @@
 
 namespace mwl {
 
-    static const char *s_defaultFmt = "%x %X";
     struct DateTime::Implement {
         Implement(bool isUTC);
         int32_t _FromStr(const String &timeString, const String &fmt);
+        void _SetStrFmt(const String &strFmt);
         bool _utc;
         timeval _tv;
         tm _tm;
-        String _defaultFmt;
+        String _strFmt;
     };
 
     static inline void _GetTimeOfDay(timeval *pTv) {

@@ -9,13 +9,13 @@ namespace mwl {
         FOF_RDONLY = 1L << 0,
         FOF_WRONLY = 1L << 1,
         FOF_RDWR = FOF_RDONLY | FOF_WRONLY,
-        FOF_CREATE = 1L << 2,
-        FOF_TRUNC = 1L << 3,
-        FOF_APPEND = 1L << 4,
-        FOF_EXCL = 1L << 5,
-        FOF_DIRECTORY = 1L << 6,
-        FOF_CLOEXEC = 1L << 7,
-        FOF_NOFOLLOW = 1L << 8,
+        FOF_CREATE = 1L << 3,
+        FOF_TRUNC = 1L << 4,
+        FOF_APPEND = 1L << 5,
+        FOF_EXCL = 1L << 6,
+        FOF_DIRECTORY = 1L << 7,
+        FOF_CLOEXEC = 1L << 8,
+        FOF_NOFOLLOW = 1L << 9,
     };
 
     enum FileOpenMode {

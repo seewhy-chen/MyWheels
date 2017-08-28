@@ -44,6 +44,22 @@ namespace mwl {
         : m_pImpl(new Implement(tv, tu)) {
     }
 
+    TimeSpan::TimeSpan(int32_t tv, TimeUnit tu)
+    : m_pImpl(new Implement(static_cast<double>(tv), tu)) {
+    }
+
+    TimeSpan::TimeSpan(uint32_t tv, TimeUnit tu)
+    : m_pImpl(new Implement(static_cast<double>(tv), tu)) {
+    }
+
+    TimeSpan::TimeSpan(int64_t tv, TimeUnit tu)
+    : m_pImpl(new Implement(static_cast<double>(tv), tu)) {
+    }
+
+    TimeSpan::TimeSpan(uint64_t tv, TimeUnit tu)
+    : m_pImpl(new Implement(static_cast<double>(tv), tu)) {
+    }
+
     TimeSpan::TimeSpan(const TimeSpan &src) : m_pImpl(new Implement()) {
         m_pImpl->nsVal = src.m_pImpl->nsVal;
     }
