@@ -12,8 +12,6 @@ extern void TestArray();
 extern void TestString();
 extern void TestDateTime();
 
-#include <string>
-
 int main(int, char *[]) {
     TestBasicTypes();
     TestByteArray();
