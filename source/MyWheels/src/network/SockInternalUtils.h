@@ -9,11 +9,11 @@
     #include <WS2tcpip.h> // for inet_ntop
     #define sock_errno WSAGetLastError()
 
-    #ifndef EWOULDBLOCK 
+    #ifndef EWOULDBLOCK
         #define EWOULDBLOCK             WSAEWOULDBLOCK
     #endif
 
-    #ifndef EINPROGRESS 
+    #ifndef EINPROGRESS
         #define EINPROGRESS             WSAEINPROGRESS
     #endif
 
@@ -24,7 +24,7 @@
     #ifndef ECONNABORTED
         #define ECONNABORTED            WSAECONNABORTED
     #endif
-    
+
     #ifndef EPROTO
         #define EPROTO (71)
     #endif

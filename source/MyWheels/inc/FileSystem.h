@@ -14,8 +14,6 @@ namespace mwl {
         static int32_t AccessTime(const String &path, DateTime *pCreateDate);
         static int32_t ModifiedTime(const String &path, DateTime *pCreateDate);
         static FileType Type(const String &path);
-
-
     };
 
 }

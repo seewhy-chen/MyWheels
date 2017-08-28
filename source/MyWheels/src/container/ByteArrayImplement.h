@@ -24,7 +24,7 @@ namespace mwl {
 
     };
 
-    struct ByteArray::Implement  {
+    struct ByteArray::Implement {
         Implement(int32_t initSize, uint8_t initVal);
         Implement(uint8_t *pData, int32_t dataSize, OwnerShip ownership);
         Implement(const Implement &rhs);
@@ -60,11 +60,12 @@ namespace mwl {
         IteratorImplement() : pArrImpl(nullptr), posInArr(0) {}
 
         IteratorImplement(const IteratorImplement &rhs)
-        : pArrImpl(rhs.pArrImpl), posInArr(rhs.posInArr) {}
+            : pArrImpl(rhs.pArrImpl), posInArr(rhs.posInArr) {
+        }
 
         ByteArray::Implement *pArrImpl;
         int32_t posInArr;
-    }; 
+    };
 
 
 }

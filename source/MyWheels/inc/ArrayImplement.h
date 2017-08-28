@@ -266,8 +266,7 @@ namespace mwl {
         if (newSize > origSize) {
             _storage.Resize(newSize * sizeof(ElementType));
             _Create(_storage.Data(origSize * sizeof(ElementType)), fillVal, newSize - origSize);
-        }
-        else if (newSize < origSize) {
+        } else if (newSize < origSize) {
             _Release<ElementType>(_storage.Data(origSize * sizeof(ElementType)), origSize - newSize);
             _storage.Resize(newSize * sizeof(ElementType));
         }

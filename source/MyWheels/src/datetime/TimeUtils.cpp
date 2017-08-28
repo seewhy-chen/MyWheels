@@ -16,7 +16,7 @@ namespace mwl {
         request.tv_sec = nanoSec / 1000000000;
         request.tv_nsec = nanoSec % 1000000000;
         int32_t ret = nanosleep(&request, &remain);
-        while(ret < 0 && EINTR == errno) {
+        while (ret < 0 && EINTR == errno) {
             request = remain;
             ret = nanosleep(&request, &remain);
         }

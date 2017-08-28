@@ -13,10 +13,11 @@ namespace mwl {
     }
 
     DateTime::DateTime(TimeZone tz)
-    : m_pImpl(new Implement(tz == TZ_UTC)) {}
+        : m_pImpl(new Implement(tz == TZ_UTC)) {
+    }
 
-    DateTime::DateTime(const DateTime &src) 
-    : m_pImpl(new Implement(src.m_pImpl->_utc)) {
+    DateTime::DateTime(const DateTime &src)
+        : m_pImpl(new Implement(src.m_pImpl->_utc)) {
         m_pImpl->_tv = src.m_pImpl->_tv;
         m_pImpl->_tm = src.m_pImpl->_tm;
     }
@@ -154,8 +155,8 @@ namespace mwl {
     }
 
     bool DateTime::operator<(const DateTime &rhs) const {
-         return m_pImpl->_tv.tv_sec < rhs.m_pImpl->_tv.tv_sec ||
-             (m_pImpl->_tv.tv_sec == rhs.m_pImpl->_tv.tv_sec && 
+        return m_pImpl->_tv.tv_sec < rhs.m_pImpl->_tv.tv_sec ||
+            (m_pImpl->_tv.tv_sec == rhs.m_pImpl->_tv.tv_sec &&
                 m_pImpl->_tv.tv_usec < rhs.m_pImpl->_tv.tv_usec);
     }
 

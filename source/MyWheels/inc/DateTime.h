@@ -20,7 +20,7 @@ namespace mwl {
         DateTime(const DateTime &src);
         ~DateTime();
         DateTime &operator=(const DateTime &rhs);
-        
+
         DateTime operator+(const TimeSpan &offset) const;
         DateTime& operator+=(const TimeSpan &offset);
 

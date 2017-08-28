@@ -6,16 +6,20 @@
 namespace mwl {
 
     ByteArray::ByteArray(int32_t initSize, uint8_t initVal)
-        : m_pImpl(new Implement(initSize, initVal)) {}
+        : m_pImpl(new Implement(initSize, initVal)) {
+    }
 
     ByteArray::ByteArray(uint8_t *pData, int32_t dataSize, OwnerShip ownership)
-        : m_pImpl(new Implement(pData, dataSize, ownership)) {}
+        : m_pImpl(new Implement(pData, dataSize, ownership)) {
+    }
 
     ByteArray::ByteArray(const uint8_t *pData, int32_t dataSize)
-        : m_pImpl(new Implement(const_cast<uint8_t *>(pData), dataSize, OWN_COPY)) {}
+        : m_pImpl(new Implement(const_cast<uint8_t *>(pData), dataSize, OWN_COPY)) {
+    }
 
     ByteArray::ByteArray(const ByteArray &rhs)
-        : m_pImpl(new Implement(const_cast<uint8_t *>(rhs.Data()), rhs.Size(), OWN_COPY)) {}
+        : m_pImpl(new Implement(const_cast<uint8_t *>(rhs.Data()), rhs.Size(), OWN_COPY)) {
+    }
 
     ByteArray::~ByteArray() {
         delete m_pImpl;
@@ -24,7 +28,7 @@ namespace mwl {
     ByteArray &ByteArray::operator=(const ByteArray &rhs) {
         if (this != &rhs) {
             m_pImpl->_Assign(rhs.m_pImpl->rawMem->pBuf, rhs.m_pImpl->rawMem->bufSize,
-                             rhs.m_pImpl->arrStartPos, rhs.m_pImpl->arrSize);
+                rhs.m_pImpl->arrStartPos, rhs.m_pImpl->arrSize);
         }
         return *this;
     }
@@ -156,7 +160,7 @@ namespace mwl {
             return m_pImpl->_Size();
         }
         return m_pImpl->_Copy(src.m_pImpl->rawMem->pBuf, src.m_pImpl->rawMem->bufSize,
-                              src.m_pImpl->arrStartPos, src.m_pImpl->arrSize);
+            src.m_pImpl->arrStartPos, src.m_pImpl->arrSize);
     }
 
     int32_t ByteArray::Assign(const uint8_t *pSrc, int32_t assignLen) {
@@ -168,7 +172,7 @@ namespace mwl {
             return m_pImpl->_Size();
         }
         return m_pImpl->_Assign(src.m_pImpl->rawMem->pBuf, src.m_pImpl->rawMem->bufSize,
-                                src.m_pImpl->arrStartPos, src.m_pImpl->arrSize);
+            src.m_pImpl->arrStartPos, src.m_pImpl->arrSize);
     }
 
     int32_t ByteArray::Share(uint8_t *pData, int32_t dataSize) {

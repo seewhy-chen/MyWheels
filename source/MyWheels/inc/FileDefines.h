@@ -22,17 +22,17 @@ namespace mwl {
         FOM_OWNER_R = 1L << 0,
         FOM_OWNER_W = 1L << 1,
         FOM_OWNER_X = 1L << 2,
-        FOM_OWNER_ALL = FOM_OWNER_R|FOM_OWNER_W|FOM_OWNER_X,
+        FOM_OWNER_ALL = FOM_OWNER_R | FOM_OWNER_W | FOM_OWNER_X,
 
         FOM_GROUP_R = 1L << 4,
         FOM_GROUP_W = 1L << 5,
         FOM_GROUP_X = 1L << 6,
-        FOM_GROUP_ALL = FOM_GROUP_R|FOM_GROUP_W|FOM_GROUP_X,
+        FOM_GROUP_ALL = FOM_GROUP_R | FOM_GROUP_W | FOM_GROUP_X,
 
         FOM_OTHER_R = 1L << 8,
         FOM_OTHER_W = 1L << 9,
         FOM_OTHER_X = 1L << 10,
-        FOM_OTHER_ALL = FOM_OTHER_R|FOM_OTHER_W|FOM_OTHER_X,
+        FOM_OTHER_ALL = FOM_OTHER_R | FOM_OTHER_W | FOM_OTHER_X,
     };
 
     enum FileSeekWhence {

@@ -61,12 +61,12 @@ namespace mwl {
     } \
     bool ByteArray::ItClass::operator>=(const ByteArray::ItClass &rhs) const { \
         return *this == rhs || *this > rhs; \
-    } 
+    }
 
     MWL_IMPL_IT_COMMON_METHODS(Iterator)
 
-    ByteArray::Iterator::Iterator(const ByteArray::ReverseIterator &src)
-    : m_pImpl(new ByteArray::IteratorImplement()) {
+        ByteArray::Iterator::Iterator(const ByteArray::ReverseIterator &src)
+        : m_pImpl(new ByteArray::IteratorImplement()) {
         m_pImpl->pArrImpl = src.m_pImpl->pArrImpl;
         m_pImpl->posInArr = src.m_pImpl->posInArr + 1;
     }
@@ -100,19 +100,19 @@ namespace mwl {
     }
 
     MWL_IMPL_IT_COMMON_METHODS(ConstIterator)
-    ByteArray::ConstIterator::ConstIterator(const ByteArray::Iterator &src)
-    : m_pImpl(new ByteArray::IteratorImplement()) {
+        ByteArray::ConstIterator::ConstIterator(const ByteArray::Iterator &src)
+        : m_pImpl(new ByteArray::IteratorImplement()) {
         m_pImpl->pArrImpl = src.m_pImpl->pArrImpl;
         m_pImpl->posInArr = src.m_pImpl->posInArr;
     }
     ByteArray::ConstIterator::ConstIterator(const ByteArray::ConstReverseIterator &src)
-    : m_pImpl(new ByteArray::IteratorImplement()) {
+        : m_pImpl(new ByteArray::IteratorImplement()) {
         m_pImpl->pArrImpl = src.m_pImpl->pArrImpl;
         m_pImpl->posInArr = src.m_pImpl->posInArr + 1;
     }
 
     ByteArray::ConstIterator::ConstIterator(const ByteArray::ReverseIterator &src)
-    : m_pImpl(new ByteArray::IteratorImplement()) {
+        : m_pImpl(new ByteArray::IteratorImplement()) {
         m_pImpl->pArrImpl = src.m_pImpl->pArrImpl;
         m_pImpl->posInArr = src.m_pImpl->posInArr + 1;
     }
@@ -147,8 +147,8 @@ namespace mwl {
 
 
     MWL_IMPL_IT_COMMON_METHODS(ReverseIterator)
-    ByteArray::ReverseIterator::ReverseIterator(const ByteArray::Iterator &src)
-    : m_pImpl(new ByteArray::IteratorImplement()) {
+        ByteArray::ReverseIterator::ReverseIterator(const ByteArray::Iterator &src)
+        : m_pImpl(new ByteArray::IteratorImplement()) {
         m_pImpl->pArrImpl = src.m_pImpl->pArrImpl;
         m_pImpl->posInArr = src.m_pImpl->posInArr - 1;
     }
@@ -183,20 +183,20 @@ namespace mwl {
 
 
     MWL_IMPL_IT_COMMON_METHODS(ConstReverseIterator)
-    ByteArray::ConstReverseIterator::ConstReverseIterator(const ByteArray::ReverseIterator &src)
-    : m_pImpl(new ByteArray::IteratorImplement()) {
+        ByteArray::ConstReverseIterator::ConstReverseIterator(const ByteArray::ReverseIterator &src)
+        : m_pImpl(new ByteArray::IteratorImplement()) {
         m_pImpl->pArrImpl = src.m_pImpl->pArrImpl;
         m_pImpl->posInArr = src.m_pImpl->posInArr;
     }
 
     ByteArray::ConstReverseIterator::ConstReverseIterator(const ByteArray::Iterator &src)
-    : m_pImpl(new ByteArray::IteratorImplement()) {
+        : m_pImpl(new ByteArray::IteratorImplement()) {
         m_pImpl->pArrImpl = src.m_pImpl->pArrImpl;
         m_pImpl->posInArr = src.m_pImpl->posInArr - 1;
     }
 
     ByteArray::ConstReverseIterator::ConstReverseIterator(const ByteArray::ConstIterator &src)
-    : m_pImpl(new ByteArray::IteratorImplement()) {
+        : m_pImpl(new ByteArray::IteratorImplement()) {
         m_pImpl->pArrImpl = src.m_pImpl->pArrImpl;
         m_pImpl->posInArr = src.m_pImpl->posInArr - 1;
     }

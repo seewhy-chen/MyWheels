@@ -5,16 +5,20 @@
 namespace mwl {
 
     SockAddress::SockAddress(const String &host, const String &service, SockAddressFamily af)
-        : m_pImpl(new Implement(host, service, af)) {}
+        : m_pImpl(new Implement(host, service, af)) {
+    }
 
     SockAddress::SockAddress(const String &host, int32_t port, SockAddressFamily af)
-        : m_pImpl(new Implement(host, port, af)) {}
+        : m_pImpl(new Implement(host, port, af)) {
+    }
 
     SockAddress::SockAddress(const sockaddr *pSockAddr, socklen_t addrLen)
-        : m_pImpl(new Implement(pSockAddr, addrLen)) {}
+        : m_pImpl(new Implement(pSockAddr, addrLen)) {
+    }
 
     SockAddress::SockAddress(const SockAddress &src)
-        : m_pImpl(new Implement(*src.m_pImpl)) {}
+        : m_pImpl(new Implement(*src.m_pImpl)) {
+    }
 
     SockAddress::~SockAddress() {
         delete m_pImpl;

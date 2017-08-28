@@ -6,7 +6,7 @@
 
 namespace mwl {
 
-    struct Condition::Implement{
+    struct Condition::Implement {
         Implement();
         ~Implement();
         int32_t _Wait(Mutex &mutex, const TimeSpan *pTimeout);

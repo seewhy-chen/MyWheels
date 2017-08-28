@@ -108,10 +108,10 @@ namespace mwl {
                 type = SOCK_TYPE_SEQPKT;
                 break;
             default: {
-                    MWL_WARN("un-support sock type %d", sockType);
-                    return ERR_INVAL_PARAM;
-                }
-                break;
+                MWL_WARN("un-support sock type %d", sockType);
+                return ERR_INVAL_PARAM;
+            }
+                     break;
             }
         }
         _sock = handle;
@@ -153,7 +153,7 @@ namespace mwl {
         int32_t ret = ERR_NONE;
         if (bind(_sock, address.SockAddr(), address.SockAddrLen()) < 0) {
             ret = -sock_errno;
-            MWL_ERR_ERRNO("bind to %s at port %d as af %s failed", 
+            MWL_ERR_ERRNO("bind to %s at port %d as af %s failed",
                 -ret, address.Host().C_Str(), address.Port(), address.FamilyName());
             ret = -sock_errno;
         } else {
@@ -169,7 +169,7 @@ namespace mwl {
         if (listen(_sock, backlog) < 0) {
             ret = -sock_errno;
             MWL_ERR_ERRNO("listen on %s at port %d as af %s failed",
-                          -ret, _localAddr.Host().C_Str(), _localAddr.Port(), _localAddr.FamilyName());
+                -ret, _localAddr.Host().C_Str(), _localAddr.Port(), _localAddr.FamilyName());
         } else {
             _UpdateLocalAddr();
         }
@@ -185,7 +185,7 @@ namespace mwl {
         if (connect(_sock, address.SockAddr(), address.SockAddrLen()) < 0) {
             ret = -sock_errno;
             if (EINTR == -ret ||
-                    ((pTimeout || origNonblocking) && (EINPROGRESS == -ret || EWOULDBLOCK == -ret || EALREADY == -ret))) {
+                ((pTimeout || origNonblocking) && (EINPROGRESS == -ret || EWOULDBLOCK == -ret || EALREADY == -ret))) {
                 int32_t evts = _Select(SOCK_EVT_READ | SOCK_EVT_WRITE, pTimeout);
                 if (evts > 0 && ((evts & SOCK_EVT_WRITE) || (evts & SOCK_EVT_READ))) {
                     int32_t err = 0;
@@ -205,7 +205,7 @@ namespace mwl {
             _UpdateLocalAddr();
             _UpdatePeerAddr();
         } else {
-            MWL_ERR_ERRNO("connect to %s at port %d as af %s failed", 
+            MWL_ERR_ERRNO("connect to %s at port %d as af %s failed",
                 -ret, address.Host().C_Str(), address.Port(), address.FamilyName());
         }
         return ret;
@@ -228,7 +228,7 @@ namespace mwl {
         do {
             sock = accept(_sock, pSockAddr, &addrLen);
         } while (sock == INVALID_SOCKET &&
-                 (sock_errno == EINTR || sock_errno == ECONNABORTED || sock_errno == EPROTO || sock_errno == EWOULDBLOCK));
+            (sock_errno == EINTR || sock_errno == ECONNABORTED || sock_errno == EPROTO || sock_errno == EWOULDBLOCK));
         if (INVALID_SOCKET == sock) {
             ret = -sock_errno;
             MWL_ERR_ERRNO("accept failed", -ret);
@@ -312,7 +312,7 @@ namespace mwl {
             flags = MSG_NOSIGNAL;
         }
 #endif
-        while(1) {
+        while (1) {
 #ifdef __MWL_WIN__
             int32_t n = sendto(_sock, pBuf + totalBytesSent, static_cast<int>(dataLen), flags, dstAddr, dstAddrLen);
 #else
@@ -454,8 +454,7 @@ namespace mwl {
             ret = -sock_errno;
             MWL_ERR_ERRNO("getsockname failed", -ret);
             _localAddr.Reset();
-        }
-        else {
+        } else {
             _localAddr.SetAddress(reinterpret_cast<sockaddr *>(&ss), addrLen);
             _localAddr.SetFamily(_af);
         }

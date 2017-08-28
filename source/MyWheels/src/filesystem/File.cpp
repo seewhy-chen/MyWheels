@@ -4,8 +4,8 @@
 namespace mwl {
     File::File() : m_pImpl(new Implement()) {}
 
-    File::File(const String &path, uint32_t flags, uint32_t mode) 
-    : m_pImpl(new Implement()) {
+    File::File(const String &path, uint32_t flags, uint32_t mode)
+        : m_pImpl(new Implement()) {
         if (!path.Empty()) {
             m_pImpl->_Open(path, flags, mode);
         }

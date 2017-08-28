@@ -35,8 +35,8 @@ namespace mwl {
         Implement *m_pImpl;
     };
 
-    typedef int32_t (*SimpleThreadEntry)();
-    typedef int32_t (*ThreadEntry)(ThreadContext *pContext);
+    typedef int32_t(*SimpleThreadEntry)();
+    typedef int32_t(*ThreadEntry)(ThreadContext *pContext);
 
     class MWL_API Thread : private NonCopyable {
     public:
@@ -57,7 +57,7 @@ namespace mwl {
         bool IsRunning() const;
         int32_t ExitCode() const;
 
-        struct Implement; 
+        struct Implement;
 
     private:
         Implement *m_pImpl;

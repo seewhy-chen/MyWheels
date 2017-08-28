@@ -44,32 +44,32 @@ namespace mwl {
         int32_t ret = WaitForSingleObject(s, timeoutInMs);
         switch (ret) {
         case WAIT_OBJECT_0: {
-                ret = ERR_NONE;
-            }
-            break;
+            ret = ERR_NONE;
+        }
+                            break;
 
         case WAIT_TIMEOUT: {
-                ret = ERR_TIMEOUT;
-            }
-            break;
+            ret = ERR_TIMEOUT;
+        }
+                           break;
 
         case WAIT_FAILED: {
-                int32_t err = GetLastError();
-                MWL_WARN_ERRNO("wait semaphore %s failed", err, name.C_Str());
-                ret = -err;
-            }
-            break;
+            int32_t err = GetLastError();
+            MWL_WARN_ERRNO("wait semaphore %s failed", err, name.C_Str());
+            ret = -err;
+        }
+                          break;
 
         default: {
-                int32_t err = GetLastError();
-                MWL_WARN_ERRNO("wait semaphore %s got wait result %d", err, name.C_Str(), ret);
-                if (err != 0) {
-                    ret = -err;
-                } else {
-                    ret = -ret;
-                }
+            int32_t err = GetLastError();
+            MWL_WARN_ERRNO("wait semaphore %s got wait result %d", err, name.C_Str(), ret);
+            if (err != 0) {
+                ret = -err;
+            } else {
+                ret = -ret;
             }
-            break;
+        }
+                 break;
         }
 
         return ret;

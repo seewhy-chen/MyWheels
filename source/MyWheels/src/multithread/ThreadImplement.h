@@ -15,7 +15,7 @@ namespace mwl {
     struct Thread::Implement {
         Implement() {
 #ifdef __MWL_WIN__
-        threadHdl = 0;
+            threadHdl = 0;
 #endif
         }
 

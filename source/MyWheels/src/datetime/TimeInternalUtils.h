@@ -6,7 +6,7 @@
 
 namespace mwl {
 #ifdef __MWL_WIN__
-#define strptime mwl_strptime
+    #define strptime mwl_strptime
     char *mwl_strptime(const char *buf, const char *fmt, tm *tm);
 #endif
 }

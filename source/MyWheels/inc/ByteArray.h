@@ -6,7 +6,7 @@
 
 namespace mwl {
 
-    #define MWL_IT_COMMON_METHODS(ItClass) \
+#define MWL_IT_COMMON_METHODS(ItClass) \
         ItClass(); \
         ItClass(const ItClass &src); \
         ~ItClass(); \

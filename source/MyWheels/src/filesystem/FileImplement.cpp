@@ -5,16 +5,17 @@
 #endif
 
 #ifdef __MWL_WIN__
-#define mwl_open _open
-#define mwl_close _close
-#define mwl_lseek _lseeki64
-#define mwl_tell _telli64
+    #define mwl_open _open
+    #define mwl_close _close
+    #define mwl_lseek _lseeki64
+    #define mwl_tell _telli64
 #else
-#define mwl_open open
-#define mwl_close close
-#define mwl_lseek lseek
-#define mwl_tell(fhandle) lseek((fhandle), 0, SEEK_CUR)
+    #define mwl_open open
+    #define mwl_close close
+    #define mwl_lseek lseek
+    #define mwl_tell(fhandle) lseek((fhandle), 0, SEEK_CUR)
 #endif
+
 namespace mwl {
 
     File::Implement::Implement() : _fh(-1) {}

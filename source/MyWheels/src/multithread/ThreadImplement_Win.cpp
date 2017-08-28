@@ -35,7 +35,7 @@ namespace mwl {
         int32_t ret = 0;
         do {
             ret = context.m_pImpl->cond.Wait(context.m_pImpl->lock, pTimeout);
-        } while(!context.m_pImpl->isRunning && ERR_TIMEOUT == ret);
+        } while (!context.m_pImpl->isRunning && ERR_TIMEOUT == ret);
 
         return context.m_pImpl->isRunning ? ERR_NONE : ret;
     }

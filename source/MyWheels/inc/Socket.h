@@ -6,64 +6,64 @@
 #include "inc/String.h"
 
 #ifdef __MWL_WIN__
-    #include <WinSock2.h>
-    #include <ws2tcpip.h> // for socklen_t
-    typedef SOCKET SockHandle;
+#include <WinSock2.h>
+#include <ws2tcpip.h> // for socklen_t
+typedef SOCKET SockHandle;
 #elif defined __MWL_LINUX__
-    #include <sys/socket.h> // for sockaddr
-    typedef int32_t SockHandle;
+#include <sys/socket.h> // for sockaddr
+typedef int32_t SockHandle;
 #endif
 
 namespace mwl {
 
     enum SockAddressFamily {
-        SOCK_AF_INVALID     = -1L,
-        SOCK_AF_UNSPEC      = 0L,
-        SOCK_AF_INET        = 1L,
-        SOCK_AF_INET6       = 2L,
-        SOCK_AF_LOCAL       = 3L,
-        SOCK_AF_ABSTRACT    = 4L,
+        SOCK_AF_INVALID = -1L,
+        SOCK_AF_UNSPEC = 0L,
+        SOCK_AF_INET = 1L,
+        SOCK_AF_INET6 = 2L,
+        SOCK_AF_LOCAL = 3L,
+        SOCK_AF_ABSTRACT = 4L,
 
         SockAddressFamilyCount
     };
 
     enum SockType {
-        SOCK_TYPE_INVALID   = -1L,
-        SOCK_TYPE_STREAM    = 0L,
-        SOCK_TYPE_DGRAM     = 1L,
-        SOCK_TYPE_SEQPKT    = 2L,
-        SOCK_TYPE_RAW       = 3L,
+        SOCK_TYPE_INVALID = -1L,
+        SOCK_TYPE_STREAM = 0L,
+        SOCK_TYPE_DGRAM = 1L,
+        SOCK_TYPE_SEQPKT = 2L,
+        SOCK_TYPE_RAW = 3L,
 
         SockTypeCount
     };
 
     enum SockProtocol {
-        SOCK_PROTO_INVALID  = -1L,
-        SOCK_PROTO_DEFAULT  = 0L,
-        SOCK_PROTO_TCP      = 1L,
-        SOCK_PROTO_UDP      = 2L,
-        SOCK_PROTO_SCTP     = 3L,
+        SOCK_PROTO_INVALID = -1L,
+        SOCK_PROTO_DEFAULT = 0L,
+        SOCK_PROTO_TCP = 1L,
+        SOCK_PROTO_UDP = 2L,
+        SOCK_PROTO_SCTP = 3L,
 
         SockProtocolCount
     };
 
     enum SockShutdown {
-        SOCK_SHUT_RD        = 0L,
-        SOCK_SHUT_WR        = 1L,
-        SOCK_SHUT_RDWR      = 2L,
+        SOCK_SHUT_RD = 0L,
+        SOCK_SHUT_WR = 1L,
+        SOCK_SHUT_RDWR = 2L,
 
         SockShutdownCount
     };
 
     enum SockEvent {
-        SOCK_EVT_READ       = 1L,
-        SOCK_EVT_WRITE      = 2L,
-        SOCK_EVT_EXCEPT     = 4L,
+        SOCK_EVT_READ = 1L,
+        SOCK_EVT_WRITE = 2L,
+        SOCK_EVT_EXCEPT = 4L,
     };
 
     class MWL_API SockAddress {
     public:
-        explicit SockAddress(const String &host = String::Null(), const String &service = String::Null(), 
+        explicit SockAddress(const String &host = String::Null(), const String &service = String::Null(),
             SockAddressFamily af = SOCK_AF_UNSPEC);
         explicit SockAddress(const String &host, int32_t port, SockAddressFamily af = SOCK_AF_UNSPEC);
         explicit SockAddress(const sockaddr *pSockAddr, socklen_t addrLen);

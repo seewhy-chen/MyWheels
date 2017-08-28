@@ -5,8 +5,8 @@ namespace mwl {
 
     Socket::Socket() : m_pImpl(new Implement()) {}
 
-    Socket::Socket(SockAddressFamily af, SockType type, SockProtocol protocol) 
-    : m_pImpl(new Implement()) {
+    Socket::Socket(SockAddressFamily af, SockType type, SockProtocol protocol)
+        : m_pImpl(new Implement()) {
         m_pImpl->_Open(af, type, protocol);
     }
 
@@ -61,7 +61,7 @@ namespace mwl {
     int32_t Socket::Accept(Socket &acceptee, const TimeSpan *pTimeout) {
         return m_pImpl->_Accept(acceptee, pTimeout);
     }
-    
+
     int32_t Socket::Select(uint32_t events, const TimeSpan *pTimeout) {
         return m_pImpl->_Select(events, pTimeout);
     }

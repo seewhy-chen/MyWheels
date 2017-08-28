@@ -47,7 +47,7 @@ namespace mwl {
         }
         return -ret;
     }
-    
+
 }
 
 #endif // __MWL_LINUX__

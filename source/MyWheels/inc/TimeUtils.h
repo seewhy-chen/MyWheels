@@ -8,8 +8,6 @@
 namespace mwl {
 
     void MWL_API TimeSleep(const TimeSpan &sleepTime);
-    DateTime LocalDateTime();
-    DateTime SystemDateTime();
 
 }
 

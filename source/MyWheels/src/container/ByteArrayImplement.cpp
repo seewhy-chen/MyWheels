@@ -25,17 +25,17 @@ namespace mwl {
             switch (ownership) {
             case OWN_TAKEOVER:
             case OWN_SHARE: {
-                    rawMem->pBuf = pData;
-                    rawMem->bufSize = dataSize;
-                    rawMem->shared = (OWN_SHARE == ownership);
-                }
-                break;
+                rawMem->pBuf = pData;
+                rawMem->bufSize = dataSize;
+                rawMem->shared = (OWN_SHARE == ownership);
+            }
+                            break;
             case OWN_COPY: {
-                    rawMem->pBuf = new uint8_t[dataSize];
-                    rawMem->bufSize = dataSize;
-                    memcpy(rawMem->pBuf, pData, dataSize);
-                }
-                break;
+                rawMem->pBuf = new uint8_t[dataSize];
+                rawMem->bufSize = dataSize;
+                memcpy(rawMem->pBuf, pData, dataSize);
+            }
+                           break;
             }
             pArray = rawMem->pBuf;
             arrSize = dataSize;

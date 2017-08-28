@@ -13,27 +13,27 @@
 #include <Windows.h>
 
 #if defined(MWL_MAKE_SHARED_LIB)
-    #define MWL_API  __declspec(dllexport)
+#define MWL_API  __declspec(dllexport)
 #else
-    #define MWL_API  __declspec(dllimport)
+#define MWL_API  __declspec(dllimport)
 #endif  // MWL_MAKE_SHARED_LIB
 
 #if _MSC_VER < 1900
-    typedef signed char int8_t;
-    typedef unsigned char uint8_t;
-    typedef signed short int16_t;
-    typedef unsigned short uint16_t;
-    typedef signed int int32_t;
-    typedef unsigned int uint32_t;
-    typedef signed long long int64_t;
-    typedef unsigned long long uint64_t;
-    #define nullptr 0
+typedef signed char int8_t;
+typedef unsigned char uint8_t;
+typedef signed short int16_t;
+typedef unsigned short uint16_t;
+typedef signed int int32_t;
+typedef unsigned int uint32_t;
+typedef signed long long int64_t;
+typedef unsigned long long uint64_t;
+#define nullptr 0
 #else
-    #include <stdint.h>
+#include <stdint.h>
 #endif
 
 #ifndef ETIMEDOUT
-    #define ETIMEDOUT WSAETIMEDOUT
+#define ETIMEDOUT WSAETIMEDOUT
 #endif
 
 #define ZD "lu"
@@ -50,9 +50,9 @@ inline static char *strerror_r(int32_t err, char *buf, int32_t buflen) {
 #define __MWL_LINUX__
 
 #if defined(MWL_MAKE_SHARED_LIB)
-    #define MWL_API   __attribute__((visibility("default")))
+#define MWL_API   __attribute__((visibility("default")))
 #else
-    #define MWL_API
+#define MWL_API
 #endif  // MWL_MAKE_SHARED_LIB
 
 #include <stdint.h>
@@ -68,7 +68,7 @@ inline static char *strerror_r(int32_t err, char *buf, int32_t buflen) {
 
 
 #if __cplusplus >= 201103L
-    #define __CXX_11__
+#define __CXX_11__
 #endif
 
 #include "inc/StaticAssert.h"

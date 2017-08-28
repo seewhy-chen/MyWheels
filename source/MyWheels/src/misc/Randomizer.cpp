@@ -50,7 +50,7 @@ namespace mwl {
         }
     };
 
-    Randomizer::Randomizer(uint32_t seed) : m_pImpl(new Implement()){
+    Randomizer::Randomizer(uint32_t seed) : m_pImpl(new Implement()) {
         m_pImpl->_SetSeed(seed);
     }
 

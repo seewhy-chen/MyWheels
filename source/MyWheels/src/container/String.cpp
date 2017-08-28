@@ -173,7 +173,7 @@ namespace mwl {
                 }
             } while (res < 0);
             if (!m_pImpl || m_pImpl->_capacity < res) {
-                m_pImpl = _Allocate(res, reinterpret_cast<char*>(resBuf.Data()), 
+                m_pImpl = _Allocate(res, reinterpret_cast<char*>(resBuf.Data()),
                     static_cast<int32_t>(resBuf.Size()), m_pImpl);
                 _SET_CNT_PTR;
             } else {

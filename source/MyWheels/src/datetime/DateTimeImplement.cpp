@@ -5,7 +5,7 @@ namespace mwl {
 
 
     DateTime::Implement::Implement(bool isUTC)
-    : _utc(isUTC), _defaultFmt(s_defaultFmt) {
+        : _utc(isUTC), _defaultFmt(s_defaultFmt) {
         memset(&_tm, 0, sizeof(_tm));
         memset(&_tv, 0, sizeof(_tv));
     }

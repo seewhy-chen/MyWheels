@@ -4,12 +4,12 @@
 namespace mwl {
 
     static const double s_timeUnitScale[TimeUnitCount][TimeUnitCount] = {
-        {1.0, 60.0, 60.0*60, 60.0*60*1000, 60.0*60*1000*1000, 60.0*60*1000*1000*1000},
-        {1.0/60, 1.0, 60.0, 60.0*1000, 60.0*1000*1000, 60.0*1000*1000*1000},
-        {1.0/60/60, 1.0/60, 1.0, 1000.0, 1000.0*1000, 1000.0*1000*1000},
-        {1.0/60/60/1000, 1.0/60/1000, 1.0/1000, 1.0, 1000.0, 1000.0*1000},
-        {1.0/60/60/1000/1000, 1.0/60/1000/1000, 1.0/1000/1000, 1.0/1000, 1.0, 1000.0},
-        {1.0/60/60/1000/1000/1000, 1.0/60/1000/1000/1000, 1.0/1000/1000/1000, 1.0/1000/1000, 1.0/1000, 1.0},
+        {1.0, 60.0, 60.0 * 60, 60.0 * 60 * 1000, 60.0 * 60 * 1000 * 1000, 60.0 * 60 * 1000 * 1000 * 1000},
+        {1.0 / 60, 1.0, 60.0, 60.0 * 1000, 60.0 * 1000 * 1000, 60.0 * 1000 * 1000 * 1000},
+        {1.0 / 60 / 60, 1.0 / 60, 1.0, 1000.0, 1000.0 * 1000, 1000.0 * 1000 * 1000},
+        {1.0 / 60 / 60 / 1000, 1.0 / 60 / 1000, 1.0 / 1000, 1.0, 1000.0, 1000.0 * 1000},
+        {1.0 / 60 / 60 / 1000 / 1000, 1.0 / 60 / 1000 / 1000, 1.0 / 1000 / 1000, 1.0 / 1000, 1.0, 1000.0},
+        {1.0 / 60 / 60 / 1000 / 1000 / 1000, 1.0 / 60 / 1000 / 1000 / 1000, 1.0 / 1000 / 1000 / 1000, 1.0 / 1000 / 1000, 1.0 / 1000, 1.0},
     };
 
     static inline double _TimeUnitConvert(double tv, TimeUnit srcUnit, TimeUnit dstUnit) {
@@ -41,7 +41,8 @@ namespace mwl {
     };
 
     TimeSpan::TimeSpan(double tv, TimeUnit tu)
-    : m_pImpl(new Implement(tv, tu)) {}
+        : m_pImpl(new Implement(tv, tu)) {
+    }
 
     TimeSpan::TimeSpan(const TimeSpan &src) : m_pImpl(new Implement()) {
         m_pImpl->nsVal = src.m_pImpl->nsVal;
@@ -114,11 +115,11 @@ namespace mwl {
     bool TimeSpan::operator cmp(const TimeSpan &rhs) const { \
         return m_pImpl->nsVal cmp rhs.m_pImpl->nsVal; \
     }
-    __IMPL_TS_COMP(==)
-    __IMPL_TS_COMP(!=)
-    __IMPL_TS_COMP(<)
-    __IMPL_TS_COMP(<=)
-    __IMPL_TS_COMP(>)
-    __IMPL_TS_COMP(>=)
+    __IMPL_TS_COMP(== )
+    __IMPL_TS_COMP(!= )
+    __IMPL_TS_COMP(< )
+    __IMPL_TS_COMP(<= )
+    __IMPL_TS_COMP(> )
+    __IMPL_TS_COMP(>= )
 
 }

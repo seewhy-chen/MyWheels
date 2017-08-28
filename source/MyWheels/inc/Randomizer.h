@@ -26,7 +26,7 @@ namespace mwl {
         int64_t NextS64InRange(int64_t min, int64_t max);
         uint64_t NextU64InRange(uint64_t min, uint64_t max);
         float NextFloatInRange(float min, float max);
-    
+
     private:
         struct Implement;
         Implement *m_pImpl;

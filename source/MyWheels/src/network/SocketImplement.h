@@ -14,7 +14,7 @@ namespace mwl {
         int32_t _Shutdown(int32_t how);
         int32_t _Close();
         int32_t _SetHandle(SockHandle handle, SockAddressFamily af, SockType type, SockProtocol protocol);
-        SockHandle _Handle() ;
+        SockHandle _Handle();
         void _Reset();
 
         int32_t _Bind(const SockAddress &address);

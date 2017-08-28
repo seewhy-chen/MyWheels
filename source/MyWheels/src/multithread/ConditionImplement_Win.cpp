@@ -8,7 +8,7 @@
 namespace mwl {
 
     Condition::Implement::Implement() {
-        InitializeConditionVariable(&cond);    
+        InitializeConditionVariable(&cond);
     }
 
     Condition::Implement::~Implement() {}

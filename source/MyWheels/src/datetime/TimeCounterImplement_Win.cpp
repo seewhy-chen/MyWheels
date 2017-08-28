@@ -15,7 +15,7 @@ namespace mwl {
     TimeCounter::Implement::~Implement() {}
 
     int32_t TimeCounter::Implement::_Start(const String &tag) {
-        if(QueryPerformanceCounter(&_counters[tag])) {
+        if (QueryPerformanceCounter(&_counters[tag])) {
             return 0;
         } else {
             int32_t err = GetLastError();

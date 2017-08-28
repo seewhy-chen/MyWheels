@@ -23,7 +23,7 @@ namespace mwl {
     int32_t Semaphore::Implement::_Open(const String &name, int32_t initVal) {
         _Close();
         int32_t err = 0;
-        s = sem_open(name.C_Str(), O_CREAT|O_EXCL|O_RDWR, S_IRWXU, initVal);
+        s = sem_open(name.C_Str(), O_CREAT | O_EXCL | O_RDWR, S_IRWXU, initVal);
         if (!s) {
             err = errno;
             if (EEXIST == err) {
@@ -80,7 +80,7 @@ namespace mwl {
             MWL_WARN("semaphore can't been posted with n = %d", n);
             return ERR_INVAL_PARAM;
         }
-    
+
         while (n-- > 0) {
             int32_t ret = sem_post(s);
             if (ret < 0) {
@@ -91,7 +91,7 @@ namespace mwl {
         }
         return 0;
     }
-    
+
     int32_t Semaphore::Implement::_Close() {
         if (s) {
             sem_close(s);
