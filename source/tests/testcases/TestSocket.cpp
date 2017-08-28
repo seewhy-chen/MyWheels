@@ -25,37 +25,36 @@ void TestSocket() {
     t->Join();
 
     MWL_INFO("TestSocket done, press Enter to continue...\n");
-    getc(stdin);
 }
 
 void _TestSockAddress() {
     mwl::SockAddress addr;
     addr.SetAddress("www.baidu.com", "http", mwl::SOCK_AF_INET);
-    MWL_INFO("service http at 'www.baidu.com' is resolved as: %s@%d in af %s", 
+    MWL_INFO("service http at 'www.baidu.com' is resolved as: %s@%d in af %s",
         addr.Host().C_Str(), addr.Port(), addr.FamilyName());
 
     addr.SetAddress("1.2.3.4", mwl::SOCK_AF_INET);
-    MWL_INFO("port 80 at '1.2.3.4' is resolved as: %s@%d in af %s", 
+    MWL_INFO("port 80 at '1.2.3.4' is resolved as: %s@%d in af %s",
         addr.Host().C_Str(), addr.Port(), addr.FamilyName());
 
     addr.SetAddress("localhost", "1234", mwl::SOCK_AF_INET);
-    MWL_INFO("port 1234 at 'localhost' is resolved as: %s@%d in af %s", 
+    MWL_INFO("port 1234 at 'localhost' is resolved as: %s@%d in af %s",
         addr.Host().C_Str(), addr.Port(), addr.FamilyName());
 
     addr.SetAddress("localhost", 1234, mwl::SOCK_AF_INET6);
-    MWL_INFO("IPv6 of port 1234 at 'localhost' is resolved as: %s@%d in af %s", 
+    MWL_INFO("IPv6 of port 1234 at 'localhost' is resolved as: %s@%d in af %s",
         addr.Host().C_Str(), addr.Port(), addr.FamilyName());
 
     addr.SetAddress("0:0:0:0:0:0:0:1", "1234", mwl::SOCK_AF_INET6);
-    MWL_INFO("0:0:0:0:0:0:0:1 at port 1234 is resolved as: %s@%d in af %s", 
+    MWL_INFO("0:0:0:0:0:0:0:1 at port 1234 is resolved as: %s@%d in af %s",
         addr.Host().C_Str(), addr.Port(), addr.FamilyName());
 
     addr.SetAddress("/unix_sock");
-    MWL_INFO("/unix_sock is resolved as: %s@%d in af %s", 
+    MWL_INFO("/unix_sock is resolved as: %s@%d in af %s",
         addr.Host().C_Str(), addr.Port(), addr.FamilyName());
 
     addr.SetAddress("@abstract_sock");
-    MWL_INFO("@abstract_sock is resolved as: %s@%d in af %s", 
+    MWL_INFO("@abstract_sock is resolved as: %s@%d in af %s",
         addr.Host().C_Str(), addr.Port(), addr.FamilyName());
 }
 
@@ -117,9 +116,9 @@ static void _TestUDPSocket() {
     }
 }
 
+
 static const int32_t PORT_DAYTIME = 13;
 static int32_t servicePort = PORT_DAYTIME;
-
 static int32_t MySysServer(ThreadContext *pCtx) {
     Socket svrSock(SOCK_AF_INET, SOCK_TYPE_STREAM);
     svrSock.SetOption(SOL_SOCKET, SO_REUSEADDR, 1);
@@ -158,7 +157,7 @@ static int32_t TestSysServices(ThreadContext *) {
     sock.GetOption(SOL_SOCKET, SO_RCVBUF, recvSize);
     MWL_INFO("recvSize = %d", recvSize);
     if (ERR_NONE == sock.Connect("localhost", servicePort + 3000)) {
-        char buf[256*1024] = {0};
+        char buf[4*1024] = {0};
         sock.Recv(buf, sizeof(buf));
         MWL_INFO("daytime received from 'localhost:%d' is:\n%s", servicePort + 3000, buf);
     }

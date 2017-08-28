@@ -10,10 +10,11 @@ namespace mwl {
     class MWL_API File : private NonCopyable {
     public:
         File();
+        File(const String &path, uint32_t flags = FOF_RDONLY, uint32_t mode = 0);
         ~File();
         int32_t Open(const String &path, uint32_t flags, uint32_t mode);
         int32_t Close();
-        int32_t Read(ByteArray &data, int32_t len);
+        int32_t Read(ByteArray &data, int32_t len = -1);
         int32_t Read(void *pData, int32_t len);
         int32_t Write(const ByteArray &data, int32_t len = -1);
         int32_t Write(const void *pData, int32_t len);

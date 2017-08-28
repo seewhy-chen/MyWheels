@@ -17,20 +17,25 @@ namespace mwl {
 #endif
 
     // bufSize isn't include the ending '\0'
-    String::Implement* _Allocate(int32_t bufSize, const char *pContent, void *freeThis = nullptr) {
+    String::Implement* _Allocate(int32_t bufSize, const char *pContent, int32_t contentLen, void *freeThis = nullptr) {
         if (bufSize <= 0) {
             return nullptr;
         }
-        String::Implement *pImpl = reinterpret_cast<String::Implement*>(calloc(String::Implement::_BASE_SIZE + bufSize + 1, 1));
-        pImpl->_capacity = bufSize;
-        pImpl->_len = 0;
-        pImpl->_pContent = reinterpret_cast<char*>(pImpl) + String::Implement::_BASE_SIZE;
-        if (pContent && *pContent) {
-            int32_t len = static_cast<int32_t>(strlen(pContent));
-            if (len > pImpl->_capacity) {
-                len = pImpl->_capacity;
+        String::Implement *pImpl = reinterpret_cast<String::Implement*>(
+            new uint8_t[String::Implement::_BASE_SIZE + bufSize + 1]);
+        if (pImpl) {
+            pImpl->_capacity = bufSize;
+            pImpl->_len = 0;
+            pImpl->_pContent = reinterpret_cast<char*>(pImpl) + String::Implement::_BASE_SIZE;
+            if (contentLen < 0 && pContent && *pContent) {
+                contentLen = static_cast<int32_t>(strlen(pContent));
             }
-            pImpl->_Copy(pContent, len);
+            if (contentLen > pImpl->_capacity) {
+                contentLen = pImpl->_capacity;
+            }
+            if (contentLen > 0) {
+                pImpl->_Copy(pContent, contentLen);
+            }
         }
         free(freeThis);
         return pImpl;
@@ -41,27 +46,28 @@ namespace mwl {
     String::String(const char *pStr, int32_t strLen) : m_pImpl(nullptr) {
         int32_t bufSize = 0;
         if (pStr && *pStr && strLen != 0) {
-            bufSize = static_cast<int32_t>(strlen(pStr));
-            if (strLen > 0 && strLen < bufSize) {
+            if (strLen > 0) {
                 bufSize = strLen;
+            } else {
+                bufSize = static_cast<int32_t>(strlen(pStr));
             }
         } else {
             pStr = nullptr;
         }
-        m_pImpl = _Allocate(bufSize, pStr);
+        m_pImpl = _Allocate(bufSize, pStr, bufSize);
         _SET_CNT_PTR;
     }
 
     String::String(char c) : m_pImpl(nullptr) {
         if (c) {
-            m_pImpl = _Allocate(1, &c);
+            m_pImpl = _Allocate(1, &c, 1);
         }
         _SET_CNT_PTR;
     }
 
     String::String(const String &src) : m_pImpl(nullptr) {
         if (!src.Empty()) {
-            m_pImpl = _Allocate(src.Len(), src.C_Str());
+            m_pImpl = _Allocate(src.Len(), src.C_Str(), src.Len());
         }
         _SET_CNT_PTR;
     }
@@ -90,7 +96,7 @@ namespace mwl {
     String& String::operator=(const String &rhs) {
         if (this != &rhs) {
             if (!m_pImpl || m_pImpl->_len < rhs.Len()) {
-                m_pImpl = _Allocate(rhs.Len(), rhs.C_Str(), m_pImpl);
+                m_pImpl = _Allocate(rhs.Len(), rhs.C_Str(), rhs.Len(), m_pImpl);
             } else {
                 m_pImpl->_Copy(rhs.C_Str(), rhs.Len());
             }
@@ -106,7 +112,7 @@ namespace mwl {
             int32_t resultLen = m_pImpl->_len + rhs.m_pImpl->_len;
             bool selfDup = this == &rhs;
             if (m_pImpl->_capacity < resultLen) {
-                m_pImpl = _Allocate(resultLen, m_pImpl->_pContent, m_pImpl);
+                m_pImpl = _Allocate(resultLen, m_pImpl->_pContent, m_pImpl->_len, m_pImpl);
                 _SET_CNT_PTR;
             }
             if (selfDup) {
@@ -166,8 +172,9 @@ namespace mwl {
                     res = -1;
                 }
             } while (res < 0);
-            if (m_pImpl->_capacity < res) {
-                m_pImpl = _Allocate(res, reinterpret_cast<char*>(resBuf.Data()), m_pImpl);
+            if (!m_pImpl || m_pImpl->_capacity < res) {
+                m_pImpl = _Allocate(res, reinterpret_cast<char*>(resBuf.Data()), 
+                    static_cast<int32_t>(resBuf.Size()), m_pImpl);
                 _SET_CNT_PTR;
             } else {
                 m_pImpl->_Copy(resBuf.Data(), res);
@@ -436,7 +443,7 @@ namespace mwl {
 
                         int32_t incSize = static_cast<int32_t>(p - pStr);
                         replaced.m_pImpl = _Allocate(replaced.m_pImpl->_len + incSize,
-                            replaced.m_pImpl->_pContent, replaced.m_pImpl);
+                            replaced.m_pImpl->_pContent, replaced.m_pImpl->_len, replaced.m_pImpl);
                         replaced.m_pImpl->_Cat(pStr, incSize);
                     }
                     Swap(replaced);

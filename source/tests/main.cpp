@@ -1,5 +1,4 @@
 #include "inc/BasicDefines.h"
-#include <stdlib.h>
 
 extern void TestBasicTypes();
 extern void TestTimeCounter();
@@ -16,21 +15,22 @@ extern void TestDateTime();
 #include <string>
 
 int main(int, char *[]) {
-    //TestBasicTypes();
+    TestBasicTypes();
+    TestByteArray();
     TestArray();
     TestString();
     TestDateTime();
-    //TestTimeCounter();
-    //TestThread();
-    //TestMutex();
-    //TestCondition();
-    //TestSemaphore();
-    //TestByteArray();
-    //TestSocket();
+    TestTimeCounter();
+    TestThread();
+    TestMutex();
+    TestCondition();
+    TestSemaphore();
+    TestSocket();
 
     fprintf(stdout, "All tests passed\n");
 #ifdef __MWL_WIN__
-    system("pause");
+    fprintf(stdout, "Press ENTER to continue...\n");
+    int32_t r = fgetc(stdin);
 #endif
     return 0;
 }

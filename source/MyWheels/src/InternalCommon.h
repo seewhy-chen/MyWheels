@@ -13,6 +13,9 @@
 
 #ifdef __MWL_WIN__
 
+    // enable memory leakage detector
+    #include <vld.h>
+
     #ifdef min
         #undef min
     #endif
@@ -21,14 +24,14 @@
         #undef max
     #endif
 
-    #define NOMINMAX // disable macro definition of 'min'
+     // disable macro definition of 'min'
+    #define NOMINMAX
     #include <Windows.h>
 
     #define snprintf sprintf_s
     #define strncasecmp _strnicmp
 
 #elif defined __MWL_LINUX__
-
     #include <sys/types.h>
     #include <unistd.h>
     #include <pthread.h>

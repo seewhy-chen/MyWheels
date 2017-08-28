@@ -3,8 +3,7 @@
 
 namespace mwl {
 
-    TimeCounter::TimeCounter() : m_pImpl(new Implement) {
-    }
+    TimeCounter::TimeCounter() : m_pImpl(new Implement) {}
 
     TimeCounter::~TimeCounter() {
         delete m_pImpl;

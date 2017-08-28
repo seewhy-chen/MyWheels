@@ -37,8 +37,10 @@ namespace mwl {
 
     enum FileSeekWhence {
         FRM_BEGIN = 0L,
-        FRM_CURR = 0L,
-        FRM_END = 0L,
+        FRM_CURR = 1L,
+        FRM_END = 2L,
+
+        FileSeekWhenceCount,
     };
 
     enum FileType {

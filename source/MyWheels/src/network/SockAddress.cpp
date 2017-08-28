@@ -27,6 +27,10 @@ namespace mwl {
         return *this;
     }
 
+    int32_t SockAddress::SetAddress(const String &host, SockAddressFamily af) {
+        return m_pImpl->_SetAddress(host, 0, af);
+    }
+
     int32_t SockAddress::SetAddress(const String &host, const String &service, SockAddressFamily af) {
         return m_pImpl->_SetAddress(host, service, af);
     }

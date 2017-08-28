@@ -12,6 +12,8 @@ namespace mwl {
 
     Semaphore::Implement::Implement() {
         s = nullptr;
+        // FIXME: do we really need this?
+        createdByMe = false;
     }
 
     Semaphore::Implement::~Implement() {

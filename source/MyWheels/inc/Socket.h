@@ -63,14 +63,16 @@ namespace mwl {
 
     class MWL_API SockAddress {
     public:
-        explicit SockAddress(const String &host = nullptr, const String &service = nullptr, SockAddressFamily af = SOCK_AF_UNSPEC);
+        explicit SockAddress(const String &host = String::Null(), const String &service = String::Null(), 
+            SockAddressFamily af = SOCK_AF_UNSPEC);
         explicit SockAddress(const String &host, int32_t port, SockAddressFamily af = SOCK_AF_UNSPEC);
         explicit SockAddress(const sockaddr *pSockAddr, socklen_t addrLen);
         SockAddress(const SockAddress &src);
         ~SockAddress();
         SockAddress &operator=(const SockAddress &rhs);
 
-        int32_t SetAddress(const String &host, const String &service = nullptr, SockAddressFamily af = SOCK_AF_UNSPEC);
+        int32_t SetAddress(const String &host, SockAddressFamily af = SOCK_AF_UNSPEC);
+        int32_t SetAddress(const String &host, const String &service, SockAddressFamily af = SOCK_AF_UNSPEC);
         int32_t SetAddress(const String &host, int32_t port, SockAddressFamily af = SOCK_AF_UNSPEC);
         int32_t SetAddress(const sockaddr *pSockAddr, socklen_t addrLen);
 
