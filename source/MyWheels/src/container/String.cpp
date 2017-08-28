@@ -37,7 +37,7 @@ namespace mwl {
                 pImpl->_Copy(pContent, contentLen);
             }
         }
-        free(freeThis);
+        delete[] reinterpret_cast<uint8_t*>(freeThis);
         return pImpl;
     }
 
@@ -73,7 +73,7 @@ namespace mwl {
     }
 
     String::~String() {
-        free(m_pImpl);
+        delete[] reinterpret_cast<uint8_t*>(m_pImpl);
     }
 
     int32_t String::Len() const {
