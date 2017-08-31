@@ -149,18 +149,18 @@ namespace mwl {
     }
 
     template<typename ElementType>
-    Array<ElementType>& Array<ElementType>::Append(const ElementType &element) {
+    int32_t Array<ElementType>::Append(const ElementType &element) {
         return Append(&element, 1);
     }
 
     template<typename ElementType>
-    Array<ElementType>& Array<ElementType>::Append(const ElementType *pElements, int32_t count) {
+    int32_t Array<ElementType>::Append(const ElementType *pElements, int32_t count) {
         if (count > 0) {
             _storage.Increase(sizeof(ElementType) * count);
             _Create(_storage.Data((Size() - count) * sizeof(ElementType)), pElements, count);
             _SET_ELE_PTR;
         }
-        return *this;
+        return Size();
     }
 
     template<typename ElementType>

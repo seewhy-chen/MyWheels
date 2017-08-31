@@ -4,10 +4,21 @@
 namespace mwl {
 
     static const char *s_defaultFmt = "%x %X";
-    DateTime::Implement::Implement(bool isUTC)
+    DateTime::Implement::Implement(const TimeSpan *fromEpoch, bool isUTC)
         : _utc(isUTC), _strFmt(s_defaultFmt) {
-        memset(&_tm, 0, sizeof(_tm));
-        memset(&_tv, 0, sizeof(_tv));
+        if (fromEpoch) {
+            _tv.tv_sec = static_cast<long>(fromEpoch->ToI64(SECOND));
+        } else {
+            _tv.tv_sec = 0;
+        }
+        _tv.tv_usec = 0;
+        _Tv2Tm(&_tv, &_tm, _utc);
+    }
+
+    DateTime::Implement::Implement(const Implement *pSrc) {
+        _tv = pSrc->_tv;
+        _tm = pSrc->_tm;
+        _utc = pSrc->_utc;
     }
 
     int32_t DateTime::Implement::_FromStr(const String &timeString, const String &fmt) {

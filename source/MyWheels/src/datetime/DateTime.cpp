@@ -13,14 +13,15 @@ namespace mwl {
     }
 
     DateTime::DateTime(TimeZone tz)
-        : m_pImpl(new Implement(tz == TZ_UTC)) {
+    : m_pImpl(new Implement(nullptr, tz == TZ_UTC)) {
+    }
+
+    DateTime::DateTime(const TimeSpan &fromEpoch, TimeZone tz) 
+    : m_pImpl(new Implement(&fromEpoch, tz == TZ_UTC)) {
     }
 
     DateTime::DateTime(const DateTime &src)
-        : m_pImpl(new Implement(src.m_pImpl->_utc)) {
-        m_pImpl->_tv = src.m_pImpl->_tv;
-        m_pImpl->_tm = src.m_pImpl->_tm;
-    }
+    : m_pImpl(new Implement(src.m_pImpl)) {}
 
     DateTime::~DateTime() {
         delete m_pImpl;

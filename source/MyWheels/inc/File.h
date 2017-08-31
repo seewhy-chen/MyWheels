@@ -10,10 +10,10 @@ namespace mwl {
     class MWL_API File : private NonCopyable {
     public:
         File();
-        File(const String &path, uint32_t flags = FOF_RDONLY, uint32_t modes = 0);
+        File(const String &path, uint32_t flags = FF_RDONLY, uint32_t modes = 0);
         ~File();
-        int32_t Open(const String &path, uint32_t flags = FOF_RDONLY, uint32_t modes = 0);
-        int32_t Create(const String &path, uint32_t modes = FOM_OWNER_ALL);
+        int32_t Open(const String &path, uint32_t flags = FF_RDONLY, uint32_t modes = 0);
+        int32_t Create(const String &path, uint32_t modes = FM_OWNER_ALL);
         int32_t Close();
         int32_t Read(ByteArray &data, int32_t len = -1);
         int32_t Read(void *pData, int32_t len);
@@ -24,12 +24,11 @@ namespace mwl {
         bool Opened() const;
         bool Readable() const;
         bool Writable() const;
-        const String Pathname() const;
-        const String Dirname() const;
-        const String Basename() const;
-        const String Filename() const;
-        const String Extname() const;
-        const String DotExtname() const;
+        const String PathName() const;
+        const String DirName() const;
+        const String BaseName() const;
+        const String FileName() const;
+        const String ExtName() const;
 
         int64_t Size() const;
         int64_t Tell() const;
@@ -37,7 +36,7 @@ namespace mwl {
         int32_t ModifyDateTime(DateTime *pDate) const;
         int32_t AccessDateTime(DateTime *pDate) const;
         int32_t Stat(FileStat *pStat) const;
-
+        int32_t Errno() const;
 
     private:
         struct Implement;

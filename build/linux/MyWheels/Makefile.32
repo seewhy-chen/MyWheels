@@ -50,6 +50,7 @@ OBJECTS = \
 	$(OBJ_DIR)/TimeUtils.o\
 	$(OBJ_DIR)/File.o\
 	$(OBJ_DIR)/FileImplement.o\
+	$(OBJ_DIR)/FileSystem.o\
 	$(OBJ_DIR)/Randomizer.o\
 	$(OBJ_DIR)/Condition.o\
 	$(OBJ_DIR)/ConditionImplement_Linux.o\
@@ -119,6 +120,8 @@ $(OBJ_DIR)/File.o : ../../../source/MyWheels/src/filesystem/File.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/File.o ../../../source/MyWheels/src/filesystem/File.cpp
 $(OBJ_DIR)/FileImplement.o : ../../../source/MyWheels/src/filesystem/FileImplement.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/FileImplement.o ../../../source/MyWheels/src/filesystem/FileImplement.cpp
+$(OBJ_DIR)/FileSystem.o : ../../../source/MyWheels/src/filesystem/FileSystem.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/FileSystem.o ../../../source/MyWheels/src/filesystem/FileSystem.cpp
 $(OBJ_DIR)/Randomizer.o : ../../../source/MyWheels/src/misc/Randomizer.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Randomizer.o ../../../source/MyWheels/src/misc/Randomizer.cpp
 $(OBJ_DIR)/Condition.o : ../../../source/MyWheels/src/multithread/Condition.cpp

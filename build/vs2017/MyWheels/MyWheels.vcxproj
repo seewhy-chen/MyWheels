@@ -46,6 +46,7 @@
     <ClInclude Include="..\..\..\source\MyWheels\src\datetime\TimeCounterImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\datetime\TimeInternalUtils.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\filesystem\FileImplement.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\filesystem\FileInternalDefines.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\InternalCommon.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\MutexImplement.h" />
@@ -72,6 +73,7 @@
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeUtils.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\filesystem\File.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\filesystem\FileImplement.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\filesystem\FileSystem.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\misc\Randomizer.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Condition.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement_Linux.cpp" />

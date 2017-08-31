@@ -17,6 +17,7 @@ namespace mwl {
 
         static DateTime Now(TimeZone tz = TZ_LOCAL);
         explicit DateTime(TimeZone tz = TZ_LOCAL);
+        explicit DateTime(const TimeSpan &fromEpoch, TimeZone tz = TZ_LOCAL);
         DateTime(const DateTime &src);
         ~DateTime();
         DateTime &operator=(const DateTime &rhs);

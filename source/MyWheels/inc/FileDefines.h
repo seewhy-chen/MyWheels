@@ -6,33 +6,33 @@
 
 namespace mwl {
     enum FileOpenFlag {
-        FOF_RDONLY = 1L << 0,
-        FOF_WRONLY = 1L << 1,
-        FOF_RDWR = FOF_RDONLY | FOF_WRONLY,
-        FOF_CREATE = 1L << 3,
-        FOF_TRUNC = 1L << 4,
-        FOF_APPEND = 1L << 5,
-        FOF_EXCL = 1L << 6,
-        FOF_DIRECTORY = 1L << 7,
-        FOF_CLOEXEC = 1L << 8,
-        FOF_NOFOLLOW = 1L << 9,
+        FF_RDONLY = 1L << 0,
+        FF_WRONLY = 1L << 1,
+        FF_RDWR = FF_RDONLY | FF_WRONLY,
+        FF_CREATE = 1L << 3,
+        FF_TRUNC = 1L << 4,
+        FF_APPEND = 1L << 5,
+        FF_EXCL = 1L << 6,
+        FF_DIRECTORY = 1L << 7,
+        FF_CLOEXEC = 1L << 8,
+        FF_NOFOLLOW = 1L << 9,
     };
 
     enum FileOpenMode {
-        FOM_OWNER_R = 1L << 0,
-        FOM_OWNER_W = 1L << 1,
-        FOM_OWNER_X = 1L << 2,
-        FOM_OWNER_ALL = FOM_OWNER_R | FOM_OWNER_W | FOM_OWNER_X,
+        FM_OWNER_R = 1L << 0,
+        FM_OWNER_W = 1L << 1,
+        FM_OWNER_X = 1L << 2,
+        FM_OWNER_ALL = FM_OWNER_R | FM_OWNER_W | FM_OWNER_X,
 
-        FOM_GROUP_R = 1L << 4,
-        FOM_GROUP_W = 1L << 5,
-        FOM_GROUP_X = 1L << 6,
-        FOM_GROUP_ALL = FOM_GROUP_R | FOM_GROUP_W | FOM_GROUP_X,
+        FM_GROUP_R = 1L << 4,
+        FM_GROUP_W = 1L << 5,
+        FM_GROUP_X = 1L << 6,
+        FM_GROUP_ALL = FM_GROUP_R | FM_GROUP_W | FM_GROUP_X,
 
-        FOM_OTHER_R = 1L << 8,
-        FOM_OTHER_W = 1L << 9,
-        FOM_OTHER_X = 1L << 10,
-        FOM_OTHER_ALL = FOM_OTHER_R | FOM_OTHER_W | FOM_OTHER_X,
+        FM_OTHER_R = 1L << 8,
+        FM_OTHER_W = 1L << 9,
+        FM_OTHER_X = 1L << 10,
+        FM_OTHER_ALL = FM_OTHER_R | FM_OTHER_W | FM_OTHER_X,
     };
 
     enum FileSeekWhence {
@@ -44,14 +44,24 @@ namespace mwl {
     };
 
     enum FileType {
-        UNKNOWN = -1L,
-        REG_FILE = 0L,
-        DIRECTORY = 1L,
-        SYM_LINK = 2L,
+        FT_UNKNOWN = -1L,
+        FT_REG_FILE = 0L,
+        FT_DIRECTORY = 1L,
+        FT_SYM_LINK = 2L,
+    };
+
+    enum FileOperatePolicy {
+        FOP_SKIP,
+        FOP_OVERWRITE,
+        FOP_ONESHOT,
+        FOP_RECURSIVELY,
     };
 
     struct FileStat {
+        FileStat() : size(0), type(FT_UNKNOWN) {}
+        String fullpath;
         int64_t size;
+        FileType type;
         DateTime create;
         DateTime access;
         DateTime modified;
