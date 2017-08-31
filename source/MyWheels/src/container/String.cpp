@@ -454,6 +454,10 @@ namespace mwl {
         return*this;
     }
 
+    String String::Replaced(const String &origin, const String &replacement, int32_t count) const {
+        return String(*this).Replace(origin, replacement, count);
+    }
+
     Array<String> String::Split(int32_t count) const {
         Array<String> splitted;
         if (count < 0) {

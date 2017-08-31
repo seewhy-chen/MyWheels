@@ -20,7 +20,7 @@ namespace mwl {
     }
 
     int32_t File::Create(const String &path, uint32_t modes) {
-        return m_pImpl->_Open(path, FOF_WRONLY | FOF_CREATE | FOF_TRUNC, modes);
+        return m_pImpl->_Open(path, FF_WRONLY | FF_CREATE | FF_TRUNC, modes);
     }
 
     int32_t File::Close() {
@@ -55,28 +55,24 @@ namespace mwl {
         return m_pImpl->_Writable();
     }
 
-    const String File::Pathname() const {
-        return m_pImpl->_Pathname();
+    const String File::PathName() const {
+        return m_pImpl->_PathName();
     }
 
-    const String File::Dirname() const {
-        return m_pImpl->_Dirname();
+    const String File::DirName() const {
+        return m_pImpl->_DirName();
     }
 
-    const String File::Basename() const {
-        return m_pImpl->_Basename();
+    const String File::BaseName() const {
+        return m_pImpl->_BaseName();
     }
 
-    const String File::Filename() const {
-        return m_pImpl->_Filename();
+    const String File::FileName() const {
+        return m_pImpl->_FileName();
     }
 
-    const String File::Extname() const {
-        return m_pImpl->_Extname();
-    }
-
-    const String File::DotExtname() const {
-        return m_pImpl->_DotExtname();
+    const String File::ExtName() const {
+        return m_pImpl->_ExtName();
     }
 
     int64_t File::Size() const {
@@ -122,4 +118,7 @@ namespace mwl {
         return ret;
     }
 
+    int32_t File::Errno() const {
+        return m_pImpl->_Errno();
+    }
 }

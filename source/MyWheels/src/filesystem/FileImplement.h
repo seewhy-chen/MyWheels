@@ -1,4 +1,5 @@
 #include "inc/File.h"
+#include "FileInternalDefines.h"
 
 namespace mwl {
     struct File::Implement {
@@ -14,16 +15,16 @@ namespace mwl {
         bool _Readable();
         bool _Writable();
 
-        String _Pathname();
-        String _Dirname();
-        String _Basename();
-        String _Filename();
-        String _Extname();
-        String _DotExtname();
+        String _PathName();
+        String _DirName();
+        String _FileName();
+        String _ExtName();
+        String _BaseName();
         int64_t _Size();
         int64_t _Tell();
         int64_t _Seek(int64_t offset, FileSeekWhence whence);
         int32_t _Stat(FileStat *pStat);
+        int32_t _Errno();
 
     private:
         int32_t _fh;
@@ -31,5 +32,9 @@ namespace mwl {
         int32_t _modes;
         int32_t _err;
         String _filePath;
+        String _dirName;
+        String _fileName;
+        String _extName;
+        String _baseName;
     };
 }

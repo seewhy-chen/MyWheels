@@ -1,5 +1,6 @@
 #include "InternalCommon.h"
 #include "inc/File.h"
+#include "inc/FileSystem.h"
 using namespace mwl;
 
 extern const char *prog;
@@ -29,19 +30,57 @@ void TestFile() {
     ByteArray d(static_cast<int32_t>(f.Size()));
     MWL_ASSERT(s == f.Read(d, d.Size()));
 
-    MWL_INFO("dir name: %s", f.Dirname().C_Str());
-    MWL_INFO("base name: %s", f.Basename().C_Str());
-    MWL_INFO("file name: %s", f.Filename().C_Str());
-    MWL_INFO("ext name: %s", f.Extname().C_Str());
-    MWL_INFO("dot ext name: %s", f.DotExtname().C_Str());
+    MWL_INFO("dir name: %s", f.DirName().C_Str());
+    MWL_INFO("base name: %s", f.BaseName().C_Str());
+    MWL_INFO("file name: %s", f.FileName().C_Str());
+    MWL_INFO("ext name: %s", f.ExtName().C_Str());
 
-    f.Create("./test");
+    f.Create("./test.txt");
     MWL_ASSERT(f.Opened());
     MWL_ASSERT(!f.Readable());
-    MWL_INFO("%s created", f.Pathname().C_Str());
-    MWL_INFO("dir name: %s", f.Dirname().C_Str());
-    MWL_INFO("base name: %s", f.Basename().C_Str());
-    MWL_INFO("file name: %s", f.Filename().C_Str());
-    MWL_INFO("ext name: %s", f.Extname().C_Str());
-    MWL_INFO("dot ext name: %s", f.DotExtname().C_Str());
+    MWL_ASSERT(f.Writable());
+    String content = "this is a test\n"; 
+    MWL_INFO("%s created", f.PathName().C_Str());
+    MWL_ASSERT(f.Write(content.C_Str(), content.Len()) == content.Len());
+    MWL_INFO("dir name: %s", f.DirName().C_Str());
+    MWL_INFO("base name: %s", f.BaseName().C_Str());
+    MWL_INFO("file name: %s", f.FileName().C_Str());
+    MWL_INFO("ext name: %s", f.ExtName().C_Str());
+    f.Close();
+    MWL_ASSERT(content.Len() == FileSystem::DuplicateFile("./test.txt", "./test_copied.txt"));
+    MWL_ASSERT(FileSystem::IsFile("./test_copied.txt"));
+    FileSystem::RemoveFile("./test.txt");
+    FileSystem::RemoveFile("./test_copied.txt");
+    MWL_ASSERT(!FileSystem::Exist("./test.txt"));
+    MWL_ASSERT(!FileSystem::Exist("./test_copied.txt"));
+
+    String relativePath(".");
+    MWL_INFO("%s is resolved to %s", relativePath.C_Str(), FileSystem::GetFullPath(relativePath).C_Str());
+    relativePath = "..";
+    MWL_INFO("%s is resolved to %s", relativePath.C_Str(), FileSystem::GetFullPath(relativePath).C_Str());
+
+    String dirName, fileName, ext;
+    FileSystem::ParsePath(FileSystem::GetFullPath(relativePath) + "/.test.txt", &dirName, &fileName, &ext);
+    MWL_INFO("dirName: %s, fileName: %s, ext: %s", dirName.C_Str(), fileName.C_Str(), ext.C_Str());
+    MWL_INFO("made a path: %s", FileSystem::MakePath(dirName, fileName, ext).C_Str());
+
+    Array<String> subDirs, files;
+    dirName = "..";
+    MWL_INFO("listing %s", dirName.C_Str());
+    FileSystem::ListDir(dirName, &files, &subDirs);
+    for (int32_t i = 0; i < subDirs.Size(); ++i) {
+        MWL_INFO("subdir: %s", subDirs[i].C_Str());
+    }
+    for (int32_t i = 0; i < files.Size(); ++i) {
+        MWL_INFO("file: %s", files[i].C_Str());
+    }
+
+    FileSystem::MakeDir("./new_dir");
+    MWL_ASSERT(FileSystem::IsDir("./new_dir"));
+    FileSystem::Move("./new_dir", "./new_dir_moved");
+    MWL_ASSERT(!FileSystem::Exist("./new_dir"));
+    MWL_ASSERT(FileSystem::IsDir("./new_dir_moved"));
+
+    FileSystem::RemoveDir("./new_dir_moved");
+    MWL_ASSERT(!FileSystem::Exist("./new_dir_moved"));
 }

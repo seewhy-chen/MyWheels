@@ -54,6 +54,7 @@ namespace mwl {
         int32_t Find(const String &subStr, int32_t start = 0, int32_t end = -1) const;
         int32_t RFind(const String &subStr, int32_t start = 0, int32_t end = -1) const;
         String& Replace(const String &origin, const String &replacement, int32_t count = -1);
+        String Replaced(const String &origin, const String &replacement, int32_t count = -1) const;
 
         bool StartsWith(const String& prefix) const;
         bool EndsWith(const String& surfix) const;

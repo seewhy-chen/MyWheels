@@ -14,7 +14,8 @@
 namespace mwl {
 
     struct DateTime::Implement {
-        Implement(bool isUTC);
+        Implement(const TimeSpan *fromEpoch, bool isUTC);
+        Implement(const Implement *pSrc);
         int32_t _FromStr(const String &timeString, const String &fmt);
         void _SetStrFmt(const String &strFmt);
         bool _utc;
