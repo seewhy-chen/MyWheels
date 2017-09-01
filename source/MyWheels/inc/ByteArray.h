@@ -122,6 +122,7 @@ namespace mwl {
         int32_t Size() const;
         int32_t Reserve(int32_t newCapacity);
         int32_t Capacity() const;
+        bool operator==(const ByteArray &rhs) const;
         bool Empty() const;
 
         struct Implement;

@@ -10,6 +10,13 @@ void TestArray() {
     MWL_ASSERT(s[0] == "1");
     MWL_ASSERT(s[-1] == "1");
 
+    Array<String> s2(s);
+    Array<String> s3;
+    s3 = s;
+
+    MWL_ASSERT(s == s2);
+    MWL_ASSERT(s == s3);
+
     s.Resize(20, "2");
     MWL_ASSERT(s.Size() == 20);
     MWL_ASSERT(s[0] == "1");
@@ -34,4 +41,6 @@ void TestArray() {
     s.Remove(0, s.Size());
     MWL_ASSERT(s.Size() == 0);
     MWL_ASSERT(s.Empty());
+
+
 }

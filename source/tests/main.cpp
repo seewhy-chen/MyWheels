@@ -20,7 +20,7 @@ int main(int , char *argv[]) {
 
     //TestBasicTypes();
     //TestByteArray();
-    //TestArray();
+    TestArray();
     //TestString();
     //TestDateTime();
     //TestTimeCounter();
@@ -29,7 +29,7 @@ int main(int , char *argv[]) {
     //TestCondition();
     //TestSemaphore();
     //TestSocket();
-    TestFile();
+    //TestFile();
 
     fprintf(stdout, "All tests passed\n");
 #ifdef __MWL_WIN__

@@ -32,6 +32,14 @@ namespace mwl {
     }
 
     template <typename ElementType>
+    inline void _Copy(uint8_t *pRawMem, const ElementType *pVals, int32_t count) {
+        for (int32_t i = 0; i < count; ++i) {
+            *reinterpret_cast<ElementType*>(pRawMem + i * sizeof(ElementType)) = pVals[i];
+        }
+    }
+
+
+    template <typename ElementType>
     inline void _Release(uint8_t *pRawMem, int32_t count) {
         for (int32_t i = 0; i < count; ++i) {
             reinterpret_cast<ElementType *>(pRawMem + i * sizeof(ElementType))->~ElementType();
@@ -125,10 +133,11 @@ namespace mwl {
     template<typename ElementType>
     Array<ElementType>& Array<ElementType>::Assign(const Array<ElementType> &src) {
         if (this != &src) {
-            Clear();
-            if (!src.Empty() && this != &src) {
+            if (src.Empty()) {
+                Clear();
+            } else {
                 _storage.Resize(src._storage.Size());
-                _Create(_storage.Data(), src.Data(), src.Size());
+                _Copy(_storage.Data(), src.Data(), src.Size());
             }
             _SET_ELE_PTR;
         }
@@ -138,10 +147,11 @@ namespace mwl {
     template<typename ElementType>
     Array<ElementType>& Array<ElementType>::Assign(const ElementType* pSrc, int32_t count) {
         if (this->_storage.Data() != pSrc) {
-            Clear();
-            if (count > 0) {
+            if (0 == count) {
+                Clear();
+            } else if (count > 0) {
                 _storage.Resize(count * sizeof(ElementType));
-                _Create(_storage.Data(), pSrc, count);
+                _Copy(_storage.Data(), pSrc, count);
             }
             _SET_ELE_PTR;
         }
@@ -234,6 +244,24 @@ namespace mwl {
         return _storage.Empty();
     }
 
+    template<typename ElementType>
+    bool Array<ElementType>::operator==(const Array<ElementType> &rhs) const {
+        if (this == &rhs) {
+            return true;
+        }
+        if (Empty() && rhs.Empty()) {
+            return true;
+        }
+        if (Size() != rhs.Size()) {
+            return false;
+        }
+        for (int32_t i = 0; i < Size(); ++i) {
+            if (At(i) != rhs.At(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
     template<typename ElementType>
     ElementType* Array<ElementType>::Data(int32_t idx) {
         if (idx < 0) {

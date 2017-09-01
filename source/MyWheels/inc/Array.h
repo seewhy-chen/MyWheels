@@ -47,6 +47,7 @@ namespace mwl {
         int32_t Reserve(int32_t capacity);
         int32_t Capacity() const;
         bool Empty() const;
+        bool operator==(const Array<ElementType> &rhs) const;
 
         void Swap(Array<ElementType> &other);
 

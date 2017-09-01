@@ -129,6 +129,12 @@ namespace mwl {
         return m_pImpl->_Capacity();
     }
 
+    bool ByteArray::operator==(const ByteArray &rhs) const {
+        return this == &rhs || 
+            (Empty() && rhs.Empty()) ||
+            (Size() == rhs.Size() && 0 == memcmp(Data(), rhs.Data(), Size()));
+    }
+
     bool ByteArray::Empty() const {
         return 0 == m_pImpl->_Size();
     }

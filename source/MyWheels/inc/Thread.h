@@ -26,6 +26,11 @@ namespace mwl {
         ~ThreadContext();
         void QueryToStop();
         void *SharedData();
+        template<typename SharedDataType>
+        SharedDataType *SharedData() {
+            return reinterpret_cast<SharedDataType*>(SharedData());
+        }
+
         bool StopQueried() const;
         const ThreadID& ParentID() const;
         const ThreadID& SelfID() const;
@@ -37,6 +42,8 @@ namespace mwl {
 
     typedef int32_t(*SimpleThreadEntry)();
     typedef int32_t(*ThreadEntry)(ThreadContext *pContext);
+#define MWL_SIMPLE_THREAD_ENTRY(EntryName) int32_t EntryName()
+#define MWL_THREAD_ENTRY(EntryName, ContextName) int32_t EntryName(ThreadContext *ContextName)
 
     class MWL_API Thread : private NonCopyable {
     public:
