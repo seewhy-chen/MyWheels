@@ -1,8 +1,8 @@
+#include <vld.h>
 #include "inc/BasicDefines.h"
 
 extern void TestBasicTypes();
 extern void TestTimeCounter();
-extern void TestThread();
 extern void TestMutex();
 extern void TestCondition();
 extern void TestSemaphore();
@@ -12,6 +12,8 @@ extern void TestArray();
 extern void TestString();
 extern void TestDateTime();
 extern void TestFile();
+extern void TestThread();
+extern void TestThreadPool();
 
 const char *prog = nullptr;
 
@@ -20,16 +22,17 @@ int main(int , char *argv[]) {
 
     //TestBasicTypes();
     //TestByteArray();
-    TestArray();
+    //TestArray();
     //TestString();
     //TestDateTime();
     //TestTimeCounter();
-    //TestThread();
-    //TestMutex();
-    //TestCondition();
-    //TestSemaphore();
     //TestSocket();
     //TestFile();
+    TestMutex();
+    TestCondition();
+    TestSemaphore();
+    TestThread();
+    TestThreadPool();
 
     fprintf(stdout, "All tests passed\n");
 #ifdef __MWL_WIN__

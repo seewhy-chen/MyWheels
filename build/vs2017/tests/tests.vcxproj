@@ -31,6 +31,7 @@
     <ClCompile Include="..\..\..\source\tests\testcases\TestSocket.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestString.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestThread.cpp" />
+    <ClCompile Include="..\..\..\source\tests\testcases\TestThreadPool.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestTimeCounter.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -43,6 +43,9 @@
     <ClCompile Include="..\..\..\source\tests\testcases\TestFile.cpp">
       <Filter>testcases</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\tests\testcases\TestThreadPool.cpp">
+      <Filter>testcases</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\tests\InternalCommon.h" />

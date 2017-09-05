@@ -36,6 +36,7 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\StaticAssert.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\String.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Thread.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\ThreadPool.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\TimeCounter.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\TimeDefines.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\TimeSpan.h" />
@@ -53,6 +54,7 @@
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadPoolImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\network\SockAddressImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\network\SocketImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\network\SockInternalUtils.h" />
@@ -89,6 +91,8 @@
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Linux.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement_Win.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadPool.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadPoolImplement.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\network\SockAddress.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\network\SockAddressImplement.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\network\Socket.cpp" />

@@ -152,6 +152,12 @@
     <ClInclude Include="..\..\..\source\MyWheels\src\filesystem\FileInternalDefines.h">
       <Filter>src\filesystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\ThreadPool.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadPoolImplement.h">
+      <Filter>src\multithread\thread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp">
@@ -258,6 +264,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\MyWheels\src\filesystem\FileSystem.cpp">
       <Filter>src\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadPool.cpp">
+      <Filter>src\multithread\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ThreadPoolImplement.cpp">
+      <Filter>src\multithread\thread</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

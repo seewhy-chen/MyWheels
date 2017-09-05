@@ -47,6 +47,7 @@ OBJECTS = \
 	$(OBJ_DIR)/TestSocket.o\
 	$(OBJ_DIR)/TestString.o\
 	$(OBJ_DIR)/TestThread.o\
+	$(OBJ_DIR)/TestThreadPool.o\
 	$(OBJ_DIR)/TestTimeCounter.o
 
 $(OBJ_DIR) :
@@ -89,5 +90,7 @@ $(OBJ_DIR)/TestString.o : ../../../source/tests/testcases/TestString.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestString.o ../../../source/tests/testcases/TestString.cpp
 $(OBJ_DIR)/TestThread.o : ../../../source/tests/testcases/TestThread.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestThread.o ../../../source/tests/testcases/TestThread.cpp
+$(OBJ_DIR)/TestThreadPool.o : ../../../source/tests/testcases/TestThreadPool.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestThreadPool.o ../../../source/tests/testcases/TestThreadPool.cpp
 $(OBJ_DIR)/TestTimeCounter.o : ../../../source/tests/testcases/TestTimeCounter.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestTimeCounter.o ../../../source/tests/testcases/TestTimeCounter.cpp
