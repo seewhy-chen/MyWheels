@@ -23,6 +23,9 @@ void TestMutex() {
     MWL_INFO("TestMutex started");
 
     Mutex mutex;
+    MWL_ASSERT(mutex.Lock() >= 0);
+    MWL_ASSERT(mutex.TryLock() < 0);
+    MWL_ASSERT(mutex.Unlock() >= 0);
     Thread t1, t2, t3;
     t1.SetTag("t1");
     t2.SetTag("t2");

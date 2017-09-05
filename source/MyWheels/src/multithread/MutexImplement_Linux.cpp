@@ -25,29 +25,21 @@ namespace mwl {
         int32_t ret = pthread_mutex_lock(&m);
         if (ret) {
             MWL_WARN_ERRNO("lock mutex failed", ret);
-            ret = -ret;
         }
         return -ret;
     }
 
     int32_t Mutex::Implement::_TryLock() {
-        int32_t ret = pthread_mutex_trylock(&m);
-        if (ret) {
-            MWL_WARN_ERRNO("trylock mutex failed", ret);
-            ret = -ret;
-        }
-        return -ret;
+        return -pthread_mutex_trylock(&m);
     }
 
     int32_t Mutex::Implement::_Unlock() {
         int32_t ret = pthread_mutex_unlock(&m);
         if (ret) {
             MWL_WARN_ERRNO("unlock mutex failed", ret);
-            ret = -ret;
         }
         return -ret;
     }
-
 }
 
 #endif // __MWL_LINUX__

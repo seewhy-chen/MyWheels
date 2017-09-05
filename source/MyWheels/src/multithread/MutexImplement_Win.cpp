@@ -7,20 +7,20 @@
 namespace mwl {
 
     Mutex::Implement::Implement() {
-        InitializeCriticalSection(&m);
+        InitializeSRWLock(&m);
     }
 
     Mutex::Implement::~Implement() {
-        DeleteCriticalSection(&m);
+        //DeleteCriticalSection(&m);
     }
 
     int32_t Mutex::Implement::_Lock() {
-        EnterCriticalSection(&m);
+        AcquireSRWLockExclusive(&m);
         return 0;
     }
 
     int32_t Mutex::Implement::_TryLock() {
-        if (TryEnterCriticalSection(&m)) {
+        if (TryAcquireSRWLockExclusive(&m)) {
             return 0;
         } else {
             return ERR_BUSY;
@@ -28,7 +28,7 @@ namespace mwl {
     }
 
     int32_t Mutex::Implement::_Unlock() {
-        LeaveCriticalSection(&m);
+        ReleaseSRWLockExclusive(&m);
         return 0;
     }
 
