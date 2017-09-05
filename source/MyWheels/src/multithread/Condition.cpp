@@ -9,8 +9,12 @@ namespace mwl {
         delete m_pImpl;
     }
 
-    int32_t Condition::Wait(Mutex &mutex, const TimeSpan *pTimeout) {
-        return m_pImpl->_Wait(mutex, pTimeout);
+    int32_t Condition::Wait(Mutex &mutex) {
+        return m_pImpl->_Wait(mutex, nullptr);
+    }
+
+    int32_t Condition::Wait(Mutex &mutex, const TimeSpan &timeout) {
+        return m_pImpl->_Wait(mutex, &timeout);
     }
 
     int32_t Condition::Signal() {

@@ -33,9 +33,15 @@ namespace mwl {
         }
 
         int32_t ret = 0;
-        do {
-            ret = context.m_pImpl->cond.Wait(context.m_pImpl->lock, pTimeout);
-        } while (!context.m_pImpl->isRunning && ERR_TIMEOUT == ret);
+        if (pTimeout) {
+            do {
+                ret = context.m_pImpl->cond.Wait(context.m_pImpl->lock, *pTimeout);
+            } while (!context.m_pImpl->isRunning && ERR_TIMEOUT == ret);
+        } else {
+            do {
+                ret = context.m_pImpl->cond.Wait(context.m_pImpl->lock);
+            } while (!context.m_pImpl->isRunning && ERR_TIMEOUT == ret);
+        }
 
         return context.m_pImpl->isRunning ? ERR_NONE : ret;
     }
@@ -43,8 +49,14 @@ namespace mwl {
     int32_t Thread::Implement::_Join(const TimeSpan *pTimeout) {
         int32_t ret = ERR_TIMEOUT;
         Mutex::AutoLock _l(context.m_pImpl->lock);
-        while (context.m_pImpl->isRunning && ERR_TIMEOUT == ret) {
-            ret = context.m_pImpl->cond.Wait(context.m_pImpl->lock, pTimeout);
+        if (pTimeout) {
+            while (context.m_pImpl->isRunning && ERR_TIMEOUT == ret) {
+                ret = context.m_pImpl->cond.Wait(context.m_pImpl->lock, *pTimeout);
+            }
+        } else {
+            while (context.m_pImpl->isRunning && ERR_TIMEOUT == ret) {
+                ret = context.m_pImpl->cond.Wait(context.m_pImpl->lock);
+            }
         }
         if (!context.m_pImpl->isRunning) {
             CloseHandle(threadHdl);

@@ -12,7 +12,8 @@ namespace mwl {
     public:
         Condition();
         ~Condition();
-        int32_t Wait(Mutex &mutex, const TimeSpan *pTimeout = nullptr);
+        int32_t Wait(Mutex &mutex);
+        int32_t Wait(Mutex &mutex, const TimeSpan &timeout);
         int32_t Signal();
         int32_t Broadcast();
 

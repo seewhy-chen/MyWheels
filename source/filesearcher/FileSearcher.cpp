@@ -57,7 +57,7 @@ int32_t FileSearcher::Search(const String &workingDir, const String &/*pattern*/
         for (int32_t i = 0; i < dirsToSearch.Size(); ++i) {
             bool dispatched = false;
             for (int32_t j = 0; j < spiders.Size() && !dispatched; ++j) {
-                if (spiders[j]->Join(&ts) >= 0) {
+                if (spiders[j]->Join(ts) >= 0) {
                     // dispatch dirsToSearch[i] to spider[j]
                     dispatched = true;
                 }

@@ -118,21 +118,38 @@ namespace mwl {
         int32_t Bind(const String &host, int32_t port = 0);
         int32_t Bind(const String &host, const String &service);
         int32_t Listen(int32_t backlog = 1);
-        int32_t Connect(const SockAddress &address, const TimeSpan *pTimeout = nullptr);
-        int32_t Connect(const String &host, int32_t port = 0, const TimeSpan *pTimeout = nullptr);
-        int32_t Connect(const String &host, const String &service, const TimeSpan *pTimeout = nullptr);
-        int32_t Accept(Socket &acceptee, const TimeSpan *pTimeout = nullptr);
-        int32_t Select(uint32_t events, const TimeSpan *pTimeout = nullptr);
 
-        int32_t Send(const void *pData, size_t dataLen, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
-        int32_t SendAll(const void *pData, size_t dataLen, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
-        int32_t SendTo(const void *pData, size_t dataLen, const SockAddress &dstAddr, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
-        int32_t SendAllTo(const void *pData, size_t dataLen, const SockAddress &dstAddr, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
+        int32_t Connect(const SockAddress &address);
+        int32_t Connect(const SockAddress &address, const TimeSpan &timeout);
+        int32_t Connect(const String &host, int32_t port = 0);
+        int32_t Connect(const String &host, const TimeSpan &timeout);
+        int32_t Connect(const String &host, int32_t port, const TimeSpan &timeout);
+        int32_t Connect(const String &host, const String &service);
+        int32_t Connect(const String &host, const String &service, const TimeSpan &timeout);
 
-        int32_t Recv(void *pData, size_t dataLen, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
-        int32_t RecvAll(void *pData, size_t dataLen, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
-        int32_t RecvFrom(void *pData, size_t dataLen, SockAddress &srcAddr, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
-        int32_t RecvAllFrom(void *pData, size_t dataLen, SockAddress &srcAddr, const TimeSpan *pTimeout = nullptr, int32_t flags = 0);
+        int32_t Accept(Socket &acceptee);
+        int32_t Accept(Socket &acceptee, const TimeSpan &timeout);
+
+        int32_t Select(uint32_t events);
+        int32_t Select(uint32_t events, const TimeSpan &timeout);
+
+        int32_t Send(const void *pData, size_t dataLen, int32_t flags = 0);
+        int32_t Send(const void *pData, size_t dataLen, const TimeSpan &timeout, int32_t flags = 0);
+        int32_t SendAll(const void *pData, size_t dataLen, int32_t flags = 0);
+        int32_t SendAll(const void *pData, size_t dataLen, const TimeSpan &timeout, int32_t flags = 0);
+        int32_t SendTo(const void *pData, size_t dataLen, const SockAddress &dstAddr, int32_t flags = 0);
+        int32_t SendTo(const void *pData, size_t dataLen, const SockAddress &dstAddr, const TimeSpan &timeout, int32_t flags = 0);
+        int32_t SendAllTo(const void *pData, size_t dataLen, const SockAddress &dstAddr, int32_t flags = 0);
+        int32_t SendAllTo(const void *pData, size_t dataLen, const SockAddress &dstAddr, const TimeSpan &timeout, int32_t flags = 0);
+
+        int32_t Recv(void *pData, size_t dataLen, int32_t flags = 0);
+        int32_t Recv(void *pData, size_t dataLen, const TimeSpan &timeout, int32_t flags = 0);
+        int32_t RecvAll(void *pData, size_t dataLen, int32_t flags = 0);
+        int32_t RecvAll(void *pData, size_t dataLen, const TimeSpan &timeout, int32_t flags = 0);
+        int32_t RecvFrom(void *pData, size_t dataLen, SockAddress &srcAddr, int32_t flags = 0);
+        int32_t RecvFrom(void *pData, size_t dataLen, SockAddress &srcAddr, const TimeSpan &timeout, int32_t flags = 0);
+        int32_t RecvAllFrom(void *pData, size_t dataLen, SockAddress &srcAddr, int32_t flags = 0);
+        int32_t RecvAllFrom(void *pData, size_t dataLen, SockAddress &srcAddr, const TimeSpan &timeout, int32_t flags = 0);
 
         int32_t SetNonblocking(bool nonblocking);
         bool IsNonblocking() const;

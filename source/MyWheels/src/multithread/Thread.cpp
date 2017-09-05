@@ -41,24 +41,36 @@ namespace mwl {
         return (*entry)();
     }
 
-    int32_t Thread::Start(SimpleThreadEntry simpleEntry, const TimeSpan *pTimeout) {
-        return m_pImpl->_Start(_SimpleThreadWrapper, &simpleEntry, pTimeout);
+    int32_t Thread::Start(SimpleThreadEntry simpleEntry) {
+        return m_pImpl->_Start(_SimpleThreadWrapper, &simpleEntry, nullptr);
     }
 
-    int32_t Thread::Start(ThreadEntry entry) {
-        return m_pImpl->_Start(entry, nullptr, nullptr);
+    int32_t Thread::Start(SimpleThreadEntry simpleEntry, const TimeSpan &timeout) {
+        return m_pImpl->_Start(_SimpleThreadWrapper, &simpleEntry, &timeout);
     }
 
-    int32_t Thread::Start(ThreadEntry entry, void *pSharedData, const TimeSpan *pTimeout) {
-        return m_pImpl->_Start(entry, pSharedData, pTimeout);
+    int32_t Thread::Start(ThreadEntry entry, void *pSharedData) {
+        return m_pImpl->_Start(entry, pSharedData, nullptr);
     }
 
-    int32_t Thread::Stop(const TimeSpan *pTimeout) {
-        return m_pImpl->_Stop(pTimeout);
+    int32_t Thread::Start(ThreadEntry entry, void *pSharedData, const TimeSpan &timeout) {
+        return m_pImpl->_Start(entry, pSharedData, &timeout);
     }
 
-    int32_t Thread::Join(const TimeSpan *pTimeout) {
-        return m_pImpl->_Join(pTimeout);
+    int32_t Thread::Stop() {
+        return m_pImpl->_Stop(nullptr);
+    }
+
+    int32_t Thread::Stop(const TimeSpan &timeout) {
+        return m_pImpl->_Stop(&timeout);
+    }
+
+    int32_t Thread::Join() {
+        return m_pImpl->_Join(nullptr);
+    }
+
+    int32_t Thread::Join(const TimeSpan &timeout) {
+        return m_pImpl->_Join(&timeout);
     }
 
     void Thread::QueryToStop() {
@@ -89,34 +101,18 @@ namespace mwl {
         return m_pImpl->_ExitCode();
     }
 
-    SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry) {
-        return StartThread(simpleEntry, nullptr, nullptr);
-    }
-
-    SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const String &tag) {
-        return StartThread(simpleEntry, tag, nullptr);
-    }
-
-    SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const String &tag, const TimeSpan *pTimeout) {
+    SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const String &tag, const TimeSpan &timeout) {
         SharedPtr<Thread> pThread(new Thread(tag));
-        int32_t ret = pThread->Start(simpleEntry, pTimeout);
+        int32_t ret = pThread->Start(simpleEntry, timeout);
         if (ret != ERR_NONE) {
             pThread.reset();
         }
         return pThread;
     }
 
-    SharedPtr<Thread> StartThread(ThreadEntry entry) {
-        return StartThread(entry, nullptr, nullptr, nullptr);
-    }
-
-    SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData) {
-        return StartThread(entry, pSharedData, nullptr, nullptr);
-    }
-
-    SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const String &tag, const TimeSpan *pTimeout) {
+    SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const String &tag, const TimeSpan &timeout) {
         SharedPtr<Thread> pThread(new Thread(tag));
-        int32_t ret = pThread->Start(entry, pSharedData, pTimeout);
+        int32_t ret = pThread->Start(entry, pSharedData, timeout);
         if (ret != ERR_NONE) {
             pThread.reset();
         }

@@ -50,11 +50,14 @@ namespace mwl {
         explicit Thread(const String &tag = String::Null());
         ~Thread();
         int32_t SetTag(const String &tag);
-        int32_t Start(SimpleThreadEntry simpleEntry, const TimeSpan *pTimeout = nullptr);
-        int32_t Start(ThreadEntry entry);
-        int32_t Start(ThreadEntry entry, void *pSharedData, const TimeSpan *pTimeout = nullptr);
-        int32_t Stop(const TimeSpan *pTimeout = nullptr);
-        int32_t Join(const TimeSpan *pTimeout = nullptr);
+        int32_t Start(SimpleThreadEntry simpleEntry);
+        int32_t Start(SimpleThreadEntry simpleEntry, const TimeSpan &timeout);
+        int32_t Start(ThreadEntry entry, void *pSharedData = nullptr);
+        int32_t Start(ThreadEntry entry, void *pSharedData, const TimeSpan &timeout);
+        int32_t Stop();
+        int32_t Stop(const TimeSpan &timeout);
+        int32_t Join();
+        int32_t Join(const TimeSpan &timeout);
 
         void QueryToStop();
         void *SharedData();
@@ -74,12 +77,11 @@ namespace mwl {
         Implement *m_pImpl;
     };
 
-    MWL_API SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry);
-    MWL_API SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, const String &tag, const TimeSpan *pTimeout = nullptr);
+    MWL_API SharedPtr<Thread> StartThread(SimpleThreadEntry simpleEntry, 
+        const String &tag = String::Null(), const TimeSpan &timeout = -1);
 
-    MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry);
-    MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData);
-    MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData, const String &tag, const TimeSpan *pTimeout = nullptr);
+    MWL_API SharedPtr<Thread> StartThread(ThreadEntry entry, void *pSharedData = nullptr, 
+        const String &tag = String::Null(), const TimeSpan &timeout = -1);
 
 }
 

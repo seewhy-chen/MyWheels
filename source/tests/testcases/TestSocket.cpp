@@ -128,7 +128,7 @@ static int32_t MySysServer(ThreadContext *pCtx) {
     TimeSpan timeout(10);
     while (!pCtx->StopQueried()) {
         Socket s;
-        if (svrSock.Accept(s, &timeout) == ERR_NONE) {
+        if (svrSock.Accept(s, 10) == ERR_NONE) {
             char strTime[256];
             time_t t = time(NULL);
             sprintf(strTime, "hello, I'm daytime server implemented by SeeWhy, now daytime is: %.24s", ctime(&t));

@@ -16,9 +16,8 @@ struct ConditionTest {
 int32_t Entry(ThreadContext *pCtx) {
     ConditionTest *pTest = reinterpret_cast<ConditionTest*>(pCtx->SharedData());
     MWL_INFO("%s started", pCtx->Tag().C_Str());
-    TimeSpan timeout(1000);
     Mutex::AutoLock _l(pTest->mutex);
-    if (pTest->cond.Wait(pTest->mutex, &timeout) == ERR_TIMEOUT) {
+    if (pTest->cond.Wait(pTest->mutex, 1000) == ERR_TIMEOUT) {
         MWL_INFO("%s wait cond timeout", pCtx->Tag().C_Str()); 
     }
     MWL_INFO("%s stopped", pCtx->Tag().C_Str());

@@ -46,8 +46,7 @@ void TestThreadPool() {
     }
     TimeSleep(1000);
     pool.SetMaxThreadCount(pool.GetMaxThreadCount() + maxThreadCnt);
-    TimeSpan timeout(100);
-    if (listener.c.Wait(listener.m, &timeout) < 0) {
+    if (listener.c.Wait(listener.m, 100) < 0) {
         pool.SetMaxThreadCount(pool.GetMaxThreadCount() + maxThreadCnt);
     }
     TimeSleep(1000);
