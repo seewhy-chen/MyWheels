@@ -58,6 +58,10 @@ namespace mwl {
 
         void QueryToStop();
         void *SharedData();
+        template<typename SharedDataType>
+        SharedDataType *SharedData() {
+            return reinterpret_cast<SharedDataType*>(SharedData());
+        }
         const ThreadID& ParentID() const;
         const ThreadID& SelfID() const;
         const String &Tag() const;
