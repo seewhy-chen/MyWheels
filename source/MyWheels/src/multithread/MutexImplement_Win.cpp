@@ -11,7 +11,11 @@ namespace mwl {
     }
 
     Mutex::Implement::~Implement() {
-        //DeleteCriticalSection(&m);
+        if (TryAcquireSRWLockExclusive(&m)) {
+            _Unlock();
+        } else {
+            MWL_WARN_ERRNO("destroy mutex failed", EBUSY);
+        }
     }
 
     int32_t Mutex::Implement::_Lock() {
