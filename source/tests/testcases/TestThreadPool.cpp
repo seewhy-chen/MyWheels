@@ -44,11 +44,14 @@ void TestThreadPool() {
         testData.Back()->sleepTime = rnd.NextS32InRange(100, 1000);
         pool.AddTask(ThreadPoolTester, testData.Back());
     }
+    TimeSleep(1000);
     pool.SetMaxThreadCount(pool.GetMaxThreadCount() + maxThreadCnt);
     TimeSpan timeout(100);
-    while (listener.c.Wait(listener.m, &timeout) < 0) {
+    if (listener.c.Wait(listener.m, &timeout) < 0) {
         pool.SetMaxThreadCount(pool.GetMaxThreadCount() + maxThreadCnt);
     }
+    TimeSleep(1000);
+    pool.Cancel();
     listener.m.Unlock();
 
     for (int32_t i = 0; i < testData.Size(); ++i) {

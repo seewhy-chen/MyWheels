@@ -1,5 +1,8 @@
-#include <vld.h>
 #include "inc/BasicDefines.h"
+
+#ifdef __MWL_WIN__
+#include <vld.h>
+#endif
 
 extern void TestBasicTypes();
 extern void TestTimeCounter();
@@ -28,10 +31,10 @@ int main(int , char *argv[]) {
     //TestTimeCounter();
     //TestSocket();
     //TestFile();
-    TestMutex();
-    TestCondition();
-    TestSemaphore();
-    TestThread();
+    //TestMutex();
+    //TestCondition();
+    //TestSemaphore();
+    //TestThread();
     TestThreadPool();
 
     fprintf(stdout, "All tests passed\n");
