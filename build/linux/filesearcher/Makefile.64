@@ -34,6 +34,7 @@ MKDIR = mkdir -p
 first: all
 
 OBJECTS = \
+	$(OBJ_DIR)/FileSearcher.o\
 	$(OBJ_DIR)/main.o
 
 $(OBJ_DIR) :
@@ -52,5 +53,7 @@ clean :
 
 rebuild : clean all
 
+$(OBJ_DIR)/FileSearcher.o : ../../../source/filesearcher/FileSearcher.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/FileSearcher.o ../../../source/filesearcher/FileSearcher.cpp
 $(OBJ_DIR)/main.o : ../../../source/filesearcher/main.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/main.o ../../../source/filesearcher/main.cpp

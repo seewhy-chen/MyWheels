@@ -2,5 +2,9 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\..\..\source\filesearcher\main.cpp" />
+    <ClCompile Include="..\..\..\source\filesearcher\FileSearcher.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\filesearcher\FileSearcher.h" />
   </ItemGroup>
 </Project>
