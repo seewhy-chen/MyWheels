@@ -11,7 +11,7 @@ namespace mwl {
     public:
         Semaphore();
         ~Semaphore();
-        int32_t Open(const String &name, int32_t initVal);
+        int32_t Open(const String &name, int32_t initVal = 1);
         int32_t Wait(const TimeSpan *pTimeout = nullptr);
         int32_t Post(int32_t n = 1);
         int32_t Close();
