@@ -70,11 +70,12 @@ namespace mwl {
                 break;
             }
 
-            ThreadPoolTaskInfo taskInfo = pImpl->_taskQ.front();
-            pImpl->_taskQ.pop_front();
             if (pImpl->_activeWorkerCnt + static_cast<int32_t>(idleWorkers.size()) < pImpl->_maxThreadCnt) {
-                int32_t newWorkersCnt = pImpl->_maxThreadCnt - idleWorkers.size() - pImpl->_activeWorkerCnt;
-                for (int32_t i = 0; i < newWorkersCnt; ++i) {
+                size_t newWorkersCnt = pImpl->_maxThreadCnt - idleWorkers.size() - pImpl->_activeWorkerCnt;
+                if (newWorkersCnt > pImpl->_taskQ.size()) {
+                    newWorkersCnt = pImpl->_taskQ.size();
+                }
+                for (size_t i = 0; i < newWorkersCnt; ++i) {
                     ThreadPoolTaskRunnerData *pTaskRunnerData = new ThreadPoolTaskRunnerData();
                     pTaskRunnerData->pIdleWorkers = &idleWorkers;
                     pTaskRunnerData->pCond = pCond;
@@ -88,6 +89,8 @@ namespace mwl {
                     }
                 }
             }
+            ThreadPoolTaskInfo taskInfo = pImpl->_taskQ.front();
+            pImpl->_taskQ.pop_front();
             ThreadPoolTaskRunnerData *pTaskRunnerData = idleWorkers.front();
             idleWorkers.pop_front();
             pTaskRunnerData->taskMutex.Lock();
@@ -114,13 +117,13 @@ namespace mwl {
             delete *it;
         }
         pImpl->_lock.Unlock();
-        MWL_INFO("maxThreadCnt = %d, maxBusyWorkerCnt = %d, workDone = %d", 
-            static_cast<int32_t>(idleWorkers.size()), maxBusyWorkerCnt, workDone);
+        MWL_INFO("maxThreadCnt = %d, actualThreadCnt = %d, maxBusyWorkerCnt = %d, workDone = %d", 
+            pImpl->_maxThreadCnt, static_cast<int32_t>(idleWorkers.size()), maxBusyWorkerCnt, workDone);
         return 0;
     }
 
     ThreadPool::Implement::Implement(int32_t maxThreadCnt) 
-    : _maxThreadCnt(0), _activeWorkerCnt(0), _taskID(0), _pListener(nullptr) {
+    : _maxThreadCnt(0), _activeWorkerCnt(0), _taskID(0), _lock(true), _pListener(nullptr) {
         if (maxThreadCnt > 0) {
             _maxThreadCnt = maxThreadCnt;
         }
@@ -128,6 +131,12 @@ namespace mwl {
     }
 
     ThreadPool::Implement::~Implement() {
+        if (_lock.TryLock() < 0) {
+            MWL_WARN("getting lock failed, current owenr is (%lu-%lu)", _lock.Owner().pid, _lock.Owner().tid);
+            _lock.Lock();
+        }
+        _pListener = nullptr;
+        _lock.Unlock();
         _Cancel();
     }
 
@@ -135,7 +144,7 @@ namespace mwl {
         Mutex::AutoLock l(_lock);
         bool moreWorkerAllowed = maxThreadCount > _maxThreadCnt;
         _maxThreadCnt = maxThreadCount > 0 ? maxThreadCount : 0;
-        if (moreWorkerAllowed) {
+        if (moreWorkerAllowed && !_taskQ.empty()) {
             _cond.Broadcast();
         }
         return _maxThreadCnt;
@@ -155,8 +164,25 @@ namespace mwl {
         return taskID;
     }
 
+    int32_t ThreadPool::Implement::_BeginTaskPushing() {
+        return _lock.Lock();
+    }
+
+    int32_t ThreadPool::Implement::_PushTask(ThreadEntry workEntry, void *pWorkData) {
+        int32_t taskID = _taskID++;
+        _taskQ.push_back(ThreadPoolTaskInfo(taskID, workEntry, pWorkData));
+        return taskID;
+    }
+
+    int32_t ThreadPool::Implement::_CommitTaskPushing() {
+        _lock.Unlock();
+        return _cond.Broadcast();
+    }
+
     int32_t ThreadPool::Implement::_Cancel() {
+        _lock.Lock();
         _engine.QueryToStop();
+        _lock.Unlock();
         _cond.Broadcast();
         return _engine.Join();
     }

@@ -22,6 +22,18 @@ namespace mwl {
         return m_pImpl->_AddTask(workEntry, pWorkData);
     }
 
+    int32_t ThreadPool::BeginTaskPushing() {
+        return m_pImpl->_BeginTaskPushing();
+    }
+
+    int32_t ThreadPool::PushTask(ThreadEntry workEntry, void *pWorkData) {
+        return m_pImpl->_PushTask(workEntry, pWorkData);
+    }
+
+    int32_t ThreadPool::CommitTaskPushing() {
+        return m_pImpl->_CommitTaskPushing();
+    }
+
     int32_t ThreadPool::Cancel() {
         return m_pImpl->_Cancel();
     }

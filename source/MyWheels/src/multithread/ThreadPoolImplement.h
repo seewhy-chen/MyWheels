@@ -27,6 +27,9 @@ namespace mwl {
         int32_t _SetMaxThreadCount(int32_t maxThreadCount);
         int32_t _GetMaxThreadCount();
         int32_t _AddTask(ThreadEntry workEntry, void *pWorkData);
+        int32_t _BeginTaskPushing();
+        int32_t _PushTask(ThreadEntry workEntry, void *pWorkData);
+        int32_t _CommitTaskPushing();
         int32_t _Cancel();
         int32_t _Join();
         int32_t _RegisterListener(ThreadPoolListener *pListener);
