@@ -13,8 +13,10 @@
 
 #ifdef __MWL_WIN__
 
+#ifdef _DEBUG
     // enable memory leakage detector
     #include <vld.h>
+#endif
 
     #ifdef min
         #undef min
