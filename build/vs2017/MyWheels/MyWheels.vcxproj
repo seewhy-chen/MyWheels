@@ -29,6 +29,7 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\FileDefines.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\FileSystem.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Mutex.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\OptionParser.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Randomizer.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Semaphore.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\SmartPointer.h" />
@@ -48,6 +49,7 @@
     <ClInclude Include="..\..\..\source\MyWheels\src\datetime\TimeInternalUtils.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\filesystem\FileImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\filesystem\FileInternalDefines.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\getopt\OptionParserImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\InternalCommon.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\MutexImplement.h" />
@@ -76,6 +78,8 @@
     <ClCompile Include="..\..\..\source\MyWheels\src\filesystem\File.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\filesystem\FileImplement.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\filesystem\FileSystem.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\getopt\OptionParser.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\getopt\OptionParserImplement.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\misc\Randomizer.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Condition.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement_Linux.cpp" />

@@ -10,6 +10,7 @@ extern void TestMutex();
 extern void TestCondition();
 extern void TestSemaphore();
 extern void TestByteArray();
+extern void TestOptionParser();
 extern void TestSocket();
 extern void TestArray();
 extern void TestString();
@@ -35,7 +36,8 @@ int main(int , char *argv[]) {
     //TestCondition();
     //TestSemaphore();
     //TestThread();
-    TestThreadPool();
+    //TestThreadPool();
+    TestOptionParser();
 
     fprintf(stdout, "All tests passed\n");
 #ifdef __MWL_WIN__

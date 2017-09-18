@@ -51,6 +51,8 @@ OBJECTS = \
 	$(OBJ_DIR)/File.o\
 	$(OBJ_DIR)/FileImplement.o\
 	$(OBJ_DIR)/FileSystem.o\
+	$(OBJ_DIR)/OptionParser.o\
+	$(OBJ_DIR)/OptionParserImplement.o\
 	$(OBJ_DIR)/Randomizer.o\
 	$(OBJ_DIR)/Condition.o\
 	$(OBJ_DIR)/ConditionImplement_Linux.o\
@@ -124,6 +126,10 @@ $(OBJ_DIR)/FileImplement.o : ../../../source/MyWheels/src/filesystem/FileImpleme
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/FileImplement.o ../../../source/MyWheels/src/filesystem/FileImplement.cpp
 $(OBJ_DIR)/FileSystem.o : ../../../source/MyWheels/src/filesystem/FileSystem.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/FileSystem.o ../../../source/MyWheels/src/filesystem/FileSystem.cpp
+$(OBJ_DIR)/OptionParser.o : ../../../source/MyWheels/src/getopt/OptionParser.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/OptionParser.o ../../../source/MyWheels/src/getopt/OptionParser.cpp
+$(OBJ_DIR)/OptionParserImplement.o : ../../../source/MyWheels/src/getopt/OptionParserImplement.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/OptionParserImplement.o ../../../source/MyWheels/src/getopt/OptionParserImplement.cpp
 $(OBJ_DIR)/Randomizer.o : ../../../source/MyWheels/src/misc/Randomizer.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Randomizer.o ../../../source/MyWheels/src/misc/Randomizer.cpp
 $(OBJ_DIR)/Condition.o : ../../../source/MyWheels/src/multithread/Condition.cpp

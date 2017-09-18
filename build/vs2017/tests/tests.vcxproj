@@ -27,6 +27,7 @@
     <ClCompile Include="..\..\..\source\tests\testcases\TestDateTime.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestFile.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestMutex.cpp" />
+    <ClCompile Include="..\..\..\source\tests\testcases\TestOptionParser.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestSemaphore.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestSocket.cpp" />
     <ClCompile Include="..\..\..\source\tests\testcases\TestString.cpp" />

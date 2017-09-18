@@ -43,6 +43,7 @@ OBJECTS = \
 	$(OBJ_DIR)/TestDateTime.o\
 	$(OBJ_DIR)/TestFile.o\
 	$(OBJ_DIR)/TestMutex.o\
+	$(OBJ_DIR)/TestOptionParser.o\
 	$(OBJ_DIR)/TestSemaphore.o\
 	$(OBJ_DIR)/TestSocket.o\
 	$(OBJ_DIR)/TestString.o\
@@ -82,6 +83,8 @@ $(OBJ_DIR)/TestFile.o : ../../../source/tests/testcases/TestFile.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestFile.o ../../../source/tests/testcases/TestFile.cpp
 $(OBJ_DIR)/TestMutex.o : ../../../source/tests/testcases/TestMutex.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestMutex.o ../../../source/tests/testcases/TestMutex.cpp
+$(OBJ_DIR)/TestOptionParser.o : ../../../source/tests/testcases/TestOptionParser.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestOptionParser.o ../../../source/tests/testcases/TestOptionParser.cpp
 $(OBJ_DIR)/TestSemaphore.o : ../../../source/tests/testcases/TestSemaphore.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestSemaphore.o ../../../source/tests/testcases/TestSemaphore.cpp
 $(OBJ_DIR)/TestSocket.o : ../../../source/tests/testcases/TestSocket.cpp
