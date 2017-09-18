@@ -11,6 +11,7 @@
 #define _SET_ELE_PTR \
         do { \
             _pElements = reinterpret_cast<ElementType*>(_storage.Data()); \
+            _size = _storage.Size()/sizeof(ElementType); \
         } while (0);
 #else
 #define _SET_ELE_PTR
@@ -44,6 +45,11 @@ namespace mwl {
         for (int32_t i = 0; i < count; ++i) {
             reinterpret_cast<ElementType *>(pRawMem + i * sizeof(ElementType))->~ElementType();
         }
+    }
+
+    template<typename ElementType>
+    Array<ElementType>::Array() {
+        _SET_ELE_PTR;
     }
 
     template<typename ElementType>
@@ -161,6 +167,11 @@ namespace mwl {
     template<typename ElementType>
     int32_t Array<ElementType>::Append(const ElementType &element) {
         return Append(&element, 1);
+    }
+
+    template<typename ElementType>
+    int32_t Array<ElementType>::Append(const Array<ElementType> &elements) {
+        return Append(elements.Data(), elements.Size());
     }
 
     template<typename ElementType>
@@ -295,7 +306,7 @@ namespace mwl {
             _storage.Resize(newSize * sizeof(ElementType));
             _Create(_storage.Data(origSize * sizeof(ElementType)), fillVal, newSize - origSize);
         } else if (newSize < origSize) {
-            _Release<ElementType>(_storage.Data(origSize * sizeof(ElementType)), origSize - newSize);
+            _Release<ElementType>(_storage.Data((origSize - 1)* sizeof(ElementType)), origSize - newSize);
             _storage.Resize(newSize * sizeof(ElementType));
         }
         _SET_ELE_PTR;

@@ -9,7 +9,7 @@ namespace mwl {
     template<typename ElementType>
     class Array {
     public:
-        Array() {}
+        Array();
         Array(int32_t count, const ElementType &initVal = ElementType());
         Array(const ElementType *pData, int32_t count);
         Array(const Array<ElementType> &src);
@@ -29,6 +29,7 @@ namespace mwl {
         Array<ElementType>& Assign(const Array<ElementType> &src);
         Array<ElementType>& Assign(const ElementType* pSrc, int32_t count);
 
+        int32_t Append(const Array<ElementType> &elements);
         int32_t Append(const ElementType &element);
         int32_t Append(const ElementType *pElements, int32_t count);
         int32_t Insert(int32_t insertPos, const ElementType &element);
@@ -52,10 +53,11 @@ namespace mwl {
         void Swap(Array<ElementType> &other);
 
     private:
-        ByteArray _storage;
 #ifdef __MWL_WIN__
+        int32_t _size;
         ElementType *_pElements;
 #endif
+        ByteArray _storage;
     };
 }
 
