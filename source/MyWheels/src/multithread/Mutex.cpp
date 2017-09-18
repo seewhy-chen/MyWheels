@@ -3,7 +3,7 @@
 
 namespace mwl {
 
-    Mutex::Mutex() : m_pImpl(new Implement) {}
+    Mutex::Mutex(bool traceOwner) : m_pImpl(new Implement(traceOwner)) {}
 
     Mutex::~Mutex() {
         delete m_pImpl;
@@ -19,6 +19,10 @@ namespace mwl {
 
     int32_t Mutex::Unlock() {
         return m_pImpl->_Unlock();
+    }
+
+    const ThreadID& Mutex::Owner() const {
+        return m_pImpl->_owner;
     }
 
     Mutex::AutoLock::AutoLock(Mutex &mutex) : _mutex(mutex) {

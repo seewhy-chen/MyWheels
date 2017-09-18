@@ -7,7 +7,7 @@
 namespace mwl {
 
     struct Mutex::Implement {
-        Implement();
+        Implement(bool _traceOwner);
         ~Implement();
         int32_t _Lock();
         int32_t _TryLock();
@@ -18,6 +18,8 @@ namespace mwl {
 #else
         pthread_mutex_t m;
 #endif
+        bool _traceOwner;
+        ThreadID _owner;
     };
 
 }
