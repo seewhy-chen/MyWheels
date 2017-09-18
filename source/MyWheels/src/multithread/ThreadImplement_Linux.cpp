@@ -10,9 +10,11 @@
 
 namespace mwl {
 
-    void GetCurrentThreadID(ThreadID &threadID) {
+    ThreadID CurrentThreadID() {
+        ThreadID threadID;
         threadID.pid = getpid();
         threadID.tid = __mwl_gettid();
+        return threadID;
     }
 
     static void *_ThreadBody(void *data);
@@ -23,7 +25,7 @@ namespace mwl {
             return ERR_NONE;
         }
         context.m_pImpl->stopQueried = false;
-        mwl::GetCurrentThreadID(context.m_pImpl->parentID);
+        context.m_pImpl->parentID = mwl::CurrentThreadID();
         context.m_pImpl->pSharedData = pSharedData;
         this->entry = entry;
 
@@ -70,7 +72,7 @@ namespace mwl {
         } else {
             ThreadContext &context = pThreadImpl->context;
             context.m_pImpl->lock.Lock();
-            mwl::GetCurrentThreadID(context.m_pImpl->selfID);
+            context.m_pImpl->selfID = mwl::CurrentThreadID();
             context.m_pImpl->isRunning = true;
             context.m_pImpl->lock.Unlock();
             context.m_pImpl->cond.Signal();
@@ -79,8 +81,8 @@ namespace mwl {
 
             context.m_pImpl->lock.Lock();
             context.m_pImpl->isRunning = false;
-            context.m_pImpl->lock.Unlock();
             context.m_pImpl->cond.Signal();
+            context.m_pImpl->lock.Unlock();
         }
         return nullptr;
     }

@@ -8,8 +8,7 @@ using namespace mwl;
 #include <string>
 
 int32_t SemaphoreTester() {
-    ThreadID threadID;
-    GetCurrentThreadID(threadID);
+    ThreadID threadID = CurrentThreadID();
     Semaphore sem;
     sem.Open("test", 0);
     MWL_INFO("(%lu, %lu) started", threadID.pid, threadID.tid);

@@ -11,8 +11,7 @@ using namespace mwl;
 #include <string>
 
 int32_t ThreadTester(ThreadContext *pCtx) {
-    ThreadID threadID;
-    GetCurrentThreadID(threadID);
+    ThreadID threadID = CurrentThreadID();
     MWL_INFO("%s started as (%lu, %lu), parent is (%lu, %lu)", 
         pCtx->Tag().C_Str(), threadID.pid, threadID.tid, pCtx->ParentID().pid, pCtx->ParentID().tid);
 
@@ -24,10 +23,6 @@ int32_t ThreadTester(ThreadContext *pCtx) {
 
 void TestThread() {
     MWL_INFO("TestThread started");
-
-    ThreadID threadID;
-    GetCurrentThreadID(threadID);
-
     Thread t1, t2;
     t1.SetTag("t1");
     t2.SetTag("t2");

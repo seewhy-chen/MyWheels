@@ -18,7 +18,7 @@ namespace mwl {
         unsigned long tid;
     };
 
-    MWL_API void GetCurrentThreadID(ThreadID &threadID);
+    MWL_API ThreadID CurrentThreadID();
 
     class MWL_API ThreadContext : private NonCopyable {
     public:
