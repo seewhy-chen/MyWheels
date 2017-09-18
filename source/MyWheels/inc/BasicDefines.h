@@ -67,6 +67,8 @@ inline static char *strerror_r(int32_t err, char *buf, int32_t buflen) {
 #endif  // _MSC_VER
 
 
+#ifdef __cplusplus
+
 #if __cplusplus >= 201103L
 #define __CXX_11__
 #endif
@@ -146,5 +148,7 @@ namespace mwl {
     };
 
 } // namespace mwl
+
+#endif //  __cplusplus
 
 #endif // __MWL_BASIC_DEFINES_H__
