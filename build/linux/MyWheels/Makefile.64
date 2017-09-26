@@ -54,12 +54,18 @@ OBJECTS = \
 	$(OBJ_DIR)/OptionParser.o\
 	$(OBJ_DIR)/OptionParserImplement.o\
 	$(OBJ_DIR)/Randomizer.o\
+	$(OBJ_DIR)/Barrier.o\
+	$(OBJ_DIR)/BarrierImplement_Linux.o\
+	$(OBJ_DIR)/BarrierImplement_Win.o\
 	$(OBJ_DIR)/Condition.o\
 	$(OBJ_DIR)/ConditionImplement_Linux.o\
 	$(OBJ_DIR)/ConditionImplement_Win.o\
 	$(OBJ_DIR)/Mutex.o\
 	$(OBJ_DIR)/MutexImplement_Linux.o\
 	$(OBJ_DIR)/MutexImplement_Win.o\
+	$(OBJ_DIR)/RWLock.o\
+	$(OBJ_DIR)/RWLockImplement_Linux.o\
+	$(OBJ_DIR)/RWLockImplement_Win.o\
 	$(OBJ_DIR)/Semaphore.o\
 	$(OBJ_DIR)/SemaphoreImplement_Linux.o\
 	$(OBJ_DIR)/SemaphoreImplement_Win.o\
@@ -132,6 +138,12 @@ $(OBJ_DIR)/OptionParserImplement.o : ../../../source/MyWheels/src/getopt/OptionP
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/OptionParserImplement.o ../../../source/MyWheels/src/getopt/OptionParserImplement.cpp
 $(OBJ_DIR)/Randomizer.o : ../../../source/MyWheels/src/misc/Randomizer.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Randomizer.o ../../../source/MyWheels/src/misc/Randomizer.cpp
+$(OBJ_DIR)/Barrier.o : ../../../source/MyWheels/src/multithread/Barrier.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Barrier.o ../../../source/MyWheels/src/multithread/Barrier.cpp
+$(OBJ_DIR)/BarrierImplement_Linux.o : ../../../source/MyWheels/src/multithread/BarrierImplement_Linux.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/BarrierImplement_Linux.o ../../../source/MyWheels/src/multithread/BarrierImplement_Linux.cpp
+$(OBJ_DIR)/BarrierImplement_Win.o : ../../../source/MyWheels/src/multithread/BarrierImplement_Win.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/BarrierImplement_Win.o ../../../source/MyWheels/src/multithread/BarrierImplement_Win.cpp
 $(OBJ_DIR)/Condition.o : ../../../source/MyWheels/src/multithread/Condition.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Condition.o ../../../source/MyWheels/src/multithread/Condition.cpp
 $(OBJ_DIR)/ConditionImplement_Linux.o : ../../../source/MyWheels/src/multithread/ConditionImplement_Linux.cpp
@@ -144,6 +156,12 @@ $(OBJ_DIR)/MutexImplement_Linux.o : ../../../source/MyWheels/src/multithread/Mut
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/MutexImplement_Linux.o ../../../source/MyWheels/src/multithread/MutexImplement_Linux.cpp
 $(OBJ_DIR)/MutexImplement_Win.o : ../../../source/MyWheels/src/multithread/MutexImplement_Win.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/MutexImplement_Win.o ../../../source/MyWheels/src/multithread/MutexImplement_Win.cpp
+$(OBJ_DIR)/RWLock.o : ../../../source/MyWheels/src/multithread/RWLock.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/RWLock.o ../../../source/MyWheels/src/multithread/RWLock.cpp
+$(OBJ_DIR)/RWLockImplement_Linux.o : ../../../source/MyWheels/src/multithread/RWLockImplement_Linux.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/RWLockImplement_Linux.o ../../../source/MyWheels/src/multithread/RWLockImplement_Linux.cpp
+$(OBJ_DIR)/RWLockImplement_Win.o : ../../../source/MyWheels/src/multithread/RWLockImplement_Win.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/RWLockImplement_Win.o ../../../source/MyWheels/src/multithread/RWLockImplement_Win.cpp
 $(OBJ_DIR)/Semaphore.o : ../../../source/MyWheels/src/multithread/Semaphore.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/Semaphore.o ../../../source/MyWheels/src/multithread/Semaphore.cpp
 $(OBJ_DIR)/SemaphoreImplement_Linux.o : ../../../source/MyWheels/src/multithread/SemaphoreImplement_Linux.cpp

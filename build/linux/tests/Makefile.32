@@ -37,6 +37,7 @@ first: all
 OBJECTS = \
 	$(OBJ_DIR)/main.o\
 	$(OBJ_DIR)/TestArray.o\
+	$(OBJ_DIR)/TestBarrier.o\
 	$(OBJ_DIR)/TestBasicTypes.o\
 	$(OBJ_DIR)/TestByteArray.o\
 	$(OBJ_DIR)/TestCondition.o\
@@ -44,6 +45,7 @@ OBJECTS = \
 	$(OBJ_DIR)/TestFile.o\
 	$(OBJ_DIR)/TestMutex.o\
 	$(OBJ_DIR)/TestOptionParser.o\
+	$(OBJ_DIR)/TestRWLock.o\
 	$(OBJ_DIR)/TestSemaphore.o\
 	$(OBJ_DIR)/TestSocket.o\
 	$(OBJ_DIR)/TestString.o\
@@ -71,6 +73,8 @@ $(OBJ_DIR)/main.o : ../../../source/tests/main.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/main.o ../../../source/tests/main.cpp
 $(OBJ_DIR)/TestArray.o : ../../../source/tests/testcases/TestArray.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestArray.o ../../../source/tests/testcases/TestArray.cpp
+$(OBJ_DIR)/TestBarrier.o : ../../../source/tests/testcases/TestBarrier.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestBarrier.o ../../../source/tests/testcases/TestBarrier.cpp
 $(OBJ_DIR)/TestBasicTypes.o : ../../../source/tests/testcases/TestBasicTypes.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestBasicTypes.o ../../../source/tests/testcases/TestBasicTypes.cpp
 $(OBJ_DIR)/TestByteArray.o : ../../../source/tests/testcases/TestByteArray.cpp
@@ -85,6 +89,8 @@ $(OBJ_DIR)/TestMutex.o : ../../../source/tests/testcases/TestMutex.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestMutex.o ../../../source/tests/testcases/TestMutex.cpp
 $(OBJ_DIR)/TestOptionParser.o : ../../../source/tests/testcases/TestOptionParser.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestOptionParser.o ../../../source/tests/testcases/TestOptionParser.cpp
+$(OBJ_DIR)/TestRWLock.o : ../../../source/tests/testcases/TestRWLock.cpp
+	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestRWLock.o ../../../source/tests/testcases/TestRWLock.cpp
 $(OBJ_DIR)/TestSemaphore.o : ../../../source/tests/testcases/TestSemaphore.cpp
 	$(CXX) $(CXX_FLAGS) $(INCLUDE_PATH) -o $(OBJ_DIR)/TestSemaphore.o ../../../source/tests/testcases/TestSemaphore.cpp
 $(OBJ_DIR)/TestSocket.o : ../../../source/tests/testcases/TestSocket.cpp

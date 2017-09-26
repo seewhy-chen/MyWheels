@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\source\MyWheels\inc\Array.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\ArrayImplement.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Barrier.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\BasicDefines.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\ByteArray.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Condition.h" />
@@ -31,6 +32,7 @@
     <ClInclude Include="..\..\..\source\MyWheels\inc\Mutex.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\OptionParser.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Randomizer.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\inc\RWLock.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Semaphore.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\SmartPointer.h" />
     <ClInclude Include="..\..\..\source\MyWheels\inc\Socket.h" />
@@ -51,8 +53,10 @@
     <ClInclude Include="..\..\..\source\MyWheels\src\filesystem\FileInternalDefines.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\getopt\OptionParserImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\InternalCommon.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\BarrierImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\MutexImplement.h" />
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\RWLockImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadContextImplement.h" />
     <ClInclude Include="..\..\..\source\MyWheels\src\multithread\ThreadImplement.h" />
@@ -81,12 +85,18 @@
     <ClCompile Include="..\..\..\source\MyWheels\src\getopt\OptionParser.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\getopt\OptionParserImplement.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\misc\Randomizer.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Barrier.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\BarrierImplement_Linux.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\BarrierImplement_Win.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Condition.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement_Linux.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\ConditionImplement_Win.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Mutex.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Linux.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\MutexImplement_Win.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\RWLock.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\RWLockImplement_Linux.cpp" />
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\RWLockImplement_Win.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Semaphore.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement_Linux.cpp" />
     <ClCompile Include="..\..\..\source\MyWheels\src\multithread\SemaphoreImplement_Win.cpp" />

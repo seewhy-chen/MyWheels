@@ -42,6 +42,12 @@
     <Filter Include="src\getopt">
       <UniqueIdentifier>{fc156e78-144b-45ce-8171-1dee52e1dd39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\multithread\barrier">
+      <UniqueIdentifier>{bda0f59e-b5b0-4937-9c5a-e99b6cacf2a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\multithread\rwlock">
+      <UniqueIdentifier>{1c239b5a-89b9-48d4-b566-0f9f6768d64d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\source\MyWheels\inc\BasicDefines.h">
@@ -167,6 +173,18 @@
     <ClInclude Include="..\..\..\source\MyWheels\src\getopt\OptionParserImplement.h">
       <Filter>src\getopt</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\Barrier.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\inc\RWLock.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\RWLockImplement.h">
+      <Filter>src\multithread\rwlock</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\MyWheels\src\multithread\BarrierImplement.h">
+      <Filter>src\multithread\barrier</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\MyWheels\src\datetime\TimeCounter.cpp">
@@ -285,6 +303,24 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\MyWheels\src\getopt\OptionParserImplement.cpp">
       <Filter>src\getopt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\RWLock.cpp">
+      <Filter>src\multithread\rwlock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\RWLockImplement_Linux.cpp">
+      <Filter>src\multithread\rwlock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\RWLockImplement_Win.cpp">
+      <Filter>src\multithread\rwlock</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\Barrier.cpp">
+      <Filter>src\multithread\barrier</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\BarrierImplement_Linux.cpp">
+      <Filter>src\multithread\barrier</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\MyWheels\src\multithread\BarrierImplement_Win.cpp">
+      <Filter>src\multithread\barrier</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
