@@ -6,10 +6,12 @@
 
 namespace mwl {
 
-    Barrier::Implement::Implement(int32_t threadCount) {
-        int32_t ret = pthread_barrier_init(&_b, nullptr, threadCount);
+    Barrier::Implement::Implement(int32_t threshold) {
+        int32_t ret = pthread_barrier_init(&_b, nullptr, threshold);
         if (ret) {
             MWL_WARN_ERRNO("init barrier failed", ret);
+        } else {
+            _threshold = threshold;
         }
     }
 
@@ -28,6 +30,27 @@ namespace mwl {
             MWL_WARN_ERRNO("wait barrier failed", ret);
         }
         return -ret;
+    }
+
+    int32_t Barrier::Implement::_SetThreshold(int32_t threshold) {
+        if (threshold != _threshold) {
+            int32_t ret = pthread_barrier_destroy(&_b);
+            if (ret) {
+                MWL_WARN_ERRNO("destroy barrier failed", ret);
+                return -ret;
+            }
+
+            ret = pthread_barrier_init(&_b, nullptr, threshold);
+            if (ret) {
+                MWL_WARN_ERRNO("init barrier failed", ret);
+                return ret;
+            }
+            _threshold = threshold;
+        }
+        return _threshold;
+    }
+    int32_t Barrier::Implement::_Threshold() {
+        return _threshold;
     }
 }
 

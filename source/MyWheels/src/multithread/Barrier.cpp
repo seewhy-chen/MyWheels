@@ -3,14 +3,22 @@
 
 namespace mwl {
 
-    Barrier::Barrier(int32_t threadCount)
-    : m_pImpl(new Implement(threadCount)) {}
+    Barrier::Barrier(int32_t threshold)
+    : m_pImpl(new Implement(threshold)) {}
 
     Barrier::~Barrier() {
         delete m_pImpl;
     }
 
     int32_t Barrier::Wait() {
-            return 0;
+        return m_pImpl->_Wait();
     };
+
+    int32_t Barrier::SetThreshold(int32_t threshold) {
+        return m_pImpl->_SetThreshold(threshold);
+    }
+
+    int32_t Barrier::Threshold() const {
+        return m_pImpl->_Threshold();
+    }
 }
