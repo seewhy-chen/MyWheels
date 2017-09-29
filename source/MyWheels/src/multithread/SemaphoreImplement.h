@@ -21,11 +21,12 @@ namespace mwl {
         int32_t _Close();
 
 #ifdef __MWL_WIN__
-        HANDLE s;
+        HANDLE _s;
 #else
-        sem_t* s;
+        sem_t _s;
+        sem_t *_pS;
 #endif
-        String name;
+        String _name;
         bool createdByMe;
 
     };

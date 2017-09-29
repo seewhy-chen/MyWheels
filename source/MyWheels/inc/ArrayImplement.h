@@ -340,6 +340,28 @@ namespace mwl {
     void Array<ElementType>::Swap(Array<ElementType> &other) {
         _storage.Swap(other._storage);
     }
+
+    template<typename ElementType>
+    Array<ElementType> Array<ElementType>::Slice(int32_t start, int32_t end, int32_t step) {
+        if (end < 0) {
+            end = Size();
+        }
+        Array<ElementType> slice;
+        if (start < end && step > 0) {
+            slice._storage.Resize((end - start + step - 1) / step * sizeof(ElementType));
+            for (int32_t i = start; i < end; i += step) {
+                _Create(slice._storage.Data((i - start) * sizeof(ElementType)), 
+                    _storage.Data(i * sizeof(ElementType)), 1);
+            }
+        } else if (end < start && step < 0) {
+            slice._storage.Resize((start - end - step - 1) / (-step) * sizeof(ElementType));
+            for (int32_t i = start; i > end; i += step) {
+                _Create(slice._storage.Data((start - i) * sizeof(ElementType)), 
+                    _storage.Data(i * sizeof(ElementType)), 1);
+            }
+        }
+        return slice;
+    }
 }
 
 #endif // __MWL_ARRAY_IMPLEMENT_H__

@@ -10,7 +10,7 @@ struct ThreadPoolTestData{
     int32_t sleepTime;
 };
 
-MWL_THREAD_ENTRY(ThreadPoolTester, pContext) {
+static MWL_THREAD_ENTRY(ThreadPoolTester, pContext) {
     ThreadPoolTestData *pData = pContext->SharedData<ThreadPoolTestData>();
     MWL_INFO("[%lu-%lu] sleep %d ms", pContext->SelfID().pid, pContext->SelfID().tid, pData->sleepTime);
     TimeSleep(pData->sleepTime);

@@ -110,8 +110,7 @@ namespace mwl {
         int32_t Takeover(ByteArray &other);
         int32_t Move(int32_t dst, int32_t src, int32_t dataSize);
         void Swap(ByteArray &other);
-        SharedPtr<ByteArray> Slice(int32_t start, int32_t end = -1);
-        const SharedPtr<ByteArray> Slice(int32_t start, int32_t end = -1) const;
+        ByteArray Slice(int32_t start, int32_t end = -1, int32_t step = 1) const;
         void Fill(uint8_t val);
         void Clear();
         void Reset();

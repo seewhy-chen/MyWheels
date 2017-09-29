@@ -11,8 +11,7 @@
 namespace mwl {
 
     Semaphore::Implement::Implement() {
-        s = nullptr;
-        // FIXME: do we really need this?
+        _pS = nullptr;
         createdByMe = false;
     }
 
@@ -21,89 +20,107 @@ namespace mwl {
     }
 
     int32_t Semaphore::Implement::_Open(const String &name, int32_t initVal) {
-        _Close();
-        int32_t err = 0;
-        s = sem_open(name.C_Str(), O_CREAT | O_EXCL | O_RDWR, S_IRWXU, initVal);
-        if (!s) {
-            err = errno;
-            if (EEXIST == err) {
-                s = sem_open(name.C_Str(), O_RDWR, S_IRWXU, initVal);
+        int32_t ret = _Close();
+        if (ret < 0) {
+            return ret;
+        }
+        if (name.Empty()) {
+            ret = sem_init(&_s, 0, initVal);
+            if (ret < 0) {
+                ret = errno;
+                MWL_WARN_ERRNO("sem_init failed", ret);
+            } else {
+                _pS = &_s;
+                createdByMe = true;
             }
         } else {
-            createdByMe = true;
+            _pS = sem_open(name.C_Str(), O_CREAT | O_EXCL | O_RDWR, S_IRWXU, initVal);
+            if (!_pS) {
+                if (EEXIST == errno) {
+                    _pS = sem_open(name.C_Str(), O_RDWR, S_IRWXU, initVal);
+                }
+            } else {
+                createdByMe = true;
+            }
+            if (_pS) {
+                _name = name;
+            } else {
+                ret = errno;
+                MWL_WARN_ERRNO("sem_open %s failed", ret, name.C_Str());
+            }
         }
 
-        if (!s) {
-            err = errno;
-            MWL_WARN_ERRNO("create semaphore %s failed", err, name.C_Str());
-        } else {
-            this->name = name;
-        }
-        return s ? ERR_NONE : -err;
+        return -ret;
     }
 
     int32_t Semaphore::Implement::_Wait(const TimeSpan *pTimeout) {
-        if (!s) {
+        if (!_pS) {
             MWL_WARN("semaphore not opend when waiting");
             return ERR_INVAL_PARAM;
         }
         int32_t ret = 0;
         int32_t timeoutInUs = pTimeout ? pTimeout->ToI32(MICROSEC) : -1;
         if (timeoutInUs < 0) {
-            ret = sem_wait(s);
+            ret = sem_wait(_pS);
         } else {
             struct timeval tv;
             gettimeofday(&tv, nullptr);
             struct timespec ts;
             ts.tv_sec = tv.tv_sec + (tv.tv_usec + timeoutInUs) / 1000000;
             ts.tv_nsec = ((tv.tv_usec + timeoutInUs) % 1000000) * 1000;
-            ret = sem_timedwait(s, &ts);
+            ret = sem_timedwait(_pS, &ts);
         }
 
         if (ret < 0) {
-            int32_t err = errno;
-            if (err != ETIMEDOUT) {
-                MWL_WARN_ERRNO("wait semaphore %s failed", ret, name.C_Str());
+            ret = errno;
+            if (ret != ETIMEDOUT) {
+                MWL_WARN_ERRNO("wait semaphore %s failed", ret, _name.C_Str());
             }
-            ret = -err;
         }
-        return ret;
+        return -ret;
     }
 
     int32_t Semaphore::Implement::_Post(int32_t n) {
-        if (!s) {
+        if (!_pS) {
             MWL_WARN("semaphore not opend when posting");
             return ERR_INVAL_PARAM;
         }
-
         if (n <= 0) {
             MWL_WARN("semaphore can't been posted with n = %d", n);
             return ERR_INVAL_PARAM;
         }
 
         while (n-- > 0) {
-            int32_t ret = sem_post(s);
+            int32_t ret = sem_post(_pS);
             if (ret < 0) {
-                int32_t err = errno;
-                MWL_WARN_ERRNO("post semaphore %s failed", ret, name.C_Str());
-                return -err;
+                ret = errno;
+                MWL_WARN_ERRNO("post semaphore %s failed", ret, _name.C_Str());
+                return -ret;
             }
-        }
-        return 0;
-    }
-
-    int32_t Semaphore::Implement::_Close() {
-        if (s) {
-            sem_close(s);
-            if (createdByMe) {
-                sem_unlink(name.C_Str());
-            }
-            s = nullptr;
-            name.Clear();
         }
         return ERR_NONE;
     }
 
+    int32_t Semaphore::Implement::_Close() {
+        if (!_pS) {
+            return ERR_NONE;
+        }
+        int32_t ret = sem_close(_pS);
+        if (ret < 0) {
+            ret = errno;
+            MWL_WARN_ERRNO("sem_close failed", ret);
+        } else {
+            _pS = nullptr;
+            if (createdByMe && !_name.Empty()) {
+                int32_t r = sem_unlink(_name.C_Str());
+                if (r < 0) {
+                    MWL_WARN_ERRNO("sem_unlink %s failed", r, _name.C_Str());
+                }
+            }
+            _name.Clear();
+        }
+        return -ret;
+    }
 }
 
 #endif // __MWL_LINUX__

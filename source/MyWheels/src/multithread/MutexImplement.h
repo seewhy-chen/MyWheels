@@ -14,9 +14,9 @@ namespace mwl {
         int32_t _Unlock();
 
 #ifdef __MWL_WIN__
-        SRWLOCK m;
+        SRWLOCK _m;
 #else
-        pthread_mutex_t m;
+        pthread_mutex_t _m;
 #endif
         bool _traceOwner;
         ThreadID _owner;

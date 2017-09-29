@@ -9,6 +9,10 @@ namespace mwl {
         delete m_pImpl;
     }
 
+    int32_t Semaphore::Open(int32_t initVal) {
+        return m_pImpl->_Open(String::Null(), initVal);
+    }
+
     int32_t Semaphore::Open(const String &name, int32_t initVal) {
         return m_pImpl->_Open(name, initVal);
     }

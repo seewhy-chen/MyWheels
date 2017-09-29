@@ -27,14 +27,14 @@ namespace mwl {
         int32_t timeoutInUs = pTimeout ? pTimeout->ToI32(MICROSEC) : -1;
         int32_t ret = ERR_NONE;
         if (timeoutInUs < 0) {
-            ret = pthread_cond_wait(&cond, &mutex.Impl()->m);
+            ret = pthread_cond_wait(&cond, &mutex.Impl()->_m);
         } else {
             struct timeval tv;
             gettimeofday(&tv, nullptr);
             struct timespec ts;
             ts.tv_sec = tv.tv_sec + (tv.tv_usec + timeoutInUs) / 1000000;
             ts.tv_nsec = ((tv.tv_usec + timeoutInUs) % 1000000) * 1000;
-            ret = pthread_cond_timedwait(&cond, &mutex.Impl()->m, &ts);
+            ret = pthread_cond_timedwait(&cond, &mutex.Impl()->_m, &ts);
         }
 
         if (ret) {

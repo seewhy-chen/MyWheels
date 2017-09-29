@@ -13,7 +13,7 @@ namespace mwl {
     ThreadID CurrentThreadID() {
         ThreadID threadID;
         threadID.pid = getpid();
-        threadID.tid = __mwl_gettid();
+        threadID.tid = pthread_self();
         return threadID;
     }
 

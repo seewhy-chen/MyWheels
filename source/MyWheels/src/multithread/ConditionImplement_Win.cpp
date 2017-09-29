@@ -21,7 +21,7 @@ namespace mwl {
                 timeoutInMs = INFINITE;
             }
         }
-        if (!SleepConditionVariableSRW(&cond, &mutex.Impl()->m, timeoutInMs, 0)) {
+        if (!SleepConditionVariableSRW(&cond, &mutex.Impl()->_m, timeoutInMs, 0)) {
             int32_t err = GetLastError();
             if (err == ERROR_TIMEOUT) {
                 return ERR_TIMEOUT;

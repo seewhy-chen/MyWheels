@@ -10,7 +10,7 @@ using namespace mwl;
 
 #include <string>
 
-int32_t ThreadTester(ThreadContext *pCtx) {
+static int32_t ThreadTester(ThreadContext *pCtx) {
     ThreadID threadID = CurrentThreadID();
     MWL_INFO("%s started as (%lu, %lu), parent is (%lu, %lu)", 
         pCtx->Tag().C_Str(), threadID.pid, threadID.tid, pCtx->ParentID().pid, pCtx->ParentID().tid);

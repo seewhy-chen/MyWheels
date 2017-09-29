@@ -18,7 +18,8 @@ extern void TestDateTime();
 extern void TestFile();
 extern void TestThread();
 extern void TestThreadPool();
-
+extern void TestBarrier();
+extern void TestRWLock();
 const char *prog = nullptr;
 
 int main(int , char *argv[]) {
@@ -33,11 +34,13 @@ int main(int , char *argv[]) {
     //TestSocket();
     //TestFile();
     //TestMutex();
-    //TestCondition();
-    //TestSemaphore();
     //TestThread();
     //TestThreadPool();
-    TestOptionParser();
+    //TestCondition();
+    //TestSemaphore();
+    TestBarrier();
+    //TestRWLock();
+    //TestOptionParser();
 
     fprintf(stdout, "All tests passed\n");
 #ifdef __MWL_WIN__

@@ -7,11 +7,11 @@
 namespace mwl {
 
     Mutex::Implement::Implement(bool traceOwner) : _traceOwner(traceOwner) {
-        InitializeSRWLock(&m);
+        InitializeSRWLock(&_m);
     }
 
     Mutex::Implement::~Implement() {
-        if (TryAcquireSRWLockExclusive(&m)) {
+        if (TryAcquireSRWLockExclusive(&_m)) {
             _Unlock();
         } else {
             MWL_WARN_ERRNO("destroy mutex failed", EBUSY);
@@ -19,7 +19,7 @@ namespace mwl {
     }
 
     int32_t Mutex::Implement::_Lock() {
-        AcquireSRWLockExclusive(&m);
+        AcquireSRWLockExclusive(&_m);
         if (_traceOwner) {
             _owner = CurrentThreadID();
         }
@@ -27,7 +27,7 @@ namespace mwl {
     }
 
     int32_t Mutex::Implement::_TryLock() {
-        if (TryAcquireSRWLockExclusive(&m)) {
+        if (TryAcquireSRWLockExclusive(&_m)) {
             if (_traceOwner) {
                 _owner = CurrentThreadID();
             }
@@ -41,7 +41,7 @@ namespace mwl {
         if (_traceOwner) {
             _owner.pid = _owner.tid = -1;
         }
-        ReleaseSRWLockExclusive(&m);
+        ReleaseSRWLockExclusive(&_m);
         return 0;
     }
 

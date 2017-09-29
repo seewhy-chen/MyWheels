@@ -7,7 +7,7 @@
 namespace mwl {
 
     Semaphore::Implement::Implement() {
-        s = nullptr;
+        _s = nullptr;
         createdByMe = false;
     }
 
@@ -17,19 +17,19 @@ namespace mwl {
 
     int32_t Semaphore::Implement::_Open(const String &name, int32_t initVal) {
         _Close();
-        s = CreateSemaphore(nullptr, initVal, 0x7FFFFFFFL, name.C_Str());
+        _s = CreateSemaphore(nullptr, initVal, 0x7FFFFFFFL, (name.Empty() ? nullptr : name.C_Str()));
         int32_t err = GetLastError();
-        if (!s) {
+        if (!_s) {
             MWL_WARN_ERRNO("create semaphore %s failed", err, name.C_Str());
         } else {
-            this->name = name;
+            _name = name;
             createdByMe = (err == ERROR_SUCCESS);
         }
-        return s ? ERR_NONE : -err;
+        return _s ? ERR_NONE : -err;
     }
 
     int32_t Semaphore::Implement::_Wait(const TimeSpan *pTimeout) {
-        if (!s) {
+        if (!_s) {
             MWL_WARN("semaphore not opend when waiting");
             return ERR_INVAL_PARAM;
         }
@@ -41,60 +41,60 @@ namespace mwl {
             }
         }
 
-        int32_t ret = WaitForSingleObject(s, timeoutInMs);
+        int32_t ret = WaitForSingleObject(_s, timeoutInMs);
         switch (ret) {
-            case WAIT_OBJECT_0: {
+        case WAIT_OBJECT_0: {
                 ret = ERR_NONE;
             }
-                                break;
+            break;
 
-            case WAIT_TIMEOUT: {
+        case WAIT_TIMEOUT: {
                 ret = ERR_TIMEOUT;
             }
-                               break;
+            break;
 
-            case WAIT_FAILED: {
+        case WAIT_FAILED: {
                 int32_t err = GetLastError();
-                MWL_WARN_ERRNO("wait semaphore %s failed", err, name.C_Str());
+                MWL_WARN_ERRNO("wait semaphore %s failed", err, _name.C_Str());
                 ret = -err;
             }
-                              break;
+            break;
 
-            default: {
+        default: {
                 int32_t err = GetLastError();
-                MWL_WARN_ERRNO("wait semaphore %s got wait result %d", err, name.C_Str(), ret);
+                MWL_WARN_ERRNO("wait semaphore %s got wait result %d", err, _name.C_Str(), ret);
                 if (err != 0) {
                     ret = -err;
                 } else {
                     ret = -ret;
                 }
             }
-                     break;
+            break;
         }
 
         return ret;
     }
 
     int32_t Semaphore::Implement::_Post(int32_t n) {
-        if (!s) {
+        if (!_s) {
             MWL_WARN("semaphore not opend when posting");
             return ERR_INVAL_PARAM;
         }
 
-        if (!ReleaseSemaphore(s, n, nullptr)) {
+        if (!ReleaseSemaphore(_s, n, nullptr)) {
             int32_t err = GetLastError();
-            MWL_WARN_ERRNO("release semaphore %s with n = %d failed", err, name.C_Str(), n);
+            MWL_WARN_ERRNO("release semaphore %s with n = %d failed", err, _name.C_Str(), n);
             return -err;
         }
         return ERR_NONE;
     }
 
     int32_t Semaphore::Implement::_Close() {
-        if (s && createdByMe) {
-            CloseHandle(s);
+        if (_s && createdByMe) {
+            CloseHandle(_s);
+            _s = nullptr;
         }
-        s = nullptr;
-        name.Clear();
+        _name.Clear();
         return ERR_NONE;
     }
 }

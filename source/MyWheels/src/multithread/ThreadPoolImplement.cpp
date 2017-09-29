@@ -63,7 +63,10 @@ namespace mwl {
             while (pImpl->_HasNothingToDo() && !pContext->StopQueried()) {
                 pImpl->_cond.Wait(pImpl->_lock);
                 if (!pContext->StopQueried() && pImpl->_taskQ.empty() && !pImpl->_activeWorkerCnt && pImpl->_pListener) {
-                    pImpl->_pListener->OnThreadPoolEvent(TPEVT_ALL_DONE, nullptr);
+                    ThreadPoolListener *pListener = pImpl->_pListener;
+                    pImpl->_lock.Unlock();
+                    pListener->OnThreadPoolEvent(TPEVT_ALL_DONE, nullptr);
+                    pImpl->_lock.Lock();
                 }
             }
             if (pContext->StopQueried()) {

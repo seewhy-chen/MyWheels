@@ -51,6 +51,7 @@ namespace mwl {
         bool operator==(const Array<ElementType> &rhs) const;
 
         void Swap(Array<ElementType> &other);
+        Array<ElementType> Slice(int32_t start, int32_t end = -1, int32_t step = 1);
 
     private:
 #ifdef __MWL_WIN__

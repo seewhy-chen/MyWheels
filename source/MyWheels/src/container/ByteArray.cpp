@@ -139,22 +139,24 @@ namespace mwl {
         return 0 == m_pImpl->_Size();
     }
 
-    SharedPtr<ByteArray> ByteArray::Slice(int32_t start, int32_t end) {
+    ByteArray ByteArray::Slice(int32_t start, int32_t end, int32_t step) const {
         if (end < 0) {
             end = m_pImpl->arrSize;
         }
-        SharedPtr<ByteArray> arr(new ByteArray());
-        if (0 <= start && start <= end && end <= m_pImpl->arrSize) {
-            arr->m_pImpl->rawMem = m_pImpl->rawMem;
-            arr->m_pImpl->arrStartPos = m_pImpl->arrStartPos + start;
-            arr->m_pImpl->arrSize = end - start;
-            arr->m_pImpl->pArray = arr->m_pImpl->rawMem->pBuf + arr->m_pImpl->arrStartPos;
-        }
-        return arr;
-    }
+        ByteArray slice;
+        if (start < end && step > 0) {
+            slice.Resize((end - start + step - 1) / step);
+            for (int32_t i = start; i < end; i += step) {
+                slice.m_pImpl->pArray[i - start] = m_pImpl->pArray[i];
+            }
+        } else if (end < start && step < 0) {
+            slice.Resize((start - end - step - 1) / (-step));
+            for (int32_t i = start; i > end; i += step) {
+                slice.m_pImpl->pArray[start - i] = m_pImpl->pArray[i];
+            }
 
-    const SharedPtr<ByteArray> ByteArray::Slice(int32_t start, int32_t end) const {
-        return const_cast<ByteArray *>(this)->Slice(start, end);
+        }
+        return slice;
     }
 
     int32_t ByteArray::Copy(const uint8_t *pSrc, int32_t copyLen) {
